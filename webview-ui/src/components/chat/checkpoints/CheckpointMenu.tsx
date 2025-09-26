@@ -1,9 +1,9 @@
 import { useState, useCallback } from "react"
-import { CheckIcon, Cross2Icon } from "@radix-ui/react-icons"
+import { CheckIcon, Cross2Icon as _Cross2Icon } from "@radix-ui/react-icons"
 import { useTranslation } from "react-i18next"
 import { GitCompare, RotateCcw } from "lucide-react"
 
-import { Button, Popover, PopoverContent, PopoverTrigger, StandardTooltip } from "@/components/ui"
+import { Button as _Button, Popover, PopoverContent, PopoverTrigger, StandardTooltip } from "@/components/ui"
 import { useRooPortal } from "@/components/ui/hooks"
 
 import { vscode } from "@src/utils/vscode"

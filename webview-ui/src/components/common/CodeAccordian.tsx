@@ -43,11 +43,11 @@ const CodeAccordian = ({
 	language,
 	progressStatus,
 	isLoading,
-	isExpanded,
+	isExpanded: _isExpanded,
 	isFeedback,
 	onToggleExpand,
 	header,
-	onJumpToFile,
+	onJumpToFile: _onJumpToFile,
 }: CodeAccordianProps) => {
 	const { t } = useAppTranslation()
 	const [materialIconsBaseUri, setMaterialIconsBaseUri] = useState("")

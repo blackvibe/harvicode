@@ -5,7 +5,7 @@ import { SelectDropdown, DropdownOptionType } from "@/components/ui"
 import { useAppTranslation } from "@/i18n/TranslationContext"
 import { vscode } from "@/utils/vscode"
 import { cn } from "@/lib/utils"
-import { Check } from "lucide-react"
+import { Check, Layers, Code, MessageSquare, Bug, Workflow } from "lucide-react"
 
 interface KiloModeSelectorProps {
 	value: Mode
@@ -31,6 +31,7 @@ export const KiloModeSelector = ({
 	const { t } = useAppTranslation()
 	const allModes = React.useMemo(() => getAllModes(customModes), [customModes])
 	const currentModeSlug = allModes.find((m) => m.slug === value)?.slug ?? defaultModeSlug
+	const _currentMode = allModes.find((m) => m.slug === currentModeSlug)
 
 	const handleChange = React.useCallback(
 		(selectedValue: string) => {
@@ -47,20 +48,13 @@ export const KiloModeSelector = ({
 			title={title || t("chat:selectMode")}
 			disabled={disabled}
 			initiallyOpen={initiallyOpen}
-			searchPlaceholder="Поиск режимов..."
+			searchPlaceholder={modeShortcutText}
 			disableSearch={false}
 			options={[
-				{
-					value: "shortcut",
-					label: modeShortcutText,
-					disabled: true,
-					type: DropdownOptionType.SHORTCUT,
-				},
 				...allModes.map((mode) => ({
 					value: mode.slug,
 					label: t(`modes:${mode.slug}.name`, { defaultValue: mode.name }),
-					codicon: mode.iconName,
-					description: t(`modes:${mode.slug}.description`, { defaultValue: mode.description }), // kilocode_change
+					iconName: mode.iconName,
 					type: DropdownOptionType.ITEM,
 				})),
 				// Edit button commented out for Harvi Code
@@ -79,7 +73,7 @@ export const KiloModeSelector = ({
 			shortcutText={modeShortcutText}
 			contentClassName="max-h-[200px] overflow-y-auto min-w-32 rounded-lg bg-[#1e1e1e] border border-[#3c3c3c] shadow-lg"
 			triggerClassName={cn("text-ellipsis overflow-hidden min-w-0", triggerClassName)}
-			renderItem={({ type, value, label, codicon, description }) => {
+			renderItem={({ type, value, label, iconName }) => {
 				if (type === DropdownOptionType.SHORTCUT) {
 					return <div className="py-1 px-2 text-xs text-[#888888] font-mono">{label}</div>
 				}
@@ -96,14 +90,35 @@ export const KiloModeSelector = ({
 
 				const isSelected = value === currentModeSlug
 
+				// Render icon for the item
+				const renderIcon = () => {
+					if (!iconName) return null
+
+					const iconProps = { className: "w-3 h-3 flex-shrink-0 opacity-50" }
+					switch (iconName) {
+						case "Layers":
+							return <Layers {...iconProps} />
+						case "Code":
+							return <Code {...iconProps} />
+						case "MessageSquare":
+							return <MessageSquare {...iconProps} />
+						case "Bug":
+							return <Bug {...iconProps} />
+						case "Workflow":
+							return <Workflow {...iconProps} />
+						default:
+							return null
+					}
+				}
+
 				return (
 					<div
 						className={cn(
-							"flex items-center gap-2 w-full py-1.5 px-2 text-xs cursor-pointer",
+							"flex items-center gap-2 w-full py-1 px-2 text-xs cursor-pointer",
 							"hover:bg-[#2d2d30] rounded-md transition-all duration-150",
 							isSelected && "text-white",
 						)}>
-						{codicon && <span className={cn("codicon", `codicon-${codicon}`, "text-xs flex-shrink-0")} />}
+						{renderIcon()}
 						<div className="flex-1 min-w-0">
 							<div
 								className={cn("truncate font-medium text-[#cccccc]", {
@@ -111,14 +126,6 @@ export const KiloModeSelector = ({
 								})}>
 								{label}
 							</div>
-							{description && (
-								<div
-									className={cn("text-xs text-[#888888] truncate", {
-										"text-white/70": isSelected,
-									})}>
-									{description}
-								</div>
-							)}
 						</div>
 						{isSelected && (
 							<div className="flex items-center justify-center w-3 h-3 rounded-full bg-white/20 flex-shrink-0">

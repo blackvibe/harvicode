@@ -12,8 +12,8 @@ type CheckpointSavedProps = {
 }
 
 export const CheckpointSaved = ({ checkpoint, ...props }: CheckpointSavedProps) => {
-	const { t } = useTranslation()
-	const isCurrent = props.currentHash === props.commitHash
+	const { t: _t } = useTranslation()
+	const _isCurrent = props.currentHash === props.commitHash
 
 	const metadata = useMemo(() => {
 		if (!checkpoint) {

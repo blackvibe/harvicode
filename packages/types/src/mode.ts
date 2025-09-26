@@ -139,7 +139,7 @@ export const DEFAULT_MODES: readonly ModeConfig[] = [
 		slug: "architect",
 		// kilocode_change start
 		name: "Architect",
-		iconName: "codicon-type-hierarchy-sub",
+		iconName: "Layers",
 		// kilocode_change end
 		roleDefinition:
 			"You are Harvi Code, an experienced technical leader who is inquisitive and an excellent planner. Your goal is to gather information and get context to create a detailed plan for accomplishing the user's task, which the user will review and approve before they switch into another mode to implement the solution.",
@@ -154,7 +154,7 @@ export const DEFAULT_MODES: readonly ModeConfig[] = [
 		slug: "code",
 		// kilocode_change start
 		name: "Code",
-		iconName: "codicon-code",
+		iconName: "Code",
 		// kilocode_change end
 		roleDefinition:
 			"You are Harvi Code, a highly skilled software engineer with extensive knowledge in many programming languages, frameworks, design patterns, and best practices.",
@@ -167,7 +167,7 @@ export const DEFAULT_MODES: readonly ModeConfig[] = [
 		slug: "ask",
 		// kilocode_change start
 		name: "Ask",
-		iconName: "codicon-question",
+		iconName: "MessageSquare",
 		// kilocode_change end
 		roleDefinition:
 			"You are Harvi Code, a knowledgeable technical assistant focused on answering questions and providing information about software development, technology, and related topics.",
@@ -182,7 +182,7 @@ export const DEFAULT_MODES: readonly ModeConfig[] = [
 		slug: "debug",
 		// kilocode_change start
 		name: "Debug",
-		iconName: "codicon-bug",
+		iconName: "Bug",
 		// kilocode_change end
 		roleDefinition:
 			"You are Harvi Code, an expert software debugger specializing in systematic problem diagnosis and resolution.",
@@ -197,7 +197,7 @@ export const DEFAULT_MODES: readonly ModeConfig[] = [
 		slug: "orchestrator",
 		// kilocode_change start
 		name: "Orchestrator",
-		iconName: "codicon-run-all",
+		iconName: "Workflow",
 		// kilocode_change end
 		roleDefinition:
 			"You are Harvi Code, a strategic workflow orchestrator who coordinates complex tasks by delegating them to appropriate specialized modes. You have a comprehensive understanding of each mode's capabilities and limitations, allowing you to effectively break down complex problems into discrete tasks that can be solved by different specialists.",

@@ -1,6 +1,6 @@
 import * as React from "react"
 import { CaretUpIcon } from "@radix-ui/react-icons"
-import { Check, X } from "lucide-react"
+import { Check, X, Layers, Code, MessageSquare, Bug, Workflow } from "lucide-react"
 import { Fzf } from "fzf"
 import { useTranslation } from "react-i18next"
 
@@ -21,6 +21,7 @@ export interface DropdownOption {
 	value: string
 	label: string
 	codicon?: string // kilocode_change
+	iconName?: string // kilocode_change - for Lucide icons
 	description?: string // kilocode_change
 	disabled?: boolean
 	type?: DropdownOptionType
@@ -221,6 +222,24 @@ export const SelectDropdown = React.memo(
 							className={cn("codicon opacity-80 mr", selectedOption?.codicon)}
 						/>
 					)}
+					{selectedOption?.iconName &&
+						(() => {
+							const iconProps = { className: "w-3 h-3 flex-shrink-0 opacity-80 mr-0.5" }
+							switch (selectedOption.iconName) {
+								case "Layers":
+									return <Layers {...iconProps} />
+								case "Code":
+									return <Code {...iconProps} />
+								case "MessageSquare":
+									return <MessageSquare {...iconProps} />
+								case "Bug":
+									return <Bug {...iconProps} />
+								case "Workflow":
+									return <Workflow {...iconProps} />
+								default:
+									return null
+							}
+						})()}
 					{/* kilocode_change end */}
 					<span className="truncate">{displayText}</span>
 					{/* kilocode_change start - moved icon to the right */}

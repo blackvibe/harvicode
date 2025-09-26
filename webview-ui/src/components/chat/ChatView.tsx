@@ -63,6 +63,7 @@ import { IdeaSuggestionsBox } from "../kilocode/chat/IdeaSuggestionsBox" // kilo
 import { KilocodeNotifications } from "../kilocode/KilocodeNotifications" // kilocode_change
 import { QueuedMessages } from "./QueuedMessages"
 import { buildDocLink } from "@/utils/docLinks"
+import { HarviLogo } from "../common/HarviLogo"
 // import DismissibleUpsell from "../common/DismissibleUpsell" // kilocode_change: unused
 // import { useCloudUpsell } from "@src/hooks/useCloudUpsell" // kilocode_change: unused
 // import { Cloud } from "lucide-react" // kilocode_change: unused
@@ -149,7 +150,7 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 		historyPreviewCollapsed === undefined ? true : !historyPreviewCollapsed,
 	)
 
-	const toggleExpanded = useCallback(() => {
+	const _toggleExpanded = useCallback(() => {
 		const newState = !isExpanded
 		setIsExpanded(newState)
 		// Send message to extension to persist the new collapsed state
@@ -1989,13 +1990,10 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 					{/* Moved Task Bar Header Here */}
 					{taskHistoryFullLength !== 0 && (
 						<div className="flex text-vscode-descriptionForeground w-full mx-auto px-5 pt-3">
-							<div className="flex items-center gap-1 cursor-pointer" onClick={toggleExpanded}>
+							<div className="flex items-center gap-1">
 								{taskHistoryFullLength < 10 && (
 									<span className={`font-medium text-xs `}>{t("history:recentTasks")}</span>
 								)}
-								<span
-									className={`codicon  ${isExpanded ? "codicon-eye" : "codicon-eye-closed"} scale-90`}
-								/>
 							</div>
 						</div>
 					)}
@@ -2025,6 +2023,13 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 						)}
 						<div className="flex flex-grow flex-col justify-center gap-4">
 							{/* kilocode_change end */}
+							<div className="flex justify-center mb-12">
+								<div className="relative">
+									<div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 blur-xl opacity-30 rounded-full"></div>
+									<div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 blur-2xl opacity-20 rounded-full"></div>
+									<HarviLogo size="lg" className="relative z-10" />
+								</div>
+							</div>
 							<p className="text-vscode-editor-foreground leading-tight font-vscode-font-family text-center text-balance max-w-[380px] mx-auto my-0">
 								<Trans
 									i18nKey="chat:about"
@@ -2044,10 +2049,8 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 							{/*<div className="mb-2.5">
 								{cloudIsAuthenticated || taskHistory.length < 4 ? <RooTips /> : <RooCloudCTA />}
 							</div> kilocode_change: do not show */}
-							{/* Show the task history preview if expanded and tasks exist */}
-							{taskHistoryFullLength > 0 && isExpanded && (
-								<HistoryPreview taskHistoryVersion={taskHistoryVersion} />
-							)}
+							{/* Show the task history preview if tasks exist */}
+							{taskHistoryFullLength > 0 && <HistoryPreview taskHistoryVersion={taskHistoryVersion} />}
 							{/* kilocode_change start: KilocodeNotifications + Layout fixes */}
 						</div>
 						{/* kilocode_change end */}

@@ -1,8 +1,8 @@
 // kilocode_change: new file
-import { memo, useRef, useState } from "react"
+import { memo, useRef, useState as _useState } from "react"
 import { useWindowSize } from "react-use"
 import { useTranslation } from "react-i18next"
-import { CloudUpload, CloudDownload, FoldVertical } from "lucide-react"
+import { CloudUpload as _CloudUpload, CloudDownload as _CloudDownload, FoldVertical } from "lucide-react"
 import { validateSlashCommand } from "@/utils/slash-commands"
 
 import type { ClineMessage } from "@roo-code/types"
@@ -11,13 +11,13 @@ import { getModelMaxOutputTokens } from "@roo/api"
 
 import { formatLargeNumber } from "@src/utils/format"
 import { cn } from "@src/lib/utils"
-import { Button, StandardTooltip } from "@src/components/ui"
+import { Button as _Button, StandardTooltip } from "@src/components/ui"
 import { useExtensionState } from "@src/context/ExtensionStateContext"
 import { useSelectedModel } from "@/components/ui/hooks/useSelectedModel"
 
-import Thumbnails from "../common/Thumbnails"
+import _Thumbnails from "../common/Thumbnails"
 
-import { TaskActions } from "../chat/TaskActions"
+import { TaskActions as _TaskActions } from "../chat/TaskActions"
 import { ShareButton } from "../chat/ShareButton"
 import { ContextWindowProgress } from "../chat/ContextWindowProgress"
 import { TaskTimeline } from "../chat/TaskTimeline"
@@ -47,13 +47,13 @@ const KiloTaskHeader = ({
 	task,
 	tokensIn,
 	tokensOut,
-	cacheWrites,
-	cacheReads,
+	cacheWrites: _cacheWrites,
+	cacheReads: _cacheReads,
 	totalCost,
 	contextTokens,
 	buttonsDisabled,
 	handleCondenseContext,
-	onClose,
+	onClose: _onClose,
 	groupedMessages,
 	onMessageClick,
 	isTaskActive = false,
@@ -64,11 +64,11 @@ const KiloTaskHeader = ({
 	const { apiConfiguration, currentTaskItem, customModes } = useExtensionState()
 	const { id: modelId, info: model } = useSelectedModel(apiConfiguration)
 
-	const textContainerRef = useRef<HTMLDivElement>(null)
-	const textRef = useRef<HTMLDivElement>(null)
+	const _textContainerRef = useRef<HTMLDivElement>(null)
+	const _textRef = useRef<HTMLDivElement>(null)
 	const contextWindow = model?.contextWindow || 1
 
-	const { width: windowWidth } = useWindowSize()
+	const { width: _windowWidth } = useWindowSize()
 
 	const condenseButton = (
 		<StandardTooltip content={t("chat:task.condenseContext")}>

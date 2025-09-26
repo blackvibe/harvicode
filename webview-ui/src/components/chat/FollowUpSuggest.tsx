@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
-import { Edit } from "lucide-react"
+import { Edit as _Edit } from "lucide-react"
 
-import { Button, StandardTooltip } from "@/components/ui"
+import { Button as _Button, StandardTooltip } from "@/components/ui"
 
 import { useAppTranslation } from "@src/i18n/TranslationContext"
 import { useExtensionState } from "@src/context/ExtensionStateContext"

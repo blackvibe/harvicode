@@ -13,7 +13,6 @@ import { useAppTranslation } from "@/i18n/TranslationContext"
 import {
 	ContextMenuOptionType,
 	getContextMenuOptions,
-	insertMention,
 	removeMention,
 	shouldShowContextMenu,
 	SearchResult,
@@ -735,7 +734,6 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 				selectedSlashCommandsIndex,
 				slashCommandsQuery,
 				// kilocode_change end
-				onSend,
 				showContextMenu,
 				searchQuery,
 				selectedMenuIndex,
@@ -750,6 +748,7 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 				fileSearchResults,
 				handleHistoryNavigation,
 				resetHistoryNavigation,
+				handleSendWithContexts,
 				mode,
 				setMode,
 			],

@@ -1,7 +1,6 @@
 import React from "react"
 import type { HistoryItem } from "@roo-code/types"
 import { formatTimeAgo } from "@/utils/format"
-import { CopyButton } from "./CopyButton"
 import { ExportButton } from "./ExportButton"
 import { DeleteButton } from "./DeleteButton"
 import { FavoriteButton } from "../kilocode/history/FavoriteButton" // kilocode_change
@@ -12,9 +11,27 @@ export interface TaskItemFooterProps {
 	variant: "compact" | "full"
 	isSelectionMode?: boolean
 	onDelete?: (taskId: string) => void
+	showFavorite?: boolean
+	onlyFavorite?: boolean
 }
 
-const TaskItemFooter: React.FC<TaskItemFooterProps> = ({ item, variant, isSelectionMode = false, onDelete }) => {
+const TaskItemFooter: React.FC<TaskItemFooterProps> = ({
+	item,
+	variant,
+	isSelectionMode = false,
+	onDelete,
+	showFavorite = true,
+	onlyFavorite = false,
+}) => {
+	// If onlyFavorite is true, only show the favorite button
+	if (onlyFavorite) {
+		return (
+			<div className="flex items-center">
+				<FavoriteButton isFavorited={item.isFavorited ?? false} id={item.id} />
+			</div>
+		)
+	}
+
 	return (
 		<div className="text-xs text-vscode-descriptionForeground flex justify-between items-center">
 			<div className="flex gap-2 items-center text-vscode-descriptionForeground/60">
@@ -34,8 +51,7 @@ const TaskItemFooter: React.FC<TaskItemFooterProps> = ({ item, variant, isSelect
 			{/* Action Buttons for non-compact view */}
 			{!isSelectionMode && (
 				<div className="flex flex-row gap-0 items-center text-vscode-descriptionForeground/60 hover:text-vscode-descriptionForeground">
-					<CopyButton itemTask={item.task} />
-					<FavoriteButton isFavorited={item.isFavorited ?? false} id={item.id} />
+					{showFavorite && <FavoriteButton isFavorited={item.isFavorited ?? false} id={item.id} />}
 					{variant === "full" && <ExportButton itemId={item.id} />}
 					{onDelete && <DeleteButton itemId={item.id} onDelete={onDelete} />}
 				</div>
