@@ -175,11 +175,6 @@
 				"icon": "$(settings-gear)"
 			},
 			{
-				"command": "kilo-code.helpButtonClicked",
-				"title": "%command.documentation.title%",
-				"icon": "$(question)"
-			},
-			{
 				"command": "kilo-code.openInNewTab",
 				"title": "%command.openInNewTab.title%",
 				"category": "%configuration.title%"
@@ -434,11 +429,6 @@
 					"when": "view == kilo-code.SidebarProvider"
 				},
 				{
-					"command": "kilo-code.profileButtonClicked",
-					"group": "navigation@5",
-					"when": "view == kilo-code.SidebarProvider"
-				},
-				{
 					"command": "kilo-code.settingsButtonClicked",
 					"group": "navigation@6",
 					"when": "view == kilo-code.SidebarProvider"
@@ -447,11 +437,6 @@
 					"command": "kilo-code.popoutButtonClicked",
 					"group": "navigation@7",
 					"when": "view == kilo-code.SidebarProvider"
-				},
-				{
-					"command": "kilo-code.helpButtonClicked",
-					"group": "navigation@8",
-					"when": "false && view == kilo-code.SidebarProvider"
 				}
 			],
 			"editor/title": [
@@ -478,11 +463,6 @@
 				{
 					"command": "kilo-code.settingsButtonClicked",
 					"group": "navigation@5",
-					"when": "activeWebviewPanelId == kilo-code.TabPanelProvider"
-				},
-				{
-					"command": "kilo-code.helpButtonClicked",
-					"group": "navigation@6",
 					"when": "activeWebviewPanelId == kilo-code.TabPanelProvider"
 				}
 			],

@@ -23,7 +23,7 @@ import UpdateTodoListToolBlock from "./UpdateTodoListToolBlock"
 import CodeAccordian from "../common/CodeAccordian"
 import CodeBlock from "../kilocode/common/CodeBlock" // kilocode_change
 import MarkdownBlock from "../common/MarkdownBlock"
-import { ReasoningBlock } from "./ReasoningBlock"
+import ThinkBlock from "./ThinkBlock"
 // import Thumbnails from "../common/Thumbnails" // kilocode_change
 import ImageBlock from "../common/ImageBlock"
 
@@ -85,11 +85,11 @@ const ChatRow = memo(
 		const [chatrow, { height }] = useSize(
 			<div
 				// kilocode_change: add highlighted className
-				className={cn(
-					`px-[15px] py-[10px] pr-[6px] relative ${highlighted ? "animate-message-highlight" : ""}`,
-				)}>
+				className={cn(`relative ${highlighted ? "animate-message-highlight" : ""}`)}>
 				{showTaskTimeline && <KiloChatRowGutterBar message={message} />}
-				<ChatRowContent {...props} />
+				<div className="px-3 py-2">
+					<ChatRowContent {...props} />
+				</div>
 			</div>,
 		)
 
@@ -1057,15 +1057,7 @@ export const ChatRowContent = ({
 						</div>
 					)
 				case "reasoning":
-					return (
-						<ReasoningBlock
-							content={message.text || ""}
-							ts={message.ts}
-							isStreaming={isStreaming}
-							isLast={isLast}
-							metadata={message.metadata as any}
-						/>
-					)
+					return <ThinkBlock content={message.text || ""} isStreaming={isStreaming && isLast} />
 				case "api_req_started":
 					// API request banner disabled for Harvi Code
 					// Show loading only during request, hide when completed successfully

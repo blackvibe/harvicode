@@ -163,14 +163,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({ onDone }) => {
 								</div>
 
 								<div className="w-full flex gap-2 flex-col min-[225px]:flex-row">
-									<div className="w-full min-[225px]:w-1/2">
-										<VSCodeButtonLink
-											href="https://kilocode.ai/profile"
-											appearance="primary"
-											className="w-full">
-											{t("kilocode:profile.dashboard")}
-										</VSCodeButtonLink>
-									</div>
 									<VSCodeButton
 										appearance="secondary"
 										onClick={handleLogout}
@@ -252,14 +244,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ onDone }) => {
 												))}
 											</div>
 
-											<div className="text-center">
-												<VSCodeButtonLink
-													href="https://kilocode.ai/profile"
-													appearance="secondary"
-													className="text-sm">
-													{t("kilocode:profile.shop.viewAll")}
-												</VSCodeButtonLink>
-											</div>
+											<div className="text-center"></div>
 										</div>
 									)}
 								</div>

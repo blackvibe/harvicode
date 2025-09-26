@@ -57,28 +57,6 @@ export const About = ({ telemetrySetting, setTelemetrySetting, className, ...pro
 					</p>
 				</div>
 
-				<div>
-					<Trans
-						i18nKey="settings:footer.feedback"
-						components={{
-							githubLink: <VSCodeLink href="https://github.com/Kilo-Org/kilocode" />,
-							redditLink: <VSCodeLink href="https://reddit.com/r/kilocode" />,
-							discordLink: <VSCodeLink href="https://kilocode.ai/discord" />,
-						}}
-					/>
-				</div>
-
-				{/* kilocode_change start */}
-				<div>
-					<Trans
-						i18nKey="settings:footer.support"
-						components={{
-							supportLink: <VSCodeLink href="https://kilocode.ai/support" />,
-						}}
-					/>
-				</div>
-				{/* kilocode_change end */}
-
 				<div className="flex flex-wrap items-center gap-2 mt-2">
 					<Button onClick={() => vscode.postMessage({ type: "exportSettings" })} className="w-28">
 						<Upload className="p-0.5" />

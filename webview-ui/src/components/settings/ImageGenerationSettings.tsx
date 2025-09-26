@@ -149,16 +149,7 @@ export const ImageGenerationSettings = ({
 										{t("settings:experimental.IMAGE_GENERATION.kiloCodeApiKeyPaste")}
 									</a>
 								) : (
-									<>
-										{t("settings:experimental.IMAGE_GENERATION.getApiKeyText")}{" "}
-										<a
-											href="https://app.kilocode.ai/profile?personal=true"
-											target="_blank"
-											rel="noopener noreferrer"
-											className="text-vscode-textLink-foreground hover:text-vscode-textLink-activeForeground">
-											app.kilocode.ai/profile
-										</a>
-									</>
+									<>{t("settings:experimental.IMAGE_GENERATION.getApiKeyText")}</>
 								)}
 							</p>
 						</div>

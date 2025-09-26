@@ -1255,7 +1255,7 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 							className={cn(
 								"relative inline-flex items-center justify-center gap-1",
 								"bg-[#2d2d30] hover:bg-[#3c3c3c] border border-[#3c3c3c]",
-								"rounded-full px-2 py-1 h-6 text-[#cccccc] hover:text-white",
+								"rounded-full px-1.5 py-0.5 h-5 text-[#cccccc] hover:text-white",
 								"transition-all duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#4a4a4a]",
 								"active:scale-95 cursor-pointer",
 							)}>
@@ -1314,7 +1314,7 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 							"w-full font-vscode-font-family text-vscode-editor-font-size leading-vscode-editor-line-height",
 							"cursor-text border-0 bg-transparent",
 							"transition-background-color duration-150 ease-in-out will-change-background-color",
-							"min-h-[45px] box-border resize-none overflow-x-hidden overflow-y-auto",
+							"min-h-[32px] box-border resize-none overflow-x-hidden overflow-y-auto",
 							"z-[2] scrollbar-none scrollbar-hide outline-none focus:outline-none",
 							"focus:ring-0 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none",
 							"chat-textarea-custom",
@@ -1470,7 +1470,7 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 					"flex-col",
 					"gap-1",
 					"bg-editor-background",
-					isEditMode ? "px-0" : "px-1.5",
+					isEditMode ? "px-0" : "px-1",
 					"pt-3", // Добавлен отступ сверху
 					"pb-3", // Увеличен отступ снизу
 					"outline-none",

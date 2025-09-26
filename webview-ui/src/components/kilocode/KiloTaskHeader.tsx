@@ -63,7 +63,6 @@ const KiloTaskHeader = ({
 	const { showTaskTimeline } = useExtensionState()
 	const { apiConfiguration, currentTaskItem, customModes } = useExtensionState()
 	const { id: modelId, info: model } = useSelectedModel(apiConfiguration)
-	const [isTaskExpanded, setIsTaskExpanded] = useState(false)
 
 	const textContainerRef = useRef<HTMLDivElement>(null)
 	const textRef = useRef<HTMLDivElement>(null)
@@ -90,36 +89,40 @@ const KiloTaskHeader = ({
 				className={cn(
 					"p-2.5 flex flex-col relative z-1 border",
 					hasTodos ? "rounded-t-xl border-b-0" : "rounded-xl",
-					isTaskExpanded
-						? "border-vscode-panel-border text-vscode-foreground"
-						: "border-vscode-panel-border/80 text-vscode-foreground/80",
+					"border-vscode-panel-border/80 text-vscode-foreground/80",
 				)}>
 				<div className="flex justify-between items-center gap-2">
-					<div
-						className="flex items-center cursor-pointer -ml-0.5 select-none grow min-w-0"
-						onClick={() => setIsTaskExpanded(!isTaskExpanded)}>
-						<div className="flex items-center shrink-0">
-							<span className={`codicon codicon-chevron-${isTaskExpanded ? "down" : "right"}`}></span>
-						</div>
-						<div className="ml-1.5 whitespace-nowrap overflow-hidden text-ellipsis grow min-w-0">
-							<span className="font-bold">
-								{t("chat:task.title")}
-								{!isTaskExpanded && ":"}
-							</span>
-							{!isTaskExpanded && (
-								<span style={{ marginLeft: 4 }}>{highlightText(task.text, false, customModes)}</span>
-							)}
+					<div className="flex items-center grow min-w-0">
+						<div className="whitespace-nowrap overflow-hidden text-ellipsis grow min-w-0">
+							<span className="font-bold">{t("chat:task.title")}:</span>
+							<span style={{ marginLeft: 4 }}>{highlightText(task.text, false, customModes)}</span>
 						</div>
 					</div>
-					<StandardTooltip content={t("chat:task.closeAndStart")}>
-						<Button variant="ghost" size="icon" onClick={onClose} className="shrink-0 w-5 h-5">
-							<span className="codicon codicon-close" />
-						</Button>
-					</StandardTooltip>
+					<div className="flex items-center gap-2 shrink-0">
+						{/* Токены в заголовке */}
+						{(typeof tokensIn === "number" && tokensIn > 0) ||
+						(typeof tokensOut === "number" && tokensOut > 0) ? (
+							<div className="flex items-center gap-1">
+								{typeof tokensIn === "number" && tokensIn > 0 && (
+									<span className="flex items-center gap-0.5 text-xs">
+										<i className="codicon codicon-arrow-up text-xs font-bold" />
+										{formatLargeNumber(tokensIn)}
+									</span>
+								)}
+								{typeof tokensOut === "number" && tokensOut > 0 && (
+									<span className="flex items-center gap-0.5 text-xs">
+										<i className="codicon codicon-arrow-down text-xs font-bold" />
+										{formatLargeNumber(tokensOut)}
+									</span>
+								)}
+							</div>
+						) : null}
+						{!!totalCost && <span className="text-xs">${totalCost.toFixed(2)}</span>}
+					</div>
 				</div>
-				{/* Collapsed state: Track context and cost if we have any */}
-				{!isTaskExpanded && contextWindow > 0 && (
-					<div className={`w-full flex flex-col gap-1 h-auto`}>
+				{/* Всегда показываем контекст и таймлайн */}
+				{contextWindow > 0 && (
+					<div className={`w-full flex flex-col gap-1 h-auto mt-2`}>
 						{showTaskTimeline && (
 							<TaskTimeline
 								groupedMessages={groupedMessages}
@@ -140,111 +143,8 @@ const KiloTaskHeader = ({
 							/>
 							{condenseButton}
 							<ShareButton item={currentTaskItem} disabled={buttonsDisabled} />
-							{!!totalCost && <span>${totalCost.toFixed(2)}</span>}
 						</div>
 					</div>
-				)}
-				{/* Expanded state: Show task text and images */}
-				{isTaskExpanded && (
-					<>
-						<div
-							ref={textContainerRef}
-							className="-mt-0.5 text-vscode-font-size overflow-y-auto break-words break-anywhere relative">
-							<div
-								ref={textRef}
-								className="overflow-auto max-h-80 whitespace-pre-wrap break-words break-anywhere"
-								style={{
-									display: "-webkit-box",
-									WebkitLineClamp: "unset",
-									WebkitBoxOrient: "vertical",
-								}}>
-								{highlightText(task.text, false, customModes)}
-							</div>
-						</div>
-						{task.images && task.images.length > 0 && <Thumbnails images={task.images} />}
-
-						{showTaskTimeline && (
-							<TaskTimeline
-								groupedMessages={groupedMessages}
-								onMessageClick={onMessageClick}
-								isTaskActive={isTaskActive}
-							/>
-						)}
-
-						<div className="flex flex-col gap-1">
-							{isTaskExpanded && contextWindow > 0 && (
-								<div
-									className={`w-full flex ${windowWidth < 400 ? "flex-col" : "flex-row"} gap-1 h-auto`}>
-									<div className="flex items-center gap-1 flex-shrink-0">
-										<span className="font-bold" data-testid="context-window-label">
-											{t("chat:task.contextWindow")}
-										</span>
-									</div>
-									<ContextWindowProgress
-										contextWindow={contextWindow}
-										contextTokens={contextTokens || 0}
-										maxTokens={
-											model
-												? getModelMaxOutputTokens({
-														modelId,
-														model,
-														settings: apiConfiguration,
-													})
-												: undefined
-										}
-									/>
-									{condenseButton}
-								</div>
-							)}
-							<div className="flex justify-between items-center h-[20px]">
-								<div className="flex items-center gap-1 flex-wrap">
-									<span className="font-bold">{t("chat:task.tokens")}</span>
-									{typeof tokensIn === "number" && tokensIn > 0 && (
-										<span className="flex items-center gap-0.5">
-											<i className="codicon codicon-arrow-up text-xs font-bold" />
-											{formatLargeNumber(tokensIn)}
-										</span>
-									)}
-									{typeof tokensOut === "number" && tokensOut > 0 && (
-										<span className="flex items-center gap-0.5">
-											<i className="codicon codicon-arrow-down text-xs font-bold" />
-											{formatLargeNumber(tokensOut)}
-										</span>
-									)}
-								</div>
-								{!totalCost && <TaskActions item={currentTaskItem} buttonsDisabled={buttonsDisabled} />}
-							</div>
-
-							{((typeof cacheReads === "number" && cacheReads > 0) ||
-								(typeof cacheWrites === "number" && cacheWrites > 0)) && (
-								<div className="flex items-center gap-1 flex-wrap h-[20px]">
-									<span className="font-bold">{t("chat:task.cache")}</span>
-									{typeof cacheWrites === "number" && cacheWrites > 0 && (
-										<span className="flex items-center gap-0.5">
-											<CloudUpload size={16} />
-											{formatLargeNumber(cacheWrites)}
-										</span>
-									)}
-									{typeof cacheReads === "number" && cacheReads > 0 && (
-										<span className="flex items-center gap-0.5">
-											<CloudDownload size={16} />
-											{formatLargeNumber(cacheReads)}
-										</span>
-									)}
-								</div>
-							)}
-
-							{!!totalCost && (
-								<div className="flex justify-between items-center h-[20px]">
-									<div className="flex items-center gap-1">
-										<span className="font-bold">{t("chat:task.apiCost")}</span>
-										<span>${totalCost?.toFixed(2)}</span>
-									</div>
-									<TaskActions item={currentTaskItem} buttonsDisabled={buttonsDisabled} />
-								</div>
-							)}
-						</div>
-					</>
 				)}
 			</div>
 			<TodoListDisplay todos={todos ?? (task as any)?.tool?.todos ?? []} />

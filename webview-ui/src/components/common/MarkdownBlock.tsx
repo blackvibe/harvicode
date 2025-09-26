@@ -16,6 +16,9 @@ interface MarkdownBlockProps {
 }
 
 const StyledMarkdown = styled.div`
+	/* Make assistant text white */
+	color: white !important;
+
 	code:not(pre > code) {
 		font-family: var(--vscode-editor-font-family, monospace);
 		filter: saturation(110%) brightness(95%);
