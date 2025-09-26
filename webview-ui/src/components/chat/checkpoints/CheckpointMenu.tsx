@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react"
 import { CheckIcon, Cross2Icon } from "@radix-ui/react-icons"
 import { useTranslation } from "react-i18next"
+import { GitCompare } from "lucide-react"
 
 import { Button, Popover, PopoverContent, PopoverTrigger, StandardTooltip } from "@/components/ui"
 import { useRooPortal } from "@/components/ui/hooks"
@@ -43,12 +44,9 @@ export const CheckpointMenu = ({ ts, commitHash, currentHash, checkpoint }: Chec
 	}, [ts, commitHash])
 
 	return (
-		<div className="flex flex-row gap-1">
-			<StandardTooltip content={t("chat:checkpoint.menu.viewDiff")}>
-				<Button variant="ghost" size="icon" onClick={onCheckpointDiff}>
-					<span className="codicon codicon-diff-single" />
-				</Button>
-			</StandardTooltip>
+		<div className="flex flex-row items-center gap-2">
+			{/* Пунктирная линия */}
+			<div className="flex-1 border-t border-dashed border-[#3c3c3c]"></div>
 			<Popover
 				open={isOpen}
 				onOpenChange={(open) => {
@@ -57,9 +55,7 @@ export const CheckpointMenu = ({ ts, commitHash, currentHash, checkpoint }: Chec
 				}}>
 				<StandardTooltip content={t("chat:checkpoint.menu.restore")}>
 					<PopoverTrigger asChild>
-						<Button variant="ghost" size="icon">
-							<span className="codicon codicon-history" />
-						</Button>
+						<div className="w-2 h-2 bg-[#cccccc] hover:bg-white rounded-full cursor-pointer transition-colors duration-150"></div>
 					</PopoverTrigger>
 				</StandardTooltip>
 				<PopoverContent align="end" container={portalContainer}>
@@ -110,6 +106,15 @@ export const CheckpointMenu = ({ ts, commitHash, currentHash, checkpoint }: Chec
 					</div>
 				</PopoverContent>
 			</Popover>
+
+			{/* Компактная кнопка различий */}
+			<StandardTooltip content={t("chat:checkpoint.menu.viewDiff")}>
+				<button
+					onClick={onCheckpointDiff}
+					className="relative inline-flex items-center justify-center bg-[#2d2d30] hover:bg-[#3c3c3c] border border-[#3c3c3c] rounded-full w-6 h-6 text-[#cccccc] hover:text-white transition-all duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#4a4a4a] active:scale-95 cursor-pointer">
+					<GitCompare className="w-3 h-3" />
+				</button>
+			</StandardTooltip>
 		</div>
 	)
 }

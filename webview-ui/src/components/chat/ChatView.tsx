@@ -95,7 +95,7 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 
 	const { t } = useAppTranslation()
 	const { t: tSettings } = useTranslation("settings")
-	const modeShortcutText = `${isMac ? "⌘" : "Ctrl"} + . ${t("chat:forNextMode")}, ${isMac ? "⌘" : "Ctrl"} + Shift + . ${t("chat:forPreviousMode")}`
+	const modeShortcutText = `${isMac ? "⌘" : "Ctrl"} + . ${t("chat:forNextMode")}`
 
 	const {
 		clineMessages: messages,
@@ -579,10 +579,14 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 				lastApiReqStarted.text !== undefined &&
 				lastApiReqStarted.say === "api_req_started"
 			) {
-				const cost = JSON.parse(lastApiReqStarted.text).cost
-
-				if (cost === undefined) {
-					return true // API request has not finished yet.
+				try {
+					const cost = JSON.parse(lastApiReqStarted.text).cost
+					if (cost === undefined) {
+						return true // API request has not finished yet.
+					}
+				} catch (error) {
+					// If JSON parsing fails, assume not streaming
+					return false
 				}
 			}
 		}
@@ -606,15 +610,18 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 		// Reset user response flag for new message
 		userRespondedRef.current = false
 
-		// Only reset message-specific state, preserving mode.
-		setInputValue("")
-		setSendingDisabled(true)
-		setSelectedImages([])
-		setClineAsk(undefined)
-		setEnableButtons(false)
-		// Do not reset mode here as it should persist.
-		// setPrimaryButtonText(undefined)
-		// setSecondaryButtonText(undefined)
+		// Batch all state updates to prevent visual flickering
+		React.startTransition(() => {
+			// Only reset message-specific state, preserving mode.
+			setInputValue("")
+			setSendingDisabled(true)
+			setSelectedImages([])
+			setClineAsk(undefined)
+			setEnableButtons(false)
+			// Do not reset mode here as it should persist.
+			// setPrimaryButtonText(undefined)
+			// setSecondaryButtonText(undefined)
+		})
 		disableAutoScrollRef.current = false
 	}, [])
 
@@ -756,9 +763,12 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 				// kilocode_change end
 			}
 
-			setSendingDisabled(true)
-			setClineAsk(undefined)
-			setEnableButtons(false)
+			// Batch state updates to prevent visual flickering
+			React.startTransition(() => {
+				setSendingDisabled(true)
+				setClineAsk(undefined)
+				setEnableButtons(false)
+			})
 		},
 		[clineAsk, startNewTask, lastMessage?.text], // kilocode_change: add lastMessage?.text
 	)
@@ -771,8 +781,11 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 			const trimmedInput = text?.trim()
 
 			if (isStreaming) {
-				vscode.postMessage({ type: "cancelTask" })
-				setDidClickCancel(true)
+				// Batch state updates to prevent visual flickering
+				React.startTransition(() => {
+					vscode.postMessage({ type: "cancelTask" })
+					setDidClickCancel(true)
+				})
 				return
 			}
 
@@ -806,9 +819,13 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 					vscode.postMessage({ type: "terminalOperation", terminalOperation: "abort" })
 					break
 			}
-			setSendingDisabled(true)
-			setClineAsk(undefined)
-			setEnableButtons(false)
+
+			// Batch state updates to prevent visual flickering
+			React.startTransition(() => {
+				setSendingDisabled(true)
+				setClineAsk(undefined)
+				setEnableButtons(false)
+			})
 		},
 		[clineAsk, startNewTask, isStreaming],
 	)
@@ -1294,10 +1311,12 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 				}
 			}
 		}
+	}, [lastMessage, messages.length])
 
-		// Update previous value.
+	// Separate effect for streaming state to prevent unnecessary re-renders
+	useEffect(() => {
 		setWasStreaming(isStreaming)
-	}, [isStreaming, lastMessage, wasStreaming, isAutoApproved, messages.length])
+	}, [isStreaming])
 
 	const isBrowserSessionMessage = (message: ClineMessage): boolean => {
 		// Which of visible messages are browser session messages, see above.
@@ -1536,10 +1555,10 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 
 	// Effect to hide the checkpoint warning when messages appear
 	useEffect(() => {
-		if (modifiedMessages.length > 0 || isStreaming || isHidden) {
+		if (modifiedMessages.length > 0 || isHidden) {
 			setShowCheckpointWarning(false)
 		}
-	}, [modifiedMessages.length, isStreaming, isHidden])
+	}, [modifiedMessages.length, isHidden])
 
 	const placeholderText = task ? t("chat:typeMessage") : t("chat:typeTask")
 
@@ -2060,7 +2079,7 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 
 			{task && (
 				<>
-					<div className="grow flex" ref={scrollContainerRef}>
+					<div className="grow flex px-6" ref={scrollContainerRef}>
 						<Virtuoso
 							ref={virtuosoRef}
 							key={task.ts}
@@ -2084,7 +2103,8 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 						{/* kilocode_change: added settings toggle for this */}
 						{showAutoApproveMenu && <AutoApproveMenu />}
 					</div>
-					{areButtonsVisible && (
+					{/* Buttons above input disabled for Harvi Code */}
+					{/* {areButtonsVisible && (
 						<div
 							className={`flex h-9 items-center mb-1 px-[15px] ${
 								showScrollToBottom
@@ -2164,7 +2184,7 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 								</>
 							)}
 						</div>
-					)}
+					)} */}
 				</>
 			)}
 
@@ -2204,9 +2224,10 @@ const ChatViewComponent: React.ForwardRefRenderFunction<ChatViewRef, ChatViewPro
 				mode={mode}
 				setMode={setMode}
 				modeShortcutText={modeShortcutText}
+				isStreaming={isStreaming}
 			/>
 			{/* kilocode_change: added settings toggle the profile and model selection */}
-			<BottomControls showApiConfig />
+			{/* <BottomControls showApiConfig /> */}
 			{/* kilocode_change: end */}
 
 			{/* kilocode_change: disable {isProfileDisabled && (

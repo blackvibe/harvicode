@@ -5,6 +5,7 @@ import { SelectDropdown, DropdownOptionType } from "@/components/ui"
 import { useAppTranslation } from "@/i18n/TranslationContext"
 import { vscode } from "@/utils/vscode"
 import { cn } from "@/lib/utils"
+import { Check } from "lucide-react"
 
 interface KiloModeSelectorProps {
 	value: Mode
@@ -29,6 +30,7 @@ export const KiloModeSelector = ({
 }: KiloModeSelectorProps) => {
 	const { t } = useAppTranslation()
 	const allModes = React.useMemo(() => getAllModes(customModes), [customModes])
+	const currentModeSlug = allModes.find((m) => m.slug === value)?.slug ?? defaultModeSlug
 
 	const handleChange = React.useCallback(
 		(selectedValue: string) => {
@@ -41,10 +43,12 @@ export const KiloModeSelector = ({
 
 	return (
 		<SelectDropdown
-			value={allModes.find((m) => m.slug === value)?.slug ?? defaultModeSlug}
+			value={currentModeSlug}
 			title={title || t("chat:selectMode")}
 			disabled={disabled}
 			initiallyOpen={initiallyOpen}
+			searchPlaceholder="Поиск режимов..."
+			disableSearch={false}
 			options={[
 				{
 					value: "shortcut",
@@ -54,28 +58,76 @@ export const KiloModeSelector = ({
 				},
 				...allModes.map((mode) => ({
 					value: mode.slug,
-					label: mode.name,
+					label: t(`modes:${mode.slug}.name`, { defaultValue: mode.name }),
 					codicon: mode.iconName,
-					description: mode.description, // kilocode_change
+					description: t(`modes:${mode.slug}.description`, { defaultValue: mode.description }), // kilocode_change
 					type: DropdownOptionType.ITEM,
 				})),
-				{
-					value: "sep-1",
-					label: t("chat:separator"),
-					type: DropdownOptionType.SEPARATOR,
-				},
-				{
-					value: "promptsButtonClicked",
-					label: t("chat:edit"),
-					type: DropdownOptionType.ACTION,
-				},
+				// Edit button commented out for Harvi Code
+				// {
+				// 	value: "sep-1",
+				// 	label: t("chat:separator"),
+				// 	type: DropdownOptionType.SEPARATOR,
+				// },
+				// {
+				// 	value: "promptsButtonClicked",
+				// 	label: t("chat:edit"),
+				// 	type: DropdownOptionType.ACTION,
+				// },
 			]}
 			onChange={handleChange}
 			shortcutText={modeShortcutText}
-			triggerClassName={cn(
-				"w-full bg-[var(--background)] border-[var(--vscode-input-border)] hover:bg-[var(--color-vscode-list-hoverBackground)]",
-				triggerClassName,
-			)}
+			contentClassName="max-h-[200px] overflow-y-auto min-w-32 rounded-lg bg-[#1e1e1e] border border-[#3c3c3c] shadow-lg"
+			triggerClassName={cn("text-ellipsis overflow-hidden min-w-0", triggerClassName)}
+			renderItem={({ type, value, label, codicon, description }) => {
+				if (type === DropdownOptionType.SHORTCUT) {
+					return <div className="py-1 px-2 text-xs text-[#888888] font-mono">{label}</div>
+				}
+				if (type === DropdownOptionType.SEPARATOR) {
+					return <div className="py-1 px-2 text-xs text-[#888888]">{label}</div>
+				}
+				if (type === DropdownOptionType.ACTION) {
+					return (
+						<div className="py-1.5 px-2 text-xs text-[#cccccc] hover:bg-[#3c3c3c] rounded-md cursor-pointer transition-all duration-150">
+							{label}
+						</div>
+					)
+				}
+
+				const isSelected = value === currentModeSlug
+
+				return (
+					<div
+						className={cn(
+							"flex items-center gap-2 w-full py-1.5 px-2 text-xs cursor-pointer",
+							"hover:bg-[#2d2d30] rounded-md transition-all duration-150",
+							isSelected && "text-white",
+						)}>
+						{codicon && <span className={cn("codicon", `codicon-${codicon}`, "text-xs flex-shrink-0")} />}
+						<div className="flex-1 min-w-0">
+							<div
+								className={cn("truncate font-medium text-[#cccccc]", {
+									"text-white": isSelected,
+								})}>
+								{label}
+							</div>
+							{description && (
+								<div
+									className={cn("text-xs text-[#888888] truncate", {
+										"text-white/70": isSelected,
+									})}>
+									{description}
+								</div>
+							)}
+						</div>
+						{isSelected && (
+							<div className="flex items-center justify-center w-3 h-3 rounded-full bg-white/20 flex-shrink-0">
+								<Check className="w-2 h-2 text-white" />
+							</div>
+						)}
+					</div>
+				)
+			}}
 		/>
 	)
 }

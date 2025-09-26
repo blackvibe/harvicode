@@ -1,6 +1,8 @@
 import { useState, useRef, useMemo, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 
 export function TodoListDisplay({ todos }: { todos: any[] }) {
+	const { t } = useTranslation()
 	const [isCollapsed, setIsCollapsed] = useState(true)
 	const ulRef = useRef<HTMLUListElement>(null)
 	const itemRefs = useRef<(HTMLLIElement | null)[]>([])
@@ -125,7 +127,7 @@ export function TodoListDisplay({ todos }: { todos: any[] }) {
 
 	return (
 		<div
-			className="border border-t-0 rounded-b-xs relative"
+			className="border border-t-0 rounded-b-xl relative"
 			style={{
 				margin: "0",
 				padding: "6px 10px",
@@ -156,7 +158,9 @@ export function TodoListDisplay({ todos }: { todos: any[] }) {
 						textOverflow: "ellipsis",
 						whiteSpace: "nowrap",
 					}}>
-					{allCompleted ? "All tasks completed!" : mostImportantTodo?.content || "No pending tasks"}
+					{allCompleted
+						? t("chat:todoList.allCompleted")
+						: mostImportantTodo?.content || t("chat:todoList.noPendingTasks")}
 				</span>
 				<div style={{ display: "flex", alignItems: "center", gap: 4, flexShrink: 0 }}>
 					<span
@@ -224,7 +228,7 @@ export function TodoListDisplay({ todos }: { todos: any[] }) {
 									className="codicon codicon-checklist"
 									style={{ color: "var(--vscode-foreground)" }}
 								/>
-								<span style={{ fontWeight: "bold", fontSize: 14 }}>Todo List</span>
+								<span style={{ fontWeight: "bold", fontSize: 14 }}>{t("chat:todoList.title")}</span>
 								<span
 									style={{
 										color: "var(--vscode-descriptionForeground)",

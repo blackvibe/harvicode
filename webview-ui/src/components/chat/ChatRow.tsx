@@ -217,13 +217,13 @@ export const ChatRowContent = ({
 							: t("chat:mcp.wantsToAccessResource", { serverName: mcpServerUse.serverName })}
 					</span>,
 				]
-			case "completion_result":
-				return [
-					<span
-						className="codicon codicon-check"
-						style={{ color: successColor, marginBottom: "-1.5px" }}></span>,
-					<span style={{ color: successColor, fontWeight: "bold" }}>{t("chat:taskCompleted")}</span>,
-				]
+			// case "completion_result":
+			// 	return [
+			// 		<span
+			// 			className="codicon codicon-check"
+			// 			style={{ color: successColor, marginBottom: "-1.5px" }}></span>,
+			// 		<span style={{ color: successColor, fontWeight: "bold" }}>{t("chat:taskCompleted")}</span>,
+			// 	]
 			case "api_req_retry_delayed":
 				return []
 			case "api_req_started":
@@ -739,49 +739,49 @@ export const ChatRowContent = ({
 						</div>
 					</>
 				)
-			case "newTask":
-				return (
-					<>
-						<div style={headerStyle}>
-							{toolIcon("tasklist")}
-							<span style={{ fontWeight: "bold" }}>
-								<Trans
-									i18nKey="chat:subtasks.wantsToCreate"
-									components={{ code: <code>{tool.mode}</code> }}
-									values={{ mode: tool.mode }}
-								/>
-							</span>
-						</div>
-						<div
-							style={{
-								marginTop: "4px",
-								backgroundColor: "var(--vscode-badge-background)",
-								border: "1px solid var(--vscode-badge-background)",
-								borderRadius: "4px 4px 0 0",
-								overflow: "hidden",
-								marginBottom: "2px",
-							}}>
-							<div
-								style={{
-									padding: "9px 10px 9px 14px",
-									backgroundColor: "var(--vscode-badge-background)",
-									borderBottom: "1px solid var(--vscode-editorGroup-border)",
-									fontWeight: "bold",
-									fontSize: "var(--vscode-font-size)",
-									color: "var(--vscode-badge-foreground)",
-									display: "flex",
-									alignItems: "center",
-									gap: "6px",
-								}}>
-								<span className="codicon codicon-arrow-right"></span>
-								{t("chat:subtasks.newTaskContent")}
-							</div>
-							<div style={{ padding: "12px 16px", backgroundColor: "var(--vscode-editor-background)" }}>
-								<MarkdownBlock markdown={tool.content} />
-							</div>
-						</div>
-					</>
-				)
+			// case "newTask": // Disabled for Harvi Code
+			// 	return (
+			// 		<>
+			// 			<div style={headerStyle}>
+			// 				{toolIcon("tasklist")}
+			// 				<span style={{ fontWeight: "bold" }}>
+			// 					<Trans
+			// 						i18nKey="chat:subtasks.wantsToCreate"
+			// 						components={{ code: <code>{tool.mode}</code> }}
+			// 						values={{ mode: tool.mode }}
+			// 					/>
+			// 				</span>
+			// 			</div>
+			// 			<div
+			// 				style={{
+			// 					marginTop: "4px",
+			// 					backgroundColor: "var(--vscode-badge-background)",
+			// 					border: "1px solid var(--vscode-badge-background)",
+			// 					borderRadius: "4px 4px 0 0",
+			// 					overflow: "hidden",
+			// 					marginBottom: "2px",
+			// 				}}>
+			// 				<div
+			// 					style={{
+			// 						padding: "9px 10px 9px 14px",
+			// 						backgroundColor: "var(--vscode-badge-background)",
+			// 						borderBottom: "1px solid var(--vscode-editorGroup-border)",
+			// 						fontWeight: "bold",
+			// 						fontSize: "var(--vscode-font-size)",
+			// 						color: "var(--vscode-badge-foreground)",
+			// 						display: "flex",
+			// 						alignItems: "center",
+			// 						gap: "6px",
+			// 					}}>
+			// 					<span className="codicon codicon-arrow-right"></span>
+			// 					{t("chat:subtasks.newTaskContent")}
+			// 				</div>
+			// 				<div style={{ padding: "12px 16px", backgroundColor: "var(--vscode-editor-background)" }}>
+			// 					<MarkdownBlock markdown={tool.content} />
+			// 				</div>
+			// 			</div>
+			// 		</>
+			// 	)
 			case "finishTask":
 				return (
 					<>
@@ -970,7 +970,8 @@ export const ChatRowContent = ({
 										<span style={{ fontWeight: "bold" }}>{t("chat:diffError.title")}</span>
 									</div>
 									<div style={{ display: "flex", alignItems: "center" }}>
-										<VSCodeButton
+										{/* Кнопка копирования закомментирована */}
+										{/* <VSCodeButton
 											appearance="icon"
 											style={{
 												padding: "3px",
@@ -1000,7 +1001,7 @@ export const ChatRowContent = ({
 											}}>
 											<span
 												className={`codicon codicon-${showCopySuccess ? "check" : "copy"}`}></span>
-										</VSCodeButton>
+										</VSCodeButton> */}
 										<span
 											className={`codicon codicon-chevron-${isDiffErrorExpanded ? "up" : "down"}`}></span>
 									</div>
@@ -1066,6 +1067,31 @@ export const ChatRowContent = ({
 						/>
 					)
 				case "api_req_started":
+					// API request banner disabled for Harvi Code
+					// Show loading only during request, hide when completed successfully
+					if (cost !== null && cost !== undefined) {
+						// Request completed successfully - hide the banner
+						return null
+					}
+
+					// Show simple loading during request
+					return (
+						<div
+							style={{
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "center",
+								gap: "8px",
+								padding: "8px 0",
+							}}>
+							<div className="loading-dots">
+								<span></span>
+								<span></span>
+								<span></span>
+							</div>
+						</div>
+					)
+				/* Original API request banner commented out for Harvi Code
 					return (
 						<>
 							<div
@@ -1140,6 +1166,7 @@ export const ChatRowContent = ({
 							)}
 						</>
 					)
+					*/
 				case "api_req_finished":
 					return null // we should never see this message type
 				case "text":
@@ -1198,7 +1225,7 @@ export const ChatRowContent = ({
 								{icon}
 								{title}
 							</div>
-							<div style={{ color: "var(--vscode-charts-green)", paddingTop: 10 }}>
+							<div style={{ paddingTop: 10 }}>
 								<Markdown markdown={message.text} />
 							</div>
 							{
@@ -1219,9 +1246,7 @@ export const ChatRowContent = ({
 											{t("kilocode:chat.seeNewChanges")}
 										</VSCodeButton>
 									</div>
-								) : (
-									<></>
-								)
+								) : null
 								// kilocode_change end
 							}
 						</>
@@ -1497,7 +1522,7 @@ export const ChatRowContent = ({
 									{icon}
 									{title}
 								</div>
-								<div style={{ color: "var(--vscode-charts-green)", paddingTop: 10 }}>
+								<div style={{ paddingTop: 10 }}>
 									<Markdown markdown={message.text} partial={message.partial} />
 								</div>
 							</div>

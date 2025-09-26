@@ -3,7 +3,7 @@ import { Mention } from "../../chat/Mention"
 import { Button } from "@src/components/ui"
 import Thumbnails from "../../common/Thumbnails"
 import { vscode } from "@src/utils/vscode"
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { useTranslation } from "react-i18next"
 
 interface KiloChatRowUserFeedbackProps {
@@ -16,33 +16,47 @@ export const KiloChatRowUserFeedback = ({ message, isStreaming, onChatReset }: K
 	const { t } = useTranslation()
 	const [isEditing, setIsEditing] = useState(false)
 	const [editedText, setEditedText] = useState(message.text)
+	const textareaRef = useRef<HTMLTextAreaElement>(null)
+	const containerRef = useRef<HTMLDivElement>(null)
 
 	const handleCancel = () => {
 		setEditedText(message.text)
 		setIsEditing(false)
 	}
 
-	const handleResend = () => {
-		vscode.postMessage({ type: "editMessage", values: { ts: message.ts, text: editedText } })
-		setIsEditing(false)
-		if (onChatReset) {
-			onChatReset()
-		}
-	}
-
 	const handleRevertAndResend = () => {
 		vscode.postMessage({ type: "editMessage", values: { ts: message.ts, text: editedText, revert: true } })
 		setIsEditing(false)
-		if (onChatReset) {
-			onChatReset()
-		}
+		// Убираем вызов onChatReset чтобы избежать перезагрузки чата
 	}
+
+	// Handle click outside to cancel editing
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (isEditing && containerRef.current && !containerRef.current.contains(event.target as Node)) {
+				handleCancel()
+			}
+		}
+
+		if (isEditing) {
+			document.addEventListener("mousedown", handleClickOutside)
+			// Focus the textarea when editing starts
+			setTimeout(() => {
+				textareaRef.current?.focus()
+			}, 0)
+		}
+
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside)
+		}
+	}, [isEditing])
 
 	if (isEditing) {
 		return (
-			<div className="bg-vscode-editor-background border rounded-xs p-1 overflow-hidden whitespace-pre-wrap">
+			<div ref={containerRef} className="border border-[#3c3c3c] rounded-xl bg-[#1e1e1e] p-2">
 				<textarea
-					className="w-full h-24 p-2 border rounded-xs bg-vscode-input-background text-vscode-input-foreground"
+					ref={textareaRef}
+					className="w-full min-h-[45px] p-2 border-0 bg-transparent text-vscode-input-foreground resize-none outline-none focus:outline-none font-vscode-font-family text-vscode-editor-font-size leading-vscode-editor-line-height"
 					value={editedText}
 					onChange={(e) => setEditedText(e.target.value)}
 					onKeyDown={(e) => {
@@ -50,54 +64,49 @@ export const KiloChatRowUserFeedback = ({ message, isStreaming, onChatReset }: K
 							e.preventDefault()
 							handleRevertAndResend()
 						}
+						if (e.key === "Escape") {
+							e.preventDefault()
+							handleCancel()
+						}
 					}}
+					placeholder="Редактировать сообщение..."
 				/>
-				<div className="flex justify-end gap-2 mt-2">
-					<Button onClick={handleCancel} variant="ghost">
-						{t("kilocode:userFeedback:editCancel")}
-					</Button>
-					<Button variant="secondary" onClick={handleResend} disabled={editedText === message.text}>
-						{t("kilocode:userFeedback:send")}
-					</Button>
-					<Button onClick={handleRevertAndResend} disabled={editedText === message.text}>
-						{t("kilocode:userFeedback:restoreAndSend")}
-					</Button>
-				</div>
 			</div>
 		)
 	}
 
 	return (
-		<div className="bg-vscode-editor-background border rounded-xs p-1 overflow-hidden whitespace-pre-wrap">
-			<div className="flex justify-between">
-				<div className="flex-grow px-2 py-1 wrap-anywhere">
-					<Mention text={message.text} withShadow />
-				</div>
-				<div className="flex">
-					<Button
-						variant="ghost"
-						size="icon"
-						className="shrink-0"
-						disabled={isStreaming}
-						onClick={(e) => {
-							e.stopPropagation()
-							setIsEditing(true)
-						}}>
-						<span className="codicon codicon-edit" />
-					</Button>
-					<Button
-						variant="ghost"
-						size="icon"
-						className="shrink-0"
-						disabled={isStreaming}
-						onClick={(e) => {
-							e.stopPropagation()
-							vscode.postMessage({ type: "deleteMessage", value: message.ts })
-						}}>
-						<span className="codicon codicon-trash" />
-					</Button>
-				</div>
+		<div
+			className="bg-[#1a1a1a] border border-[#3c3c3c] rounded-xl p-3 overflow-hidden whitespace-pre-wrap cursor-pointer hover:bg-[#252526]"
+			onClick={() => !isStreaming && setIsEditing(true)}>
+			<div className="wrap-anywhere">
+				<Mention text={message.text} withShadow />
 			</div>
+			{/* Кнопки редактировать/удалить закомментированы */}
+			{/* <div className="flex">
+				<Button
+					variant="ghost"
+					size="icon"
+					className="shrink-0"
+					disabled={isStreaming}
+					onClick={(e) => {
+						e.stopPropagation()
+						setIsEditing(true)
+					}}>
+					<span className="codicon codicon-edit" />
+				</Button>
+				<Button
+					variant="ghost"
+					size="icon"
+					className="shrink-0"
+					disabled={isStreaming}
+					onClick={(e) => {
+						e.stopPropagation()
+						vscode.postMessage({ type: "deleteMessage", value: message.ts })
+					}}>
+					<span className="codicon codicon-trash" />
+				</Button>
+			</div> */}
 			{message.images && message.images.length > 0 && (
 				<Thumbnails images={message.images} style={{ marginTop: "8px" }} />
 			)}

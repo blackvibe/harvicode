@@ -24,7 +24,8 @@ export const Markdown = memo(({ markdown, partial }: { markdown?: string; partia
 			<div style={{ wordBreak: "break-word", overflowWrap: "anywhere" }}>
 				<MarkdownBlock markdown={markdown} />
 			</div>
-			{markdown && !partial && isHovering && (
+			{/* Кнопка копирования в блоках ассистента закомментирована */}
+			{/* {markdown && !partial && isHovering && (
 				<div
 					style={{
 						position: "absolute",
@@ -61,7 +62,7 @@ export const Markdown = memo(({ markdown, partial }: { markdown?: string; partia
 						</VSCodeButton>
 					</StandardTooltip>
 				</div>
-			)}
+			)} */}
 		</div>
 	)
 })

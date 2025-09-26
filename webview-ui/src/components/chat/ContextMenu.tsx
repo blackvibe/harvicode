@@ -11,6 +11,7 @@ import {
 	SearchResult,
 } from "@src/utils/context-mentions"
 import { removeLeadingNonAlphanumeric } from "@src/utils/removeLeadingNonAlphanumeric"
+import { useAppTranslation } from "@/i18n/TranslationContext"
 
 interface ContextMenuProps {
 	onSelect: (type: ContextMenuOptionType, value?: string) => void
@@ -39,6 +40,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
 	dynamicSearchResults = [],
 	commands = [],
 }) => {
+	const { t } = useAppTranslation()
 	const [materialIconsBaseUri, setMaterialIconsBaseUri] = useState("")
 	const menuRef = useRef<HTMLDivElement>(null)
 
@@ -136,16 +138,16 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
 					</div>
 				)
 			case ContextMenuOptionType.Problems:
-				return <span>Problems</span>
+				return <span>{t("context:problems")}</span>
 			case ContextMenuOptionType.Terminal:
-				return <span>Terminal</span>
+				return <span>{t("context:terminal")}</span>
 			case ContextMenuOptionType.URL:
-				return <span>Paste URL to fetch contents</span>
+				return <span>{t("context:pasteUrl")}</span>
 			case ContextMenuOptionType.NoResults:
-				return <span>No results found</span>
+				return <span>{t("context:noResults")}</span>
 			// kilocode_change start
 			case ContextMenuOptionType.Image:
-				return <span>Add Image</span>
+				return <span>{t("context:addImage")}</span>
 			// kilocode_change end
 			case ContextMenuOptionType.Git:
 				if (option.value) {
@@ -166,7 +168,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
 						</div>
 					)
 				} else {
-					return <span>Git Commits</span>
+					return <span>{t("context:gitCommits")}</span>
 				}
 			case ContextMenuOptionType.File:
 			case ContextMenuOptionType.OpenedFile:
@@ -206,7 +208,11 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
 						</div>
 					)
 				} else {
-					return <span>Add {option.type === ContextMenuOptionType.File ? "File" : "Folder"}</span>
+					return (
+						<span>
+							{option.type === ContextMenuOptionType.File ? t("context:addFile") : t("context:addFolder")}
+						</span>
+					)
 				}
 		}
 	}
@@ -375,7 +381,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
 							color: "var(--vscode-foreground)",
 							opacity: 0.7,
 						}}>
-						<span>No results found</span>
+						<span>{t("context:noResults")}</span>
 					</div>
 				)}
 			</div>

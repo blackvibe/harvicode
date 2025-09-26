@@ -44,6 +44,7 @@ export interface SelectDropdownProps {
 	renderItem?: (option: DropdownOption) => React.ReactNode
 	disableSearch?: boolean
 	triggerIcon?: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<SVGSVGElement>> | boolean | undefined // kilocode_change
+	searchPlaceholder?: string
 }
 
 export const SelectDropdown = React.memo(
@@ -66,6 +67,7 @@ export const SelectDropdown = React.memo(
 				renderItem,
 				disableSearch = false,
 				triggerIcon = CaretUpIcon, // kilocode_change
+				searchPlaceholder,
 			},
 			ref,
 		) => {
@@ -212,10 +214,6 @@ export const SelectDropdown = React.memo(
 						triggerClassName,
 					)}>
 					{/* kilocode_change start */}
-					{TriggerIcon && <TriggerIcon className="pointer-events-none opacity-80 flex-shrink-0 size-3" />}
-					{/* kilocode_change end */}
-
-					{/* kilocode_change start */}
 					{selectedOption?.codicon && (
 						<span
 							slot="start"
@@ -225,6 +223,9 @@ export const SelectDropdown = React.memo(
 					)}
 					{/* kilocode_change end */}
 					<span className="truncate">{displayText}</span>
+					{/* kilocode_change start - moved icon to the right */}
+					{TriggerIcon && <TriggerIcon className="pointer-events-none opacity-80 flex-shrink-0 size-3" />}
+					{/* kilocode_change end */}
 				</PopoverTrigger>
 			)
 
@@ -239,14 +240,16 @@ export const SelectDropdown = React.memo(
 						<div className="flex flex-col w-full">
 							{/* Search input */}
 							{!disableSearch && (
-								<div className="relative p-2 border-b border-vscode-dropdown-border">
+								<div className="relative px-2 py-1">
 									<input
 										aria-label="Search"
 										ref={searchInputRef}
 										value={searchValue}
 										onChange={(e) => setSearchValue(e.target.value)}
-										placeholder={t("common:ui.search_placeholder")}
-										className="w-full h-8 px-2 py-1 text-xs bg-vscode-input-background text-vscode-input-foreground border border-vscode-input-border rounded focus:outline-0"
+										placeholder={
+											searchPlaceholder || placeholder || t("common:ui.search_placeholder")
+										}
+										className="w-full h-6 px-1 py-1 text-xs bg-transparent text-vscode-input-foreground rounded focus:outline-0"
 									/>
 									{searchValue.length > 0 && (
 										<div className="absolute right-4 top-0 bottom-0 flex items-center justify-center">
@@ -265,7 +268,7 @@ export const SelectDropdown = React.memo(
 								{groupedOptions.length === 0 && searchValue ? (
 									<div className="py-2 px-3 text-sm text-vscode-foreground/70">No results found</div>
 								) : (
-									<div className="py-1">
+									<div>
 										{groupedOptions.map((option, index) => {
 											// Memoize rendering of each item type for better performance
 											if (option.type === DropdownOptionType.SEPARATOR) {
