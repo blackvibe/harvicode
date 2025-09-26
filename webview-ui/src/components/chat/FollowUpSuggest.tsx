@@ -103,51 +103,64 @@ export const FollowUpSuggest = ({
 	}
 
 	return (
-		<div className="flex mb-2 flex-col h-full gap-2">
-			{suggestions.map((suggestion, index) => {
-				const isFirstSuggestion = index === 0
+		<div className="mb-2">
+			<div className="bg-vscode-editor-background border border-vscode-editorGroup-border rounded-lg opacity-80">
+				{suggestions.map((suggestion, index) => {
+					const isFirstSuggestion = index === 0
+					const isLastSuggestion = index === suggestions.length - 1
 
-				return (
-					<div key={`${suggestion.answer}-${ts}`} className="w-full relative group">
-						<Button
-							variant="outline"
-							className="text-left whitespace-normal break-words w-full h-auto py-3 justify-start pr-8"
-							onClick={(event) => handleSuggestionClick(suggestion, event)}
-							aria-label={suggestion.answer}>
-							{suggestion.answer}
-							{isFirstSuggestion && countdown !== null && !suggestionSelected && !isAnswered && (
-								<span
-									className="ml-2 px-1.5 py-0.5 text-xs rounded-full bg-vscode-badge-background text-vscode-badge-foreground"
-									title={t("chat:followUpSuggest.autoSelectCountdown", { count: countdown })}>
-									{t("chat:followUpSuggest.countdownDisplay", { count: countdown })}
-								</span>
-							)}
-						</Button>
-						{suggestion.mode && (
-							<div className="absolute bottom-0 right-0 text-[10px] bg-vscode-badge-background text-vscode-badge-foreground px-1 py-0.5 border border-vscode-badge-background flex items-center gap-0.5">
-								<span className="codicon codicon-arrow-right" style={{ fontSize: "8px" }} />
-								{suggestion.mode}
-							</div>
-						)}
-						<StandardTooltip content={t("chat:followUpSuggest.copyToInput")}>
-							<div
-								className="absolute top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity"
-								onClick={(e) => {
-									e.stopPropagation()
-									// Cancel the auto-approve timer when edit button is clicked
-									setSuggestionSelected(true)
-									onCancelAutoApproval?.()
-									// Simulate shift-click by directly calling the handler with shiftKey=true.
-									onSuggestionClick?.(suggestion, { ...e, shiftKey: true })
-								}}>
-								<Button variant="ghost" size="icon">
-									<Edit />
-								</Button>
-							</div>
-						</StandardTooltip>
-					</div>
-				)
-			})}
+					return (
+						<div key={`${suggestion.answer}-${ts}`} className="relative group">
+							<button
+								className={`
+									w-full text-left px-3 py-2 text-sm text-vscode-foreground
+									hover:bg-vscode-list-hoverBackground transition-colors cursor-pointer
+									${isFirstSuggestion ? "rounded-t-lg" : ""}
+									${isLastSuggestion ? "rounded-b-lg" : ""}
+									${suggestions.length === 1 ? "rounded-lg" : ""}
+									${!isLastSuggestion ? "border-b border-vscode-editorGroup-border" : ""}
+								`}
+								onClick={(event) => handleSuggestionClick(suggestion, event)}
+								aria-label={suggestion.answer}>
+								<div className="flex items-center justify-between">
+									<span className="flex-1 whitespace-normal break-words pr-2">
+										{suggestion.answer}
+									</span>
+									{isFirstSuggestion && countdown !== null && !suggestionSelected && !isAnswered && (
+										<span
+											className="ml-2 px-1.5 py-0.5 text-xs rounded-full bg-vscode-badge-background text-vscode-badge-foreground opacity-70"
+											title={t("chat:followUpSuggest.autoSelectCountdown", { count: countdown })}>
+											{t("chat:followUpSuggest.countdownDisplay", { count: countdown })}
+										</span>
+									)}
+									{suggestion.mode && (
+										<div className="text-[10px] bg-vscode-badge-background text-vscode-badge-foreground px-1 py-0.5 rounded flex items-center gap-0.5 opacity-70">
+											<span className="codicon codicon-arrow-right" style={{ fontSize: "8px" }} />
+											{suggestion.mode}
+										</div>
+									)}
+								</div>
+							</button>
+							<StandardTooltip content={t("chat:followUpSuggest.copyToInput")}>
+								<div
+									className="absolute top-1/2 right-2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity"
+									onClick={(e) => {
+										e.stopPropagation()
+										// Cancel the auto-approve timer when edit button is clicked
+										setSuggestionSelected(true)
+										onCancelAutoApproval?.()
+										// Simulate shift-click by directly calling the handler with shiftKey=true.
+										onSuggestionClick?.(suggestion, { ...e, shiftKey: true })
+									}}>
+									<button className="p-1 hover:bg-vscode-list-hoverBackground rounded text-vscode-descriptionForeground hover:text-vscode-foreground transition-colors cursor-pointer">
+										<span className="codicon codicon-arrow-right" style={{ fontSize: "12px" }} />
+									</button>
+								</div>
+							</StandardTooltip>
+						</div>
+					)
+				})}
+			</div>
 		</div>
 	)
 }

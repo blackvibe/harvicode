@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useCallback, useState } from "react"
+import { memo, useEffect, useLayoutEffect, useRef, useCallback, useState } from "react"
 import styled from "styled-components"
 import { useCopyToClipboard } from "@src/utils/clipboard"
 import { getHighlighter, isLanguageLoaded, normalizeLanguage, ExtendedLanguage } from "@src/utils/highlighter"
@@ -119,6 +119,7 @@ export const StyledPre = styled.div<{
 		padding: 10px;
 		width: 100%;
 		box-sizing: border-box;
+		line-height: 1.4;
 	}
 
 	pre,
@@ -129,6 +130,114 @@ export const StyledPre = styled.div<{
 		overflow-wrap: ${({ wordwrap }) => (wordwrap === "false" ? "normal" : "break-word")};
 		font-size: var(--vscode-editor-font-size, var(--vscode-font-size, 12px));
 		font-family: var(--vscode-editor-font-family);
+		line-height: 1.4;
+	}
+
+	/* CSS styles for diff-git custom format - правильные селекторы для Shiki */
+
+	/* Git diff standard format - green for additions */
+	.diff-addition {
+		background-color: rgba(155, 185, 85, 0.2);
+		color: #51cf66;
+		display: block;
+		margin: 0;
+		padding: 0 8px;
+		line-height: 1.4;
+	}
+
+	/* Git diff standard format - red for deletions */
+	.diff-deletion {
+		background-color: rgba(255, 107, 107, 0.2);
+		color: #ff6b6b;
+		display: block;
+		margin: 0;
+		padding: 0 8px;
+		line-height: 1.4;
+	}
+
+	/* Hunk headers (@@) */
+	.diff-hunk-header {
+		background-color: rgba(204, 204, 204, 0.2);
+		color: #cccccc;
+		font-weight: bold;
+		display: block;
+		margin: 0;
+		padding: 0 8px;
+		line-height: 1.4;
+	}
+
+	/* File headers (--- +++) */
+	.diff-file-header {
+		background-color: rgba(204, 204, 204, 0.1);
+		color: #cccccc;
+		font-weight: bold;
+		display: block;
+		margin: 0;
+		padding: 0 8px;
+		line-height: 1.4;
+	}
+
+	/* Apply_diff format markers - purple/blue theme */
+	.diff-search-marker,
+	.diff-replace-marker {
+		background-color: rgba(139, 69, 19, 0.2);
+		color: #6495ed;
+		font-weight: bold;
+		border-left: 3px solid #6495ed;
+		display: block;
+		margin: 0;
+		padding: 0 8px;
+		line-height: 1.4;
+	}
+
+	/* Search block content - red theme like deletions */
+	.diff-search-content {
+		background-color: rgba(255, 0, 0, 0.2);
+		color: #ff6b6b;
+		display: block;
+		margin: 0;
+		padding: 0 8px;
+		line-height: 1.4;
+	}
+
+	/* Replace block content - green theme like additions */
+	.diff-replace-content {
+		background-color: rgba(155, 185, 85, 0.2);
+		color: #51cf66;
+		display: block;
+		margin: 0;
+		padding: 0 8px;
+		line-height: 1.4;
+	}
+
+	/* Line markers (:start_line:) */
+	.diff-line-marker {
+		background-color: rgba(255, 165, 0, 0.2);
+		color: #ffa500;
+		font-style: italic;
+		display: block;
+		margin: 0;
+		padding: 0 8px;
+		line-height: 1.4;
+	}
+
+	/* Separators (------- =======) */
+	.diff-separator {
+		background-color: rgba(204, 204, 204, 0.3);
+		color: #cccccc;
+		font-weight: bold;
+		display: block;
+		margin: 0;
+		padding: 0 8px;
+		line-height: 1.4;
+	}
+
+	/* Context lines */
+	.diff-context {
+		display: block;
+		margin: 0;
+		padding: 0 8px;
+		line-height: 1.4;
 	}
 
 	pre > code {
@@ -239,26 +348,32 @@ const CodeBlock = memo(
 			// Set mounted state at the beginning of this effect
 			isMountedRef.current = true
 
+			// Auto-detect diff-git language if source contains apply_diff markers
+			let detectedLanguage = currentLanguage
+			if (source && source.includes("<<<<<<< SEARCH")) {
+				detectedLanguage = "diff-git"
+			}
+
 			// Create a safe fallback using React elements instead of HTML string
 			const fallback = (
 				<pre style={{ padding: 0, margin: 0 }}>
-					<code className={`hljs language-${currentLanguage || "txt"}`}>{source || ""}</code>
+					<code className={`hljs language-${detectedLanguage || "txt"}`}>{source || ""}</code>
 				</pre>
 			)
 
 			const highlight = async () => {
 				// Show plain text if language needs to be loaded.
-				if (currentLanguage && !isLanguageLoaded(currentLanguage)) {
+				if (detectedLanguage && !isLanguageLoaded(detectedLanguage)) {
 					if (isMountedRef.current) {
 						setHighlightedCode(fallback)
 					}
 				}
 
-				const highlighter = await getHighlighter(currentLanguage)
+				const highlighter = await getHighlighter(detectedLanguage)
 				if (!isMountedRef.current) return
 
 				const hast = await highlighter.codeToHast(source || "", {
-					lang: currentLanguage || "txt",
+					lang: detectedLanguage || "txt",
 					theme: document.body.className.toLowerCase().includes("light") ? "github-light" : "github-dark",
 					transformers: [
 						{
@@ -268,12 +383,86 @@ const CodeBlock = memo(
 							},
 							code(node) {
 								// Add hljs classes for consistent styling
-								node.properties.class = `hljs language-${currentLanguage}`
-								return node
-							},
-							line(node) {
-								// Preserve existing line handling
-								node.properties.class = node.properties.class || ""
+								node.properties.class = `hljs language-${detectedLanguage}`
+
+								// For diff-git language, we need to track block context across lines
+								if (detectedLanguage === "diff-git") {
+									let blockContext: "search" | "replace" | "none" = "none"
+
+									// Process all lines to apply contextual styling
+									const processLines = (element: any) => {
+										if (element.children) {
+											element.children.forEach((child: any) => {
+												if (
+													child.tagName === "span" &&
+													child.properties?.class?.includes("line")
+												) {
+													const getTextContent = (el: any): string => {
+														if (typeof el === "string") return el
+														if (el.children) {
+															return el.children
+																.map((c: any) => getTextContent(c))
+																.join("")
+														}
+														if (el.value) return el.value
+														return ""
+													}
+
+													const lineText = getTextContent(child)
+
+													// Update block context based on markers
+													if (lineText.startsWith("<<<<<<< SEARCH")) {
+														blockContext = "search"
+													} else if (lineText.startsWith("=======")) {
+														blockContext = "replace"
+													} else if (lineText.startsWith(">>>>>>> REPLACE")) {
+														blockContext = "none"
+													}
+
+													// Apply styling based on context and content
+													// Replace the existing 'line' class to avoid double spacing
+													if (lineText.startsWith("<<<<<<< SEARCH")) {
+														child.properties.class = "diff-search-marker"
+													} else if (lineText.startsWith(">>>>>>> REPLACE")) {
+														child.properties.class = "diff-replace-marker"
+													} else if (lineText.startsWith(":start_line:")) {
+														child.properties.class = "diff-line-marker"
+													} else if (lineText.startsWith("-------")) {
+														child.properties.class = "diff-separator"
+													} else if (lineText.startsWith("=======")) {
+														child.properties.class = "diff-separator"
+													}
+													// Content within SEARCH/REPLACE blocks
+													else if (blockContext === "search") {
+														child.properties.class = "diff-search-content"
+													} else if (blockContext === "replace") {
+														child.properties.class = "diff-replace-content"
+													}
+													// Standard git diff format
+													else if (lineText.startsWith("+")) {
+														child.properties.class = "diff-addition"
+													} else if (lineText.startsWith("-")) {
+														child.properties.class = "diff-deletion"
+													} else if (lineText.startsWith("@@")) {
+														child.properties.class = "diff-hunk-header"
+													} else if (
+														lineText.startsWith("+++") ||
+														lineText.startsWith("---")
+													) {
+														child.properties.class = "diff-file-header"
+													} else {
+														// Context lines (unchanged)
+														child.properties.class = "diff-context"
+													}
+												}
+												processLines(child)
+											})
+										}
+									}
+
+									processLines(node)
+								}
+
 								return node
 							},
 						},
@@ -401,11 +590,26 @@ const CodeBlock = memo(
 			}
 		}, [source])
 
-		// Simplified button position update - no complex calculations needed
+		// Force shadow recalculation on initialization
 		const updateCodeBlockButtonPosition = useCallback(() => {
-			// This function is kept for compatibility but simplified
-			// The hover menu now uses pure CSS positioning
+			if (codeBlockRef.current) {
+				// Force immediate reflow and shadow recalculation
+				const element = codeBlockRef.current
+				const computedStyle = window.getComputedStyle(element)
+				// Reading offsetHeight forces a synchronous layout calculation
+				const _ = element.offsetHeight
+				// Force repaint by temporarily changing a style property
+				element.style.willChange = "transform"
+				requestAnimationFrame(() => {
+					element.style.willChange = "auto"
+				})
+			}
 		}, [])
+
+		// Force shadow calculation immediately after mount and content changes
+		useLayoutEffect(() => {
+			updateCodeBlockButtonPosition()
+		}, [highlightedCode, updateCodeBlockButtonPosition])
 
 		// Update button position and scroll when highlightedCode changes
 		useEffect(() => {
@@ -605,111 +809,6 @@ const CodeBlock = memo(
 					highlightedCode={highlightedCode}
 					updateCodeBlockButtonPosition={updateCodeBlockButtonPosition}
 				/>
-				{/* Hover menu with simplified positioning */}
-				{!isSelecting && isHovered && (
-					<CodeBlockButtonWrapper
-						ref={copyButtonWrapperRef}
-						style={{
-							position: "absolute",
-							top: "8px",
-							right: "8px",
-							gap: 0,
-							zIndex: 10,
-						}}>
-						<LanguageSelect
-							value={currentLanguage}
-							style={{
-								width: `calc(${currentLanguage?.length || 0}ch + 9px)`,
-							}}
-							onClick={(e) => {
-								e.currentTarget.focus()
-							}}
-							onChange={(e) => {
-								const newLang = normalizeLanguage(e.target.value)
-								userChangedLanguageRef.current = true
-								setCurrentLanguage(newLang)
-								if (onLanguageChange) {
-									onLanguageChange(newLang)
-								}
-							}}>
-							<option
-								value={normalizeLanguage(language)}
-								style={{ fontWeight: "bold", textAlign: "left", fontSize: "1.2em" }}>
-								{normalizeLanguage(language)}
-							</option>
-							{
-								// Display all available languages in alphabetical order
-								Object.keys(bundledLanguages)
-									.sort()
-									.map((lang) => {
-										const normalizedLang = normalizeLanguage(lang)
-										return (
-											<option
-												key={normalizedLang}
-												value={normalizedLang}
-												style={{
-													fontWeight: normalizedLang === currentLanguage ? "bold" : "normal",
-													textAlign: "left",
-													fontSize: normalizedLang === currentLanguage ? "1.2em" : "inherit",
-												}}>
-												{normalizedLang}
-											</option>
-										)
-									})
-							}
-						</LanguageSelect>
-						{showCollapseButton && (
-							<StandardTooltip
-								content={t(`chat:codeblock.tooltips.${windowShade ? "expand" : "collapse"}`)}
-								side="top">
-								<CodeBlockButton
-									onClick={() => {
-										// Get the current code block element
-										const codeBlock = codeBlockRef.current // Capture ref early
-										// Toggle window shade state
-										setWindowShade(!windowShade)
-
-										// Clear any previous timeouts
-										if (collapseTimeout1Ref.current) clearTimeout(collapseTimeout1Ref.current)
-										if (collapseTimeout2Ref.current) clearTimeout(collapseTimeout2Ref.current)
-
-										// After UI updates, ensure code block is visible and update button position
-										collapseTimeout1Ref.current = setTimeout(
-											() => {
-												if (codeBlock) {
-													// Check if codeBlock element still exists
-													codeBlock.scrollIntoView({ behavior: "smooth", block: "nearest" })
-
-													// Wait for scroll to complete before updating button position
-													collapseTimeout2Ref.current = setTimeout(() => {
-														// updateCodeBlockButtonPosition itself should also check for refs if needed
-														updateCodeBlockButtonPosition()
-														collapseTimeout2Ref.current = null
-													}, 50)
-												}
-												collapseTimeout1Ref.current = null
-											},
-											WINDOW_SHADE_SETTINGS.transitionDelayS * 1000 + 50,
-										)
-									}}>
-									{windowShade ? <ChevronDown size={16} /> : <ChevronUp size={16} />}
-								</CodeBlockButton>
-							</StandardTooltip>
-						)}
-						<StandardTooltip
-							content={t(`chat:codeblock.tooltips.${wordWrap ? "disable_wrap" : "enable_wrap"}`)}
-							side="top">
-							<CodeBlockButton onClick={() => setWordWrap(!wordWrap)}>
-								{wordWrap ? <AlignJustify size={16} /> : <WrapText size={16} />}
-							</CodeBlockButton>
-						</StandardTooltip>
-						<StandardTooltip content={t("chat:codeblock.tooltips.copy_code")} side="top">
-							<CodeBlockButton onClick={handleCopy}>
-								{showCopyFeedback ? <Check size={16} /> : <Copy size={16} />}
-							</CodeBlockButton>
-						</StandardTooltip>
-					</CodeBlockButtonWrapper>
-				)}
 			</CodeBlockContainer>
 		)
 	},

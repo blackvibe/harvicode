@@ -28,6 +28,7 @@ import KiloModeSelector from "../kilocode/KiloModeSelector"
 import { MAX_IMAGES_PER_MESSAGE } from "./ChatView"
 import ContextMenu from "./ContextMenu"
 import { ImageWarningBanner } from "./ImageWarningBanner" // kilocode_change
+import { SelectedContexts, SelectedContext } from "./SelectedContexts"
 import {
 	VolumeX,
 	Pin,
@@ -255,6 +256,50 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 		const [isEnhancingPrompt, setIsEnhancingPrompt] = useState(false)
 		const [_isFocused, _setIsFocused] = useState(false)
 		const [imageWarning, setImageWarning] = useState<string | null>(null) // kilocode_change
+		const [selectedContexts, setSelectedContexts] = useState<SelectedContext[]>([])
+		const [materialIconsBaseUri, setMaterialIconsBaseUri] = useState("")
+
+		// Get material icons base URI on mount
+		useEffect(() => {
+			const w = window as any
+			setMaterialIconsBaseUri(w.MATERIAL_ICONS_BASE_URI || "")
+		}, [])
+
+		// Function to remove context from selected contexts
+		const handleRemoveContext = useCallback((contextId: string) => {
+			setSelectedContexts((prev) => prev.filter((context) => context.id !== contextId))
+		}, [])
+
+		// Function to handle sending message with contexts
+		const handleSendWithContexts = useCallback(() => {
+			// Convert selected contexts to mention format and prepend to input
+			let finalText = inputValue
+
+			if (selectedContexts.length > 0) {
+				const contextMentions = selectedContexts
+					.map((context) => {
+						let mentionValue = context.value
+						if (context.type === ContextMenuOptionType.Problems) {
+							mentionValue = "problems"
+						} else if (context.type === ContextMenuOptionType.Terminal) {
+							mentionValue = "terminal"
+						}
+						return `@${mentionValue}`
+					})
+					.join(" ")
+
+				finalText = contextMentions + (inputValue.trim() ? " " + inputValue : "")
+			}
+
+			// Update input value and wait for it to be applied before sending
+			setInputValue(finalText)
+
+			// Use setTimeout to ensure the state update is applied before sending
+			setTimeout(() => {
+				onSend()
+				// Don't clear selected contexts - let them persist for future messages
+			}, 0)
+		}, [inputValue, selectedContexts, onSend, setInputValue])
 
 		// Use custom hook for prompt history navigation
 		const { handleHistoryNavigation, resetHistoryNavigation, resetOnInputChange } = usePromptHistory({
@@ -403,40 +448,63 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 				setShowContextMenu(false)
 				setSelectedType(null)
 
+				// Remove the @ character from input
 				if (textAreaRef.current) {
-					let insertValue = value || ""
+					const beforeCursor = textAreaRef.current.value.slice(0, cursorPosition)
+					const afterCursor = textAreaRef.current.value.slice(cursorPosition)
+					const lastAtIndex = beforeCursor.lastIndexOf("@")
 
-					if (type === ContextMenuOptionType.URL) {
-						insertValue = value || ""
-					} else if (type === ContextMenuOptionType.File || type === ContextMenuOptionType.Folder) {
-						insertValue = value || ""
-					} else if (type === ContextMenuOptionType.Problems) {
-						insertValue = "problems"
-					} else if (type === ContextMenuOptionType.Terminal) {
-						insertValue = "terminal"
-					} else if (type === ContextMenuOptionType.Git) {
-						insertValue = value || ""
+					if (lastAtIndex !== -1) {
+						const newValue = beforeCursor.slice(0, lastAtIndex) + afterCursor
+						setInputValue(newValue)
+						setCursorPosition(lastAtIndex)
+						setIntendedCursorPosition(lastAtIndex)
 					}
-
-					const { newValue, mentionIndex } = insertMention(
-						textAreaRef.current.value,
-						cursorPosition,
-						insertValue,
-					)
-
-					setInputValue(newValue)
-					const newCursorPosition = newValue.indexOf(" ", mentionIndex + insertValue.length) + 1
-					setCursorPosition(newCursorPosition)
-					setIntendedCursorPosition(newCursorPosition)
-
-					// Scroll to cursor.
-					setTimeout(() => {
-						if (textAreaRef.current) {
-							textAreaRef.current.blur()
-							textAreaRef.current.focus()
-						}
-					}, 0)
 				}
+
+				// Add context to selected contexts list instead of input
+				let contextValue = value || ""
+				let displayName = ""
+
+				if (type === ContextMenuOptionType.URL) {
+					contextValue = value || ""
+					displayName = value || ""
+				} else if (type === ContextMenuOptionType.File || type === ContextMenuOptionType.Folder) {
+					contextValue = value || ""
+					displayName = value || ""
+				} else if (type === ContextMenuOptionType.Problems) {
+					contextValue = "problems"
+					displayName = "Problems"
+				} else if (type === ContextMenuOptionType.Terminal) {
+					contextValue = "terminal"
+					displayName = "Terminal"
+				} else if (type === ContextMenuOptionType.Git) {
+					contextValue = value || ""
+					displayName = value || ""
+				}
+
+				// Create new context object
+				const newContext: SelectedContext = {
+					id: `${type}-${contextValue}-${Date.now()}`,
+					type,
+					value: contextValue,
+					displayName,
+				}
+
+				// Add to selected contexts if not already present
+				setSelectedContexts((prev) => {
+					const exists = prev.some((ctx) => ctx.type === type && ctx.value === contextValue)
+					if (exists) return prev
+					return [...prev, newContext]
+				})
+
+				// Focus back to textarea
+				setTimeout(() => {
+					if (textAreaRef.current) {
+						textAreaRef.current.blur()
+						textAreaRef.current.focus()
+					}
+				}, 0)
 			},
 			// eslint-disable-next-line react-hooks/exhaustive-deps
 			[setInputValue, cursorPosition],
@@ -610,7 +678,7 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 					event.preventDefault()
 
 					resetHistoryNavigation()
-					onSend()
+					handleSendWithContexts()
 				}
 
 				if (event.key === "Backspace" && !isComposing) {
@@ -1241,8 +1309,8 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 		// Helper function to render the text area section
 		const renderTextAreaSection = () => (
 			<div className="relative border border-[#3c3c3c] rounded-xl bg-[#1e1e1e] p-2">
-				{/* Header with @ button - seamless part of input */}
-				<div className="flex items-center justify-start mb-2">
+				{/* Header with @ button and selected contexts in the same row */}
+				<div className="flex items-center flex-wrap gap-1 mb-2">
 					<StandardTooltip content={t("chat:addContext")}>
 						<button
 							aria-label={t("chat:addContext")}
@@ -1255,14 +1323,21 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 							className={cn(
 								"relative inline-flex items-center justify-center gap-1",
 								"bg-[#2d2d30] hover:bg-[#3c3c3c] border border-[#3c3c3c]",
-								"rounded-full px-1.5 py-0.5 h-5 text-[#cccccc] hover:text-white",
+								"rounded-full px-1.5 py-0.5 h-5 text-[#cccccc] hover:text-white opacity-90 hover:opacity-100",
 								"transition-all duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#4a4a4a]",
 								"active:scale-95 cursor-pointer",
 							)}>
-							<AtSign className="w-3 h-3" />
-							<span className="text-[10px] font-medium">Контекст</span>
+							<AtSign className="w-3 h-3 opacity-80" />
+							<span className="text-[10px] font-medium">{t("chat:addContext")}</span>
 						</button>
 					</StandardTooltip>
+
+					{/* Selected contexts in the same row */}
+					<SelectedContexts
+						contexts={selectedContexts}
+						onRemove={handleRemoveContext}
+						materialIconsBaseUri={materialIconsBaseUri}
+					/>
 				</div>
 
 				{/* Textarea container */}
@@ -1340,14 +1415,14 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 								className={cn(
 									"relative inline-flex items-center justify-center",
 									"bg-[#2d2d30] hover:bg-[#3c3c3c] border border-[#3c3c3c]",
-									"rounded-full w-6 h-6 text-[#cccccc] hover:text-white",
+									"rounded-full w-6 h-6 text-[#cccccc] hover:text-white opacity-90 hover:opacity-100",
 									"transition-all duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#4a4a4a]",
 									"active:scale-95",
 									!shouldDisableImages && "cursor-pointer",
 									shouldDisableImages &&
 										"opacity-40 cursor-not-allowed hover:bg-[#2d2d30] active:scale-100",
 								)}>
-								<Image className="w-3 h-3" />
+								<Image className="w-3 h-3 opacity-80" />
 							</button>
 						</StandardTooltip>
 
@@ -1360,11 +1435,13 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 								className={cn(
 									"relative inline-flex items-center justify-center",
 									"bg-[#2d2d30] hover:bg-[#3c3c3c] border border-[#3c3c3c]",
-									"rounded-full w-6 h-6 text-[#cccccc] hover:text-white",
+									"rounded-full w-6 h-6 text-[#cccccc] hover:text-white opacity-90 hover:opacity-100",
 									"transition-all duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#4a4a4a]",
 									"active:scale-95 cursor-pointer",
 								)}>
-								<WandSparkles className={cn("w-3 h-3", isEnhancingPrompt && "animate-spin")} />
+								<WandSparkles
+									className={cn("w-3 h-3 opacity-80", isEnhancingPrompt && "animate-spin")}
+								/>
 							</button>
 						</StandardTooltip>
 
@@ -1440,20 +1517,24 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 														vscode.postMessage({ type: "cancelTask" })
 													})
 												}
-											: onSend
+											: handleSendWithContexts
 									}
 									disabled={!isStreaming && sendingDisabled}
 									className={cn(
 										"relative inline-flex items-center justify-center",
 										"bg-[#2d2d30] hover:bg-[#3c3c3c] border border-[#3c3c3c]",
-										"rounded-full w-6 h-6 text-[#cccccc] hover:text-white",
+										"rounded-full w-6 h-6 text-[#cccccc] hover:text-white opacity-90 hover:opacity-100",
 										"transition-all duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#4a4a4a]",
 										"active:scale-95 cursor-pointer",
 										!isStreaming &&
 											sendingDisabled &&
 											"opacity-40 cursor-not-allowed hover:bg-[#2d2d30] active:scale-100",
 									)}>
-									{isStreaming ? <Square className="w-3 h-3" /> : <ArrowUp className="w-4 h-4" />}
+									{isStreaming ? (
+										<Square className="w-3 h-3 opacity-80" />
+									) : (
+										<ArrowUp className="w-4 h-4 opacity-80" />
+									)}
 								</button>
 							</StandardTooltip>
 						)}
@@ -1570,7 +1651,7 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 							customModes={customModes}
 							customModePrompts={customModePrompts}
 							onCancel={onCancel}
-							onSend={onSend}
+							onSend={handleSendWithContexts}
 							onSelectImages={onSelectImages}
 							sendingDisabled={sendingDisabled}
 							shouldDisableImages={shouldDisableImages}
@@ -1601,11 +1682,11 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 								className={cn(
 									"relative inline-flex items-center justify-center",
 									"bg-[#2d2d30] hover:bg-[#3c3c3c] border border-[#3c3c3c]",
-									"rounded-full w-6 h-6 text-[#cccccc] hover:text-white",
+									"rounded-full w-6 h-6 text-[#cccccc] hover:text-white opacity-90 hover:opacity-100",
 									"transition-all duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#4a4a4a]",
 									"active:scale-95 cursor-pointer",
 								)}>
-								<VolumeX className="w-3 h-3" />
+								<VolumeX className="w-3 h-3 opacity-80" />
 							</button>
 						</StandardTooltip>
 					</div>

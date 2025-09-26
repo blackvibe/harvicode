@@ -120,7 +120,7 @@
 	"stopTts": "Atura la síntesi de veu",
 	"typeMessage": "Escriu un missatge...",
 	"typeTask": "Escriu la teva tasca aquí...",
-	"addContext": "@ per afegir context, / per a comandes",
+	"addContext": "Afegir context",
 	"dragFiles": "manté premut shift per arrossegar fitxers",
 	"dragFilesImages": "manté premut shift per arrossegar fitxers/imatges",
 	"enhancePromptDescription": "El botó 'Millora la sol·licitud' ajuda a millorar la teva sol·licitud proporcionant context addicional, aclariments o reformulacions. Prova d'escriure una sol·licitud aquí i fes clic al botó de nou per veure com funciona.",
@@ -372,7 +372,8 @@
 		"joinWaitlist": "Registra't per rebre les últimes actualitzacions."
 	},
 	"editMessage": {
-		"placeholder": "Edita el teu missatge..."
+		"placeholder": "Edita el teu missatge...",
+		"restoreWarning": "En editar el missatge, l'estat dels fitxers es restaurarà al punt de desament actual"
 	},
 	"command": {
 		"triggerDescription": "Activa la comanda {{name}}"

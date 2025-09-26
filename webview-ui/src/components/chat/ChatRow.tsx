@@ -87,7 +87,7 @@ const ChatRow = memo(
 				// kilocode_change: add highlighted className
 				className={cn(`relative ${highlighted ? "animate-message-highlight" : ""}`)}>
 				{showTaskTimeline && <KiloChatRowGutterBar message={message} />}
-				<div className="px-3 py-2">
+				<div className="px-3 py-1">
 					<ChatRowContent {...props} />
 				</div>
 			</div>,
@@ -217,13 +217,13 @@ export const ChatRowContent = ({
 							: t("chat:mcp.wantsToAccessResource", { serverName: mcpServerUse.serverName })}
 					</span>,
 				]
-			// case "completion_result":
-			// 	return [
-			// 		<span
-			// 			className="codicon codicon-check"
-			// 			style={{ color: successColor, marginBottom: "-1.5px" }}></span>,
-			// 		<span style={{ color: successColor, fontWeight: "bold" }}>{t("chat:taskCompleted")}</span>,
-			// 	]
+			case "completion_result":
+				return [
+					<div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+						<div className="success-bar"></div>
+					</div>,
+					null,
+				]
 			case "api_req_retry_delayed":
 				return []
 			case "api_req_started":
@@ -250,7 +250,7 @@ export const ChatRowContent = ({
 							getIconSpan("error", errorColor)
 						)
 					) : cost !== null && cost !== undefined ? (
-						getIconSpan("check", successColor)
+						<div className="success-bar"></div>
 					) : apiRequestFailedMessage ? (
 						getIconSpan("error", errorColor)
 					) : (
@@ -342,7 +342,7 @@ export const ChatRowContent = ({
 				// Regular single file diff
 				return (
 					<>
-						<div style={headerStyle}>
+						{/* <div style={headerStyle}>
 							{tool.isProtected ? (
 								<span
 									className="codicon codicon-lock"
@@ -358,7 +358,7 @@ export const ChatRowContent = ({
 										? t("chat:fileOperations.wantsToEditOutsideWorkspace")
 										: t("chat:fileOperations.wantsToEdit")}
 							</span>
-						</div>
+						</div> */}
 						<CodeAccordian
 							path={tool.path}
 							code={tool.content ?? tool.diff}
@@ -378,7 +378,7 @@ export const ChatRowContent = ({
 			case "insertContent":
 				return (
 					<>
-						<div style={headerStyle}>
+						{/* <div style={headerStyle}>
 							{tool.isProtected ? (
 								<span
 									className="codicon codicon-lock"
@@ -398,7 +398,7 @@ export const ChatRowContent = ({
 													lineNumber: tool.lineNumber,
 												})}
 							</span>
-						</div>
+						</div> */}
 						<CodeAccordian
 							path={tool.path}
 							code={tool.diff}
@@ -481,7 +481,7 @@ export const ChatRowContent = ({
 			case "newFileCreated":
 				return (
 					<>
-						<div style={headerStyle}>
+						{/* <div style={headerStyle}>
 							{tool.isProtected ? (
 								<span
 									className="codicon codicon-lock"
@@ -495,7 +495,7 @@ export const ChatRowContent = ({
 									? t("chat:fileOperations.wantsToEditProtected")
 									: t("chat:fileOperations.wantsToCreate")}
 							</span>
-						</div>
+						</div> */}
 						<CodeAccordian
 							path={tool.path}
 							code={tool.content}
@@ -1060,10 +1060,20 @@ export const ChatRowContent = ({
 					return <ThinkBlock content={message.text || ""} isStreaming={isStreaming && isLast} />
 				case "api_req_started":
 					// API request banner disabled for Harvi Code
-					// Show loading only during request, hide when completed successfully
+					// Show loading during request, success bar when completed
 					if (cost !== null && cost !== undefined) {
-						// Request completed successfully - hide the banner
-						return null
+						// Request completed successfully - show success bar
+						return (
+							<div
+								style={{
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center",
+									padding: "8px 0",
+								}}>
+								<div className="success-bar"></div>
+							</div>
+						)
 					}
 
 					// Show simple loading during request

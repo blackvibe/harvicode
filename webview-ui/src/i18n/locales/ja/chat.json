@@ -120,7 +120,7 @@
 	"stopTts": "テキスト読み上げを停止",
 	"typeMessage": "メッセージを入力...",
 	"typeTask": "ここにタスクを入力...",
-	"addContext": "コンテキスト追加は@、コマンドは/",
+	"addContext": "コンテキストを追加",
 	"dragFiles": "ファイルをドラッグするにはShiftキーを押したまま",
 	"dragFilesImages": "ファイル/画像をドラッグするにはShiftキーを押したまま",
 	"enhancePromptDescription": "「プロンプトを強化」ボタンは、追加コンテキスト、説明、または言い換えを提供することで、リクエストを改善します。ここにリクエストを入力し、ボタンを再度クリックして動作を確認してください。",
@@ -372,7 +372,8 @@
 		"joinWaitlist": "最新のアップデートを受け取るためにサインアップしてください。"
 	},
 	"editMessage": {
-		"placeholder": "メッセージを編集..."
+		"placeholder": "メッセージを編集...",
+		"restoreWarning": "メッセージを編集すると、ファイルの状態が現在の保存ポイントに復元されます"
 	},
 	"command": {
 		"triggerDescription": "{{name}}コマンドをトリガー"

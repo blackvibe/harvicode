@@ -99,7 +99,8 @@
 		"tooltip": "取消目前操作"
 	},
 	"editMessage": {
-		"placeholder": "編輯您的訊息..."
+		"placeholder": "編輯您的訊息...",
+		"restoreWarning": "變更訊息時，檔案狀態將恢復至目前儲存點"
 	},
 	"scrollToBottom": "捲動至聊天室底部",
 	"about": "利用 AI 輔助產生、重構和偵錯程式碼。請參閱我們的<DocsLink>說明文件</DocsLink>以瞭解更多資訊。",
@@ -140,7 +141,7 @@
 	"stopTts": "停止文字轉語音",
 	"typeMessage": "輸入訊息...",
 	"typeTask": "在這裡輸入您的工作...",
-	"addContext": "輸入 @ 新增內容，/ 執行命令",
+	"addContext": "新增內容",
 	"dragFiles": "按住 Shift 鍵拖曳檔案",
 	"dragFilesImages": "按住 Shift 鍵拖曳檔案/圖片",
 	"errorReadingFile": "讀取檔案時發生錯誤：",

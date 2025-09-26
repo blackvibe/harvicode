@@ -572,6 +572,15 @@ input[cmdk-input]:focus {
 	}
 }
 
+/* Success bar */
+.success-bar {
+	width: 40px;
+	height: 2px;
+	background-color: var(--vscode-descriptionForeground, #888);
+	border-radius: 1px;
+	opacity: 0.3;
+}
+
 /* Prevent visual flickering during state transitions */
 .chat-view-container {
 	transition: opacity 0.1s ease-in-out;

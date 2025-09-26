@@ -165,11 +165,6 @@
 				"icon": "$(extensions)"
 			},
 			{
-				"command": "kilo-code.popoutButtonClicked",
-				"title": "%command.openInEditor.title%",
-				"icon": "$(link-external)"
-			},
-			{
 				"command": "kilo-code.settingsButtonClicked",
 				"title": "%command.settings.title%",
 				"icon": "$(settings-gear)"
@@ -432,11 +427,6 @@
 					"command": "kilo-code.settingsButtonClicked",
 					"group": "navigation@6",
 					"when": "view == kilo-code.SidebarProvider"
-				},
-				{
-					"command": "kilo-code.popoutButtonClicked",
-					"group": "navigation@7",
-					"when": "view == kilo-code.SidebarProvider"
 				}
 			],
 			"editor/title": [
@@ -453,11 +443,6 @@
 				{
 					"command": "kilo-code.historyButtonClicked",
 					"group": "navigation@3",
-					"when": "activeWebviewPanelId == kilo-code.TabPanelProvider"
-				},
-				{
-					"command": "kilo-code.popoutButtonClicked",
-					"group": "navigation@4",
 					"when": "activeWebviewPanelId == kilo-code.TabPanelProvider"
 				},
 				{

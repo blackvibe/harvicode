@@ -222,7 +222,7 @@ export const ModeSelector = ({
 					{showSearch ? (
 						<div className="relative p-2 border-b border-vscode-dropdown-border">
 							<input
-								aria-label="Search modes"
+								aria-label={t("chat:modeSelector.searchPlaceholder")}
 								ref={searchInputRef}
 								value={searchValue}
 								onChange={(e) => setSearchValue(e.target.value)}
@@ -262,10 +262,8 @@ export const ModeSelector = ({
 											onClick={() => handleSelect(mode.slug)}
 											className={cn(
 												"px-3 py-1.5 text-sm cursor-pointer flex items-center",
-												"hover:bg-vscode-list-hoverBackground",
-												isSelected
-													? "bg-vscode-list-activeSelectionBackground text-vscode-list-activeSelectionForeground"
-													: "",
+												"hover:bg-[rgba(255,255,255,0.05)]",
+												isSelected ? "bg-[rgba(255,255,255,0.05)]" : "",
 											)}
 											data-testid="mode-selector-item">
 											<div className="flex-1 min-w-0">
@@ -276,7 +274,9 @@ export const ModeSelector = ({
 													</div>
 												)}
 											</div>
-											{isSelected && <Check className="ml-auto size-4 p-0.5" />}
+											{isSelected && (
+												<Check className="ml-auto size-4 p-0.5 text-vscode-foreground" />
+											)}
 										</div>
 									)
 								})}

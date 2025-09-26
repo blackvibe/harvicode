@@ -120,7 +120,7 @@
 	"stopTts": "Zatrzymaj syntezę mowy",
 	"typeMessage": "Wpisz wiadomość...",
 	"typeTask": "Wpisz swoje zadanie tutaj...",
-	"addContext": "@ aby dodać kontekst, / dla poleceń",
+	"addContext": "Dodaj kontekst",
 	"dragFiles": "przytrzymaj shift, aby przeciągnąć pliki",
 	"dragFilesImages": "przytrzymaj shift, aby przeciągnąć pliki/obrazy",
 	"enhancePromptDescription": "Przycisk 'Ulepsz podpowiedź' pomaga ulepszyć Twoją prośbę, dostarczając dodatkowy kontekst, wyjaśnienia lub przeformułowania. Spróbuj wpisać prośbę tutaj i kliknij przycisk ponownie, aby zobaczyć, jak to działa.",
@@ -374,7 +374,8 @@
 		"joinWaitlist": "Zarejestruj się, aby otrzymywać najnowsze aktualizacje."
 	},
 	"editMessage": {
-		"placeholder": "Edytuj swoją wiadomość..."
+		"placeholder": "Edytuj swoją wiadomość...",
+		"restoreWarning": "Przy zmianie wiadomości stan plików zostanie przywrócony do bieżącego punktu zapisu"
 	},
 	"command": {
 		"triggerDescription": "Uruchom polecenie {{name}}"

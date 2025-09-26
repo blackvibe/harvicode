@@ -136,7 +136,7 @@
 	"stopTts": "Zastavit převod textu na řeč",
 	"typeMessage": "Napiš zprávu...",
 	"typeTask": "Vytvoř, najdi, zeptej se na něco",
-	"addContext": "@ pro přidání kontextu, / pro přepnutí režimů",
+	"addContext": "Přidat kontext",
 	"dragFiles": "drž shift pro přetažení souborů",
 	"dragFilesImages": "drž shift pro přetažení souborů/obrázků",
 	"errorReadingFile": "Chyba při čtení souboru:",
@@ -416,7 +416,8 @@
 		"clickToEdit": "Klikni pro úpravu zprávy"
 	},
 	"editMessage": {
-		"placeholder": "Upravit tvou zprávu..."
+		"placeholder": "Upravit tvou zprávu...",
+		"restoreWarning": "Při úpravě zprávy bude stav souborů obnoven do aktuálního bodu uložení"
 	},
 	"generateCommitMessage": "Vygenerovat commit zprávu",
 	"slashCommand": {

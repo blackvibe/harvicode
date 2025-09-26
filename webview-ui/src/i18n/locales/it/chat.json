@@ -120,7 +120,7 @@
 	"stopTts": "Interrompi sintesi vocale",
 	"typeMessage": "Scrivi un messaggio...",
 	"typeTask": "Scrivi la tua attività qui...",
-	"addContext": "@ per aggiungere contesto, / per i comandi",
+	"addContext": "Aggiungi contesto",
 	"dragFiles": "tieni premuto shift per trascinare file",
 	"dragFilesImages": "tieni premuto shift per trascinare file/immagini",
 	"enhancePromptDescription": "Il pulsante 'Migliora prompt' aiuta a migliorare la tua richiesta fornendo contesto aggiuntivo, chiarimenti o riformulazioni. Prova a digitare una richiesta qui e fai di nuovo clic sul pulsante per vedere come funziona.",
@@ -372,7 +372,8 @@
 		"joinWaitlist": "Registrati per ricevere gli ultimi aggiornamenti."
 	},
 	"editMessage": {
-		"placeholder": "Modifica il tuo messaggio..."
+		"placeholder": "Modifica il tuo messaggio...",
+		"restoreWarning": "Durante la modifica del messaggio, lo stato dei file verrà ripristinato al punto di salvataggio corrente"
 	},
 	"command": {
 		"triggerDescription": "Attiva il comando {{name}}"

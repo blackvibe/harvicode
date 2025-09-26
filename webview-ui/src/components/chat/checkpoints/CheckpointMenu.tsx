@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react"
 import { CheckIcon, Cross2Icon } from "@radix-ui/react-icons"
 import { useTranslation } from "react-i18next"
-import { GitCompare } from "lucide-react"
+import { GitCompare, RotateCcw } from "lucide-react"
 
 import { Button, Popover, PopoverContent, PopoverTrigger, StandardTooltip } from "@/components/ui"
 import { useRooPortal } from "@/components/ui/hooks"
@@ -44,74 +44,88 @@ export const CheckpointMenu = ({ ts, commitHash, currentHash, checkpoint }: Chec
 	}, [ts, commitHash])
 
 	return (
-		<div className="flex flex-row items-center gap-2">
+		<div className="flex flex-row items-center gap-2 py-1">
 			{/* Пунктирная линия */}
 			<div className="flex-1 border-t border-dashed border-[#3c3c3c]"></div>
+
+			{/* Кнопка "Вернуться к точке" */}
 			<Popover
 				open={isOpen}
 				onOpenChange={(open) => {
 					setIsOpen(open)
 					setIsConfirming(false)
 				}}>
-				<StandardTooltip content={t("chat:checkpoint.menu.restore")}>
+				<StandardTooltip content={t("chat:checkpoint.menu.returnToPoint")}>
 					<PopoverTrigger asChild>
-						<div className="w-2 h-2 bg-[#cccccc] hover:bg-white rounded-full cursor-pointer transition-colors duration-150"></div>
+						<button className="relative inline-flex items-center justify-center gap-1 bg-[#2d2d30] hover:bg-[#3c3c3c] border border-[#3c3c3c] rounded-full px-2 py-1 h-6 text-[#cccccc] hover:text-white transition-all duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#4a4a4a] active:scale-95 cursor-pointer">
+							<RotateCcw className="w-3 h-3" />
+							<span className="text-[10px] font-medium">{t("chat:checkpoint.menu.returnToPoint")}</span>
+						</button>
 					</PopoverTrigger>
 				</StandardTooltip>
-				<PopoverContent align="end" container={portalContainer}>
-					<div className="flex flex-col gap-2">
-						{!isCurrent && (
-							<div className="flex flex-col gap-1 group hover:text-foreground">
-								<Button variant="secondary" onClick={onPreview}>
+				<PopoverContent
+					align="end"
+					container={portalContainer}
+					className="w-80 p-0 bg-vscode-dropdown-background border border-vscode-dropdown-border shadow-lg rounded-lg">
+					{!isCurrent && (
+						<div
+							className="flex items-center gap-3 p-3 hover:bg-vscode-list-hoverBackground cursor-pointer group rounded-t-lg"
+							onClick={onPreview}>
+							<div className="flex-1">
+								<div className="text-sm text-vscode-foreground font-medium">
 									{t("chat:checkpoint.menu.restoreFiles")}
-								</Button>
-								<div className="text-muted transition-colors group-hover:text-foreground">
+								</div>
+								<div className="text-xs text-vscode-descriptionForeground mt-1">
 									{t("chat:checkpoint.menu.restoreFilesDescription")}
 								</div>
 							</div>
-						)}
-						<div className="flex flex-col gap-1 group hover:text-foreground">
-							<div className="flex flex-col gap-1 group hover:text-foreground">
-								{!isConfirming ? (
-									<Button variant="secondary" onClick={() => setIsConfirming(true)}>
+						</div>
+					)}
+					{!isCurrent && <div className="border-t border-vscode-dropdown-border"></div>}
+					<div
+						className={`flex items-center gap-3 p-3 hover:bg-vscode-list-hoverBackground cursor-pointer group ${!isCurrent ? "rounded-b-lg" : "rounded-lg"}`}>
+						<div className="flex-1">
+							{!isConfirming ? (
+								<div onClick={() => setIsConfirming(true)}>
+									<div className="text-sm text-vscode-foreground font-medium">
 										{t("chat:checkpoint.menu.restoreFilesAndTask")}
-									</Button>
-								) : (
-									<>
-										<Button variant="default" onClick={onRestore} className="grow">
-											<div className="flex flex-row gap-1">
-												<CheckIcon />
-												<div>{t("chat:checkpoint.menu.confirm")}</div>
-											</div>
-										</Button>
-										<Button variant="secondary" onClick={() => setIsConfirming(false)}>
-											<div className="flex flex-row gap-1">
-												<Cross2Icon />
-												<div>{t("chat:checkpoint.menu.cancel")}</div>
-											</div>
-										</Button>
-									</>
-								)}
-								{isConfirming ? (
-									<div className="text-destructive font-bold">
-										{t("chat:checkpoint.menu.cannotUndo")}
 									</div>
-								) : (
-									<div className="text-muted transition-colors group-hover:text-foreground">
+									<div className="text-xs text-vscode-descriptionForeground mt-1">
 										{t("chat:checkpoint.menu.restoreFilesAndTaskDescription")}
 									</div>
-								)}
-							</div>
+								</div>
+							) : (
+								<div className="space-y-2">
+									<div className="text-xs text-red-700/60 font-bold">
+										{t("chat:checkpoint.menu.cannotUndo")}
+									</div>
+									<div className="flex gap-2">
+										<button
+											onClick={onRestore}
+											className="relative inline-flex items-center justify-center gap-1 bg-red-900/40 hover:bg-red-800/50 border border-red-700/60 rounded-full px-3 py-1 h-6 text-red-300 hover:text-red-200 transition-all duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-red-600/50 active:scale-95 cursor-pointer">
+											<CheckIcon className="w-3 h-3" />
+											<span className="text-[10px] font-medium">
+												{t("chat:checkpoint.menu.confirm")}
+											</span>
+										</button>
+										<button
+											onClick={() => setIsConfirming(false)}
+											className="text-xs text-vscode-descriptionForeground hover:text-vscode-foreground transition-colors cursor-pointer">
+											{t("chat:checkpoint.menu.cancel")}
+										</button>
+									</div>
+								</div>
+							)}
 						</div>
 					</div>
 				</PopoverContent>
 			</Popover>
 
-			{/* Компактная кнопка различий */}
+			{/* Кнопка "Посмотреть изменения" */}
 			<StandardTooltip content={t("chat:checkpoint.menu.viewDiff")}>
 				<button
 					onClick={onCheckpointDiff}
-					className="relative inline-flex items-center justify-center bg-[#2d2d30] hover:bg-[#3c3c3c] border border-[#3c3c3c] rounded-full w-6 h-6 text-[#cccccc] hover:text-white transition-all duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#4a4a4a] active:scale-95 cursor-pointer">
+					className="relative inline-flex items-center justify-center bg-[#2d2d30] hover:bg-[#3c3c3c] border border-[#3c3c3c] rounded-full w-6 h-6 text-[#cccccc] hover:text-white transition-all duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#4a4a4a] active:scale-95 cursor-pointer mr-1">
 					<GitCompare className="w-3 h-3" />
 				</button>
 			</StandardTooltip>

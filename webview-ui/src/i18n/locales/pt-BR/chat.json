@@ -120,7 +120,7 @@
 	"stopTts": "Parar conversão de texto em fala",
 	"typeMessage": "Digite uma mensagem...",
 	"typeTask": "Digite sua tarefa aqui...",
-	"addContext": "@ para adicionar contexto, / para comandos",
+	"addContext": "Adicionar contexto",
 	"dragFiles": "segure shift para arrastar arquivos",
 	"dragFilesImages": "segure shift para arrastar arquivos/imagens",
 	"enhancePromptDescription": "O botão 'Aprimorar prompt' ajuda a melhorar seu pedido fornecendo contexto adicional, esclarecimentos ou reformulações. Tente digitar um pedido aqui e clique no botão novamente para ver como funciona.",
@@ -372,7 +372,8 @@
 		"joinWaitlist": "Cadastre-se para receber as últimas atualizações."
 	},
 	"editMessage": {
-		"placeholder": "Edite sua mensagem..."
+		"placeholder": "Edite sua mensagem...",
+		"restoreWarning": "Ao alterar a mensagem, o estado dos arquivos será restaurado para o ponto de salvamento atual"
 	},
 	"command": {
 		"triggerDescription": "Acionar o comando {{name}}"

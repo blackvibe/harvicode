@@ -129,7 +129,7 @@
 	"stopTts": "Stop tekst-naar-spraak",
 	"typeMessage": "Typ een bericht...",
 	"typeTask": "Typ hier je taak...",
-	"addContext": "@ om context toe te voegen, / voor commando's",
+	"addContext": "Context toevoegen",
 	"dragFiles": "houd shift ingedrukt om bestanden te slepen",
 	"dragFilesImages": "houd shift ingedrukt om bestanden/afbeeldingen te slepen",
 	"errorReadingFile": "Fout bij het lezen van bestand:",
@@ -372,7 +372,8 @@
 		"joinWaitlist": "Meld je aan om de laatste updates te ontvangen."
 	},
 	"editMessage": {
-		"placeholder": "Bewerk je bericht..."
+		"placeholder": "Bewerk je bericht...",
+		"restoreWarning": "Bij het wijzigen van het bericht wordt de bestandsstatus hersteld naar het huidige opslagpunt"
 	},
 	"command": {
 		"triggerDescription": "Activeer de {{name}} opdracht"

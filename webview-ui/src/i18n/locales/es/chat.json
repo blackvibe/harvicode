@@ -120,7 +120,7 @@
 	"stopTts": "Detener texto a voz",
 	"typeMessage": "Escribe un mensaje...",
 	"typeTask": "Escribe tu tarea aquí...",
-	"addContext": "@ para agregar contexto, / para comandos",
+	"addContext": "Agregar contexto",
 	"dragFiles": "mantén shift para arrastrar archivos",
 	"dragFilesImages": "mantén shift para arrastrar archivos/imágenes",
 	"enhancePromptDescription": "El botón 'Mejorar el mensaje' ayuda a mejorar tu petición proporcionando contexto adicional, aclaraciones o reformulaciones. Intenta escribir una petición aquí y haz clic en el botón nuevamente para ver cómo funciona.",
@@ -372,7 +372,8 @@
 		"joinWaitlist": "Regístrate para recibir las últimas actualizaciones."
 	},
 	"editMessage": {
-		"placeholder": "Edita tu mensaje..."
+		"placeholder": "Edita tu mensaje...",
+		"restoreWarning": "Al editar el mensaje, el estado de los archivos se restaurará al punto de guardado actual"
 	},
 	"command": {
 		"triggerDescription": "Activar el comando {{name}}"

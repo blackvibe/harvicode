@@ -9,7 +9,7 @@ import {
 
 // Extend BundledLanguage to include 'txt' because Shiki supports this but it is
 // not listed in the bundled languages
-export type ExtendedLanguage = BundledLanguage | "txt"
+export type ExtendedLanguage = BundledLanguage | "txt" | "diff-git"
 
 // Map common language aliases to their Shiki BundledLanguage equivalent
 const languageAliases: Record<string, ExtendedLanguage> = {
@@ -83,6 +83,12 @@ const languageAliases: Record<string, ExtendedLanguage> = {
 	pgsql: "sql",
 	plsql: "sql",
 	oracle: "sql",
+
+	// Diff variants
+	patch: "diff",
+	unified: "diff",
+	"git-diff": "diff",
+	"diff-git": "diff", // Custom format for apply_diff with SEARCH/REPLACE blocks
 }
 
 // Track which languages we've warned about to avoid duplicate warnings
