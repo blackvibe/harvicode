@@ -1,16 +1,16 @@
 import { memo, useState } from "react"
-import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
+// import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 
 import { useCopyToClipboard } from "@src/utils/clipboard"
-import { StandardTooltip } from "@src/components/ui"
+// import { StandardTooltip } from "@src/components/ui"
 
 import MarkdownBlock from "../common/MarkdownBlock"
 
-export const Markdown = memo(({ markdown, partial }: { markdown?: string; partial?: boolean }) => {
-	const [isHovering, setIsHovering] = useState(false)
+export const Markdown = memo(({ markdown, partial: _partial }: { markdown?: string; partial?: boolean }) => {
+	const [_isHovering, _setIsHovering] = useState(false)
 
 	// Shorter feedback duration for copy button flash.
-	const { copyWithFeedback } = useCopyToClipboard(200)
+	const { copyWithFeedback: _copyWithFeedback } = useCopyToClipboard(200)
 
 	if (!markdown || markdown.length === 0) {
 		return null
@@ -18,8 +18,8 @@ export const Markdown = memo(({ markdown, partial }: { markdown?: string; partia
 
 	return (
 		<div
-			onMouseEnter={() => setIsHovering(true)}
-			onMouseLeave={() => setIsHovering(false)}
+			onMouseEnter={() => _setIsHovering(true)}
+			onMouseLeave={() => _setIsHovering(false)}
 			style={{ position: "relative" }}>
 			<div style={{ wordBreak: "break-word", overflowWrap: "anywhere" }}>
 				<MarkdownBlock markdown={markdown} />

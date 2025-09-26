@@ -24,7 +24,7 @@ import { DropdownOptionType, Button, StandardTooltip } from "@/components/ui" //
 import Thumbnails from "../common/Thumbnails"
 import { ModeSelector } from "./ModeSelector"
 import KiloModeSelector from "../kilocode/KiloModeSelector"
-import { KiloProfileSelector } from "../kilocode/chat/KiloProfileSelector" // kilocode_change
+// import { KiloProfileSelector } from "../kilocode/chat/KiloProfileSelector" // kilocode_change
 import { MAX_IMAGES_PER_MESSAGE } from "./ChatView"
 import ContextMenu from "./ContextMenu"
 import { ImageWarningBanner } from "./ImageWarningBanner" // kilocode_change
@@ -35,13 +35,13 @@ import {
 	Image,
 	WandSparkles,
 	ArrowUp,
-	MessageSquareX,
-	Paperclip, // kilocode_change
+	// MessageSquareX,
+	// Paperclip, // kilocode_change
 	AtSign,
 	Square,
 } from "lucide-react"
-import { IndexingStatusBadge } from "./IndexingStatusBadge"
-import { SlashCommandsPopover } from "./SlashCommandsPopover"
+// import { IndexingStatusBadge } from "./IndexingStatusBadge"
+// import { SlashCommandsPopover } from "./SlashCommandsPopover"
 import { cn } from "@/lib/utils"
 import { usePromptHistory } from "./hooks/usePromptHistory"
 import { EditModeControls } from "./EditModeControls"
@@ -84,7 +84,7 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 			inputValue,
 			setInputValue,
 			sendingDisabled,
-			selectApiConfigDisabled,
+			selectApiConfigDisabled: _selectApiConfigDisabled,
 			placeholderText,
 			selectedImages,
 			setSelectedImages,
@@ -119,7 +119,7 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 		} = useExtensionState()
 
 		// Find the ID and display text for the currently selected API configuration
-		const { currentConfigId, displayName } = useMemo(() => {
+		const { currentConfigId: _currentConfigId, displayName: _displayName } = useMemo(() => {
 			const currentConfig = listApiConfigMeta?.find((config) => config.name === currentApiConfigName)
 			return {
 				currentConfigId: currentConfig?.id || "",
@@ -132,7 +132,7 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 		const [fileSearchResults, setFileSearchResults] = useState<SearchResult[]>([])
 
 		// kilocode_change begin: remove button from chat when it gets to small
-		const [containerWidth, setContainerWidth] = useState<number>(300) // Default to a value larger than our threshold
+		const [_containerWidth, _setContainerWidth] = useState<number>(300) // Default to a value larger than our threshold
 
 		const containerRef = useRef<HTMLDivElement>(null)
 
@@ -145,7 +145,7 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 			const resizeObserver = new ResizeObserver((entries) => {
 				for (const entry of entries) {
 					const width = entry.contentRect.width
-					setContainerWidth(width)
+					_setContainerWidth(width)
 				}
 			})
 
@@ -233,7 +233,7 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 			return () => window.removeEventListener("message", messageHandler)
 		}, [setInputValue, searchRequestId])
 
-		const [isDraggingOver, setIsDraggingOver] = useState(false)
+		const [_isDraggingOver, _setIsDraggingOver] = useState(false)
 		// kilocode_change start: pull slash commands from Cline
 		const [showSlashCommandsMenu, setShowSlashCommandsMenu] = useState(false)
 		const [selectedSlashCommandsIndex, setSelectedSlashCommandsIndex] = useState(0)
@@ -253,7 +253,7 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 		const [intendedCursorPosition, setIntendedCursorPosition] = useState<number | null>(null)
 		const contextMenuContainerRef = useRef<HTMLDivElement>(null)
 		const [isEnhancingPrompt, setIsEnhancingPrompt] = useState(false)
-		const [isFocused, setIsFocused] = useState(false)
+		const [_isFocused, _setIsFocused] = useState(false)
 		const [imageWarning, setImageWarning] = useState<string | null>(null) // kilocode_change
 
 		// Use custom hook for prompt history navigation
@@ -682,6 +682,8 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 				fileSearchResults,
 				handleHistoryNavigation,
 				resetHistoryNavigation,
+				mode,
+				setMode,
 			],
 		)
 
@@ -800,7 +802,7 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 				setShowSlashCommandsMenu(false) // kilocode_change: pull slash commands from Cline
 			}
 
-			setIsFocused(false)
+			_setIsFocused(false)
 		}, [isMouseDownOnMenu])
 
 		const handlePaste = useCallback(
@@ -965,7 +967,7 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 		const handleDrop = useCallback(
 			async (e: React.DragEvent<HTMLDivElement>) => {
 				e.preventDefault()
-				setIsDraggingOver(false)
+				_setIsDraggingOver(false)
 
 				const textFieldList = e.dataTransfer.getData("text")
 				const textUriList = e.dataTransfer.getData("application/vnd.code.uri-list")
@@ -1092,7 +1094,7 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 			}
 		})
 
-		const placeholderBottomText = `\n(${t("chat:addContext")}${shouldDisableImages ? `, ${t("chat:dragFiles")}` : `, ${t("chat:dragFilesImages")}`})`
+		const _placeholderBottomText = `\n(${t("chat:addContext")}${shouldDisableImages ? `, ${t("chat:dragFiles")}` : `, ${t("chat:dragFilesImages")}`})`
 
 		// Common mode selector handler
 		const handleModeChange = useCallback(
@@ -1291,7 +1293,7 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 							handleInputChange(e)
 							updateHighlights()
 						}}
-						onFocus={() => setIsFocused(true)}
+						onFocus={() => _setIsFocused(true)}
 						onKeyDown={handleKeyDown}
 						onKeyUp={handleKeyUp}
 						onBlur={handleBlur}
@@ -1486,12 +1488,12 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 						onDragOver={(e) => {
 							// Only allowed to drop images/files on shift key pressed.
 							if (!e.shiftKey) {
-								setIsDraggingOver(false)
+								_setIsDraggingOver(false)
 								return
 							}
 
 							e.preventDefault()
-							setIsDraggingOver(true)
+							_setIsDraggingOver(true)
 							e.dataTransfer.dropEffect = "copy"
 						}}
 						onDragLeave={(e) => {
@@ -1504,7 +1506,7 @@ export const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 								e.clientY <= rect.top ||
 								e.clientY >= rect.bottom
 							) {
-								setIsDraggingOver(false)
+								_setIsDraggingOver(false)
 							}
 						}}>
 						{/* kilocode_change start: ImageWarningBanner integration */}

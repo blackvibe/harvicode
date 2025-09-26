@@ -1,9 +1,9 @@
 import { ClineMessage } from "@roo-code/types"
 import { Mention } from "../../chat/Mention"
-import { Button } from "@src/components/ui"
+// import { Button } from "@src/components/ui"
 import Thumbnails from "../../common/Thumbnails"
 import { vscode } from "@src/utils/vscode"
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { useTranslation } from "react-i18next"
 
 interface KiloChatRowUserFeedbackProps {
@@ -12,17 +12,21 @@ interface KiloChatRowUserFeedbackProps {
 	onChatReset?: () => void
 }
 
-export const KiloChatRowUserFeedback = ({ message, isStreaming, onChatReset }: KiloChatRowUserFeedbackProps) => {
-	const { t } = useTranslation()
+export const KiloChatRowUserFeedback = ({
+	message,
+	isStreaming,
+	onChatReset: _onChatReset,
+}: KiloChatRowUserFeedbackProps) => {
+	const { t: _t } = useTranslation()
 	const [isEditing, setIsEditing] = useState(false)
 	const [editedText, setEditedText] = useState(message.text)
 	const textareaRef = useRef<HTMLTextAreaElement>(null)
 	const containerRef = useRef<HTMLDivElement>(null)
 
-	const handleCancel = () => {
+	const handleCancel = useCallback(() => {
 		setEditedText(message.text)
 		setIsEditing(false)
-	}
+	}, [message.text])
 
 	const handleRevertAndResend = () => {
 		vscode.postMessage({ type: "editMessage", values: { ts: message.ts, text: editedText, revert: true } })
@@ -49,7 +53,7 @@ export const KiloChatRowUserFeedback = ({ message, isStreaming, onChatReset }: K
 		return () => {
 			document.removeEventListener("mousedown", handleClickOutside)
 		}
-	}, [isEditing])
+	}, [isEditing, handleCancel])
 
 	if (isEditing) {
 		return (

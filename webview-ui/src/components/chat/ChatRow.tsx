@@ -48,7 +48,7 @@ import { CondenseContextErrorRow, CondensingContextRow, ContextCondenseRow } fro
 import CodebaseSearchResultsDisplay from "./CodebaseSearchResultsDisplay"
 import { cn } from "@/lib/utils"
 import { KiloChatRowUserFeedback } from "../kilocode/chat/KiloChatRowUserFeedback" // kilocode_change
-import { StandardTooltip } from "../ui" // kilocode_change
+// import { StandardTooltip } from "../ui" // kilocode_change
 import { FastApplyChatDisplay } from "./kilocode/FastApplyChatDisplay" // kilocode_change
 import { McpExecution } from "./McpExecution"
 import { InvalidModelWarning } from "../kilocode/chat/InvalidModelWarning"
@@ -133,8 +133,8 @@ export const ChatRowContent = ({
 
 	const { mcpServers, alwaysAllowMcp, currentCheckpoint } = useExtensionState()
 	const [isDiffErrorExpanded, setIsDiffErrorExpanded] = useState(false)
-	const [showCopySuccess, setShowCopySuccess] = useState(false)
-	const { copyWithFeedback } = useCopyToClipboard()
+	const [_showCopySuccess, _setShowCopySuccess] = useState(false)
+	const { copyWithFeedback: _copyWithFeedback } = useCopyToClipboard()
 
 	// Memoized callback to prevent re-renders caused by inline arrow functions.
 	const handleToggleExpand = useCallback(() => {
@@ -142,7 +142,7 @@ export const ChatRowContent = ({
 	}, [onToggleExpand, message.ts])
 
 	// kilocode_change: usageMissing
-	const [cost, usageMissing, apiReqCancelReason, apiReqStreamingFailedMessage] = useMemo(() => {
+	const [cost, _usageMissing, apiReqCancelReason, _apiReqStreamingFailedMessage] = useMemo(() => {
 		if (message.text !== null && message.text !== undefined && message.say === "api_req_started") {
 			const info = safeJsonParse<ClineApiReqInfo>(message.text)
 			return [info?.cost, info?.usageMissing, info?.cancelReason, info?.streamingFailedMessage]
