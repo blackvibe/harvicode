@@ -1,7 +1,7 @@
 {
 	"welcome": {
-		"greeting": "Welcome to Kilo Code!",
-		"introText1": "Kilo Code is a free, open source AI coding agent.",
+		"greeting": "Welcome to Harvi Code!",
+		"introText1": "Harvi Code is a free, open source AI coding agent.",
 		"introText2": "It works with the latest AI models like Claude 4 Sonnet, Gemini 2.5 Pro, GPT-4.1, and 450+ more.",
 		"introText3": "Create a free account and get up to $25 worth of tokens to use across any AI model.",
 		"ctaButton": "Get Started",
@@ -11,7 +11,7 @@
 	},
 	"lowCreditWarning": {
 		"addCredit": "Add Credit",
-		"lowBalance": "Your Kilo Code balance is low"
+		"lowBalance": "Your Harvi Code balance is low"
 	},
 	"pagination": {
 		"previous": "Previous",
@@ -30,8 +30,8 @@
 		"costUnknownDescription": "The API Provider did not provide any cost data or the request was canceled.",
 		"freeModelsDescription": "Free models may have rate limits. Use the link below to optimize your free model usage!",
 		"freeModelsLink": "Discover free and budget model options",
-		"openRouterMarkup": "The Kilo Code provider includes all of the OpenRouter models, with zero markup and 0% commission!",
-		"switchToKiloCode": "Switch to Kilo Code"
+		"openRouterMarkup": "The Harvi Code provider includes all of the OpenRouter models, with zero markup and 0% commission!",
+		"switchToKiloCode": "Switch to Harvi Code"
 	},
 	"notifications": {
 		"toolRequest": "Tool request waiting for approval",
@@ -48,10 +48,10 @@
 			"mcp": "MCP Servers"
 		},
 		"provider": {
-			"account": "Kilo Code Account",
-			"apiKey": "Kilo Code API Key",
-			"login": "Log in at Kilo Code",
-			"logout": "Log out from Kilo Code",
+			"account": "Harvi Code Account",
+			"apiKey": "Harvi Code API Key",
+			"login": "Log in at Harvi Code",
+			"logout": "Log out from Harvi Code",
 			"providerRouting": {
 				"title": "Provider Routing",
 				"managedByOrganization": "The Provider Routing settings are managed by your organization.",
@@ -67,12 +67,12 @@
 					"deny": "Deny provider data collection"
 				}
 			},
-			"automaticFetch": "The latest models are automatically available in Kilo Code. If you're unsure which model to choose, Kilo Code works best with the recommended models listed at the top in <strong>bold face</strong>."
+			"automaticFetch": "The latest models are automatically available in Harvi Code. If you're unsure which model to choose, Harvi Code works best with the recommended models listed at the top in <strong>bold face</strong>."
 		},
 		"modelInfo": {
 			"contextWindow": "Context window",
 			"providerBreakdown": "Provider Price and Capability Breakdown",
-			"averageKiloCodeCost": "This is the average actual spent for Kilo Code using this model over the last week. It may be lower than the listed price due to prompt cache utilization.",
+			"averageKiloCodeCost": "This is the average actual spent for Harvi Code using this model over the last week. It may be lower than the listed price due to prompt cache utilization.",
 			"table": {
 				"provider": "Provider",
 				"context": "The endpoint can process this number of tokens (input + output).",
@@ -85,15 +85,15 @@
 		"contextManagement": {
 			"allowVeryLargeReads": {
 				"label": "Allow very large file reads",
-				"description": "When enabled, Kilo Code will perform very large file or MCP output reads even if there is a high chance of overflowing the context window (content size >80% of context window)."
+				"description": "When enabled, Harvi Code will perform very large file or MCP output reads even if there is a high chance of overflowing the context window (content size >80% of context window)."
 			}
 		},
 		"systemNotifications": {
 			"label": "Enable System Notifications",
-			"description": "When enabled, Kilo Code will send system notifications for important events like task completion or errors.",
+			"description": "When enabled, Harvi Code will send system notifications for important events like task completion or errors.",
 			"testButton": "Test Notification",
-			"testTitle": "Kilo Code",
-			"testMessage": "This is a test notification from Kilo Code."
+			"testTitle": "Harvi Code",
+			"testMessage": "This is a test notification from Harvi Code."
 		},
 		"terminal": {
 			"commandGenerator": {
@@ -108,7 +108,7 @@
 	},
 	"chat": {
 		"condense": {
-			"wantsToCondense": "Kilo Code wants to condense your conversation",
+			"wantsToCondense": "Harvi Code wants to condense your conversation",
 			"condenseConversation": "Condense Conversation"
 		},
 		"seeNewChanges": "See New Changes"
@@ -134,15 +134,15 @@
 	},
 	"docs": "Docs",
 	"rules": {
-		"tooltip": "Manage Kilo Code Rules & Workflows",
-		"ariaLabel": "Kilo Code Rules",
+		"tooltip": "Manage Harvi Code Rules & Workflows",
+		"ariaLabel": "Harvi Code Rules",
 		"tabs": {
 			"rules": "Rules",
 			"workflows": "Workflows"
 		},
 		"description": {
-			"rules": "Rules allow you to provide Kilo Code with instructions it should follow in all modes and for all prompts. They are a persistent way to include context and preferences for all conversations in your workspace or globally.",
-			"workflows": "Workflows are a prepared template for a conversation. Workflows can allow you to define prompts you use frequently, and can include a series of steps to guide Kilo Code through repetitive tasks, such as deploying a service or submitting a PR. To invoke a workflow, type",
+			"rules": "Rules allow you to provide Harvi Code with instructions it should follow in all modes and for all prompts. They are a persistent way to include context and preferences for all conversations in your workspace or globally.",
+			"workflows": "Workflows are a prepared template for a conversation. Workflows can allow you to define prompts you use frequently, and can include a series of steps to guide Harvi Code through repetitive tasks, such as deploying a service or submitting a PR. To invoke a workflow, type",
 			"workflowsInChat": "in the chat."
 		},
 		"sections": {
@@ -211,11 +211,11 @@
 			"triggers": "Triggers",
 			"enableAutoTrigger": {
 				"label": "Pause to Complete",
-				"description": "When enabled, Kilo Code will automatically trigger Autocomplete when you pause typing. This can be useful for quick fixes and suggestions."
+				"description": "When enabled, Harvi Code will automatically trigger Autocomplete when you pause typing. This can be useful for quick fixes and suggestions."
 			},
 			"autoTriggerDelay": {
 				"label": "Auto Trigger Delay",
-				"description": "The delay in seconds before Kilo Code triggers Autocomplete after you pause typing. A shorter delay means quicker suggestions, but may be more resource-intensive."
+				"description": "The delay in seconds before Harvi Code triggers Autocomplete after you pause typing. A shorter delay means quicker suggestions, but may be more resource-intensive."
 			},
 			"enableQuickInlineTaskKeybinding": {
 				"label": "Quick Task ({{keybinding}})",

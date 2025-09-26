@@ -32,7 +32,7 @@ Every team member has one of three roles that determine their access level and c
 
 ### Member
 
-**Standard usage access** - Individual contributors who use Kilo Code for development work.
+**Standard usage access** - Individual contributors who use Harvi Code for development work.
 
 **Key Responsibilities:**
 

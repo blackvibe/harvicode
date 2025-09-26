@@ -1,5 +1,5 @@
 {
-	"greeting": "Kilo Code は何をお手伝いできますか？",
+	"greeting": "Harvi Code は何をお手伝いできますか？",
 	"task": {
 		"title": "タスク",
 		"expand": "タスクを展開",
@@ -21,7 +21,7 @@
 		"sharePublicly": "公開で共有",
 		"sharePubliclyDescription": "リンクを持つ誰でもアクセスできます",
 		"connectToCloud": "クラウドに接続",
-		"connectToCloudDescription": "タスクを共有するためにKilo Code Cloudにサインイン",
+		"connectToCloudDescription": "タスクを共有するためにHarvi Code Cloudにサインイン",
 		"sharingDisabledByOrganization": "組織により共有が無効化されています",
 		"shareSuccessOrganization": "組織リンクをクリップボードにコピーしました",
 		"shareSuccessPublic": "公開リンクをクリップボードにコピーしました",
@@ -128,7 +128,7 @@
 		"title": "モード",
 		"marketplace": "モードマーケットプレイス",
 		"settings": "モード設定",
-		"description": "Kilo Codeの動作をカスタマイズする専門的なペルソナ。",
+		"description": "Harvi Codeの動作をカスタマイズする専門的なペルソナ。",
 		"searchPlaceholder": "モードを検索...",
 		"noResults": "結果が見つかりません"
 	},
@@ -142,7 +142,7 @@
 	"diffError": {
 		"title": "編集に失敗しました"
 	},
-	"troubleMessage": "Kilo Codeに問題が発生しています...",
+	"troubleMessage": "Harvi Codeに問題が発生しています...",
 	"apiRequest": {
 		"title": "APIリクエスト",
 		"failed": "APIリクエスト失敗",
@@ -167,46 +167,46 @@
 		"current": "現在"
 	},
 	"instructions": {
-		"wantsToFetch": "Kilo Codeは現在のタスクを支援するための詳細な指示を取得したい"
+		"wantsToFetch": "Harvi Codeは現在のタスクを支援するための詳細な指示を取得したい"
 	},
 	"fileOperations": {
-		"wantsToRead": "Kilo Codeはこのファイルを読みたい:",
-		"wantsToReadOutsideWorkspace": "Kilo Codeはワークスペース外のこのファイルを読みたい:",
-		"didRead": "Kilo Codeはこのファイルを読みました:",
-		"wantsToEdit": "Kilo Codeはこのファイルを編集したい:",
-		"wantsToEditOutsideWorkspace": "Kilo Codeはワークスペース外のこのファイルを編集したい:",
-		"wantsToEditProtected": "Kilo Codeは保護された設定ファイルを編集したい:",
-		"wantsToCreate": "Kilo Codeは新しいファイルを作成したい:",
-		"wantsToSearchReplace": "Kilo Codeはこのファイルで検索と置換を行う:",
-		"didSearchReplace": "Kilo Codeはこのファイルで検索と置換を実行しました:",
-		"wantsToInsert": "Kilo Codeはこのファイルにコンテンツを挿入したい:",
-		"wantsToInsertWithLineNumber": "Kilo Codeはこのファイルの{{lineNumber}}行目にコンテンツを挿入したい:",
-		"wantsToInsertAtEnd": "Kilo Codeはこのファイルの末尾にコンテンツを追加したい:",
-		"wantsToReadAndXMore": "Kilo Code はこのファイルと他に {{count}} 個のファイルを読み込もうとしています:",
-		"wantsToReadMultiple": "Kilo Codeは複数のファイルを読み取ろうとしています：",
-		"wantsToApplyBatchChanges": "Kilo Codeは複数のファイルに変更を適用したい:",
-		"wantsToGenerateImage": "Kilo Codeは画像を生成したい:",
-		"wantsToGenerateImageOutsideWorkspace": "Kilo Codeはワークスペース外で画像を生成したい:",
-		"wantsToGenerateImageProtected": "Kilo Codeは保護された場所で画像を生成したい:",
-		"didGenerateImage": "Kilo Codeは画像を生成しました:"
+		"wantsToRead": "Harvi Codeはこのファイルを読みたい:",
+		"wantsToReadOutsideWorkspace": "Harvi Codeはワークスペース外のこのファイルを読みたい:",
+		"didRead": "Harvi Codeはこのファイルを読みました:",
+		"wantsToEdit": "Harvi Codeはこのファイルを編集したい:",
+		"wantsToEditOutsideWorkspace": "Harvi Codeはワークスペース外のこのファイルを編集したい:",
+		"wantsToEditProtected": "Harvi Codeは保護された設定ファイルを編集したい:",
+		"wantsToCreate": "Harvi Codeは新しいファイルを作成したい:",
+		"wantsToSearchReplace": "Harvi Codeはこのファイルで検索と置換を行う:",
+		"didSearchReplace": "Harvi Codeはこのファイルで検索と置換を実行しました:",
+		"wantsToInsert": "Harvi Codeはこのファイルにコンテンツを挿入したい:",
+		"wantsToInsertWithLineNumber": "Harvi Codeはこのファイルの{{lineNumber}}行目にコンテンツを挿入したい:",
+		"wantsToInsertAtEnd": "Harvi Codeはこのファイルの末尾にコンテンツを追加したい:",
+		"wantsToReadAndXMore": "Harvi Code はこのファイルと他に {{count}} 個のファイルを読み込もうとしています:",
+		"wantsToReadMultiple": "Harvi Codeは複数のファイルを読み取ろうとしています：",
+		"wantsToApplyBatchChanges": "Harvi Codeは複数のファイルに変更を適用したい:",
+		"wantsToGenerateImage": "Harvi Codeは画像を生成したい:",
+		"wantsToGenerateImageOutsideWorkspace": "Harvi Codeはワークスペース外で画像を生成したい:",
+		"wantsToGenerateImageProtected": "Harvi Codeは保護された場所で画像を生成したい:",
+		"didGenerateImage": "Harvi Codeは画像を生成しました:"
 	},
 	"directoryOperations": {
-		"wantsToViewTopLevel": "Kilo Codeはこのディレクトリのトップレベルファイルを表示したい:",
-		"didViewTopLevel": "Kilo Codeはこのディレクトリのトップレベルファイルを表示しました:",
-		"wantsToViewRecursive": "Kilo Codeはこのディレクトリのすべてのファイルを再帰的に表示したい:",
-		"didViewRecursive": "Kilo Codeはこのディレクトリのすべてのファイルを再帰的に表示しました:",
-		"wantsToViewDefinitions": "Kilo Codeはこのディレクトリで使用されているソースコード定義名を表示したい:",
-		"didViewDefinitions": "Kilo Codeはこのディレクトリで使用されているソースコード定義名を表示しました:",
-		"wantsToSearch": "Kilo Codeはこのディレクトリで <code>{{regex}}</code> を検索したい:",
-		"didSearch": "Kilo Codeはこのディレクトリで <code>{{regex}}</code> を検索しました:",
-		"wantsToSearchOutsideWorkspace": "Kilo Codeはこのディレクトリ（ワークスペース外）で <code>{{regex}}</code> を検索したい:",
-		"didSearchOutsideWorkspace": "Kilo Codeはこのディレクトリ（ワークスペース外）で <code>{{regex}}</code> を検索しました:",
-		"wantsToViewTopLevelOutsideWorkspace": "Kilo Codeはこのディレクトリ（ワークスペース外）のトップレベルファイルを表示したい:",
-		"didViewTopLevelOutsideWorkspace": "Kilo Codeはこのディレクトリ（ワークスペース外）のトップレベルファイルを表示しました:",
-		"wantsToViewRecursiveOutsideWorkspace": "Kilo Codeはこのディレクトリ（ワークスペース外）のすべてのファイルを再帰的に表示したい:",
-		"didViewRecursiveOutsideWorkspace": "Kilo Codeはこのディレクトリ（ワークスペース外）のすべてのファイルを再帰的に表示しました:",
-		"wantsToViewDefinitionsOutsideWorkspace": "Kilo Codeはこのディレクトリ（ワークスペース外）で使用されているソースコード定義名を表示したい:",
-		"didViewDefinitionsOutsideWorkspace": "Kilo Codeはこのディレクトリ（ワークスペース外）で使用されているソースコード定義名を表示しました:"
+		"wantsToViewTopLevel": "Harvi Codeはこのディレクトリのトップレベルファイルを表示したい:",
+		"didViewTopLevel": "Harvi Codeはこのディレクトリのトップレベルファイルを表示しました:",
+		"wantsToViewRecursive": "Harvi Codeはこのディレクトリのすべてのファイルを再帰的に表示したい:",
+		"didViewRecursive": "Harvi Codeはこのディレクトリのすべてのファイルを再帰的に表示しました:",
+		"wantsToViewDefinitions": "Harvi Codeはこのディレクトリで使用されているソースコード定義名を表示したい:",
+		"didViewDefinitions": "Harvi Codeはこのディレクトリで使用されているソースコード定義名を表示しました:",
+		"wantsToSearch": "Harvi Codeはこのディレクトリで <code>{{regex}}</code> を検索したい:",
+		"didSearch": "Harvi Codeはこのディレクトリで <code>{{regex}}</code> を検索しました:",
+		"wantsToSearchOutsideWorkspace": "Harvi Codeはこのディレクトリ（ワークスペース外）で <code>{{regex}}</code> を検索したい:",
+		"didSearchOutsideWorkspace": "Harvi Codeはこのディレクトリ（ワークスペース外）で <code>{{regex}}</code> を検索しました:",
+		"wantsToViewTopLevelOutsideWorkspace": "Harvi Codeはこのディレクトリ（ワークスペース外）のトップレベルファイルを表示したい:",
+		"didViewTopLevelOutsideWorkspace": "Harvi Codeはこのディレクトリ（ワークスペース外）のトップレベルファイルを表示しました:",
+		"wantsToViewRecursiveOutsideWorkspace": "Harvi Codeはこのディレクトリ（ワークスペース外）のすべてのファイルを再帰的に表示したい:",
+		"didViewRecursiveOutsideWorkspace": "Harvi Codeはこのディレクトリ（ワークスペース外）のすべてのファイルを再帰的に表示しました:",
+		"wantsToViewDefinitionsOutsideWorkspace": "Harvi Codeはこのディレクトリ（ワークスペース外）で使用されているソースコード定義名を表示したい:",
+		"didViewDefinitionsOutsideWorkspace": "Harvi Codeはこのディレクトリ（ワークスペース外）で使用されているソースコード定義名を表示しました:"
 	},
 	"commandOutput": "コマンド出力",
 	"commandExecution": {
@@ -228,18 +228,18 @@
 	"response": "応答",
 	"arguments": "引数",
 	"mcp": {
-		"wantsToUseTool": "Kilo CodeはMCPサーバー{{serverName}}でツールを使用したい:",
-		"wantsToAccessResource": "Kilo CodeはMCPサーバー{{serverName}}のリソースにアクセスしたい:"
+		"wantsToUseTool": "Harvi CodeはMCPサーバー{{serverName}}でツールを使用したい:",
+		"wantsToAccessResource": "Harvi CodeはMCPサーバー{{serverName}}のリソースにアクセスしたい:"
 	},
 	"modes": {
-		"wantsToSwitch": "Kilo Codeは<code>{{mode}}</code>モードに切り替えたい",
-		"wantsToSwitchWithReason": "Kilo Codeは次の理由で<code>{{mode}}</code>モードに切り替えたい: {{reason}}",
-		"didSwitch": "Kilo Codeは<code>{{mode}}</code>モードに切り替えました",
-		"didSwitchWithReason": "Kilo Codeは次の理由で<code>{{mode}}</code>モードに切り替えました: {{reason}}"
+		"wantsToSwitch": "Harvi Codeは<code>{{mode}}</code>モードに切り替えたい",
+		"wantsToSwitchWithReason": "Harvi Codeは次の理由で<code>{{mode}}</code>モードに切り替えたい: {{reason}}",
+		"didSwitch": "Harvi Codeは<code>{{mode}}</code>モードに切り替えました",
+		"didSwitchWithReason": "Harvi Codeは次の理由で<code>{{mode}}</code>モードに切り替えました: {{reason}}"
 	},
 	"subtasks": {
-		"wantsToCreate": "Kilo Code<code>{{mode}}</code>モードで新しいサブタスクを作成したい:",
-		"wantsToFinish": "Kilo Codeはこのサブタスクを終了したい",
+		"wantsToCreate": "Harvi Code<code>{{mode}}</code>モードで新しいサブタスクを作成したい:",
+		"wantsToFinish": "Harvi Codeはこのサブタスクを終了したい",
 		"newTaskContent": "サブタスク指示",
 		"completionContent": "サブタスク完了",
 		"resultContent": "サブタスク結果",
@@ -247,7 +247,7 @@
 		"completionInstructions": "サブタスク完了！結果を確認し、修正や次のステップを提案できます。問題なければ、親タスクに結果を返すために確認してください。"
 	},
 	"questions": {
-		"hasQuestion": "Kilo Codeは質問があります:"
+		"hasQuestion": "Harvi Codeは質問があります:"
 	},
 	"taskCompleted": "タスク完了",
 	"powershell": {
@@ -292,7 +292,7 @@
 		"socialLinks": "<xLink>X</xLink>、<discordLink>Discord</discordLink>、または<redditLink>r/RooCode</redditLink>でフォローしてください"
 	},
 	"browser": {
-		"rooWantsToUse": "Kilo Codeはブラウザを使用したい:",
+		"rooWantsToUse": "Harvi Codeはブラウザを使用したい:",
 		"consoleLogs": "コンソールログ",
 		"noNewLogs": "(新しいログはありません)",
 		"screenshot": "ブラウザのスクリーンショット",
@@ -326,24 +326,24 @@
 	"profileViolationWarning": "現在のプロファイルは組織の設定と互換性がありません",
 	"shellIntegration": {
 		"title": "コマンド実行警告",
-		"description": "コマンドはVSCodeターミナルシェル統合なしで実行されています。この警告を非表示にするには、<settingsLink>Kilo Code設定</settingsLink>の<strong>Terminal</strong>セクションでシェル統合を無効にするか、以下のリンクを使用してVSCodeターミナル統合のトラブルシューティングを行ってください。",
+		"description": "コマンドはVSCodeターミナルシェル統合なしで実行されています。この警告を非表示にするには、<settingsLink>Harvi Code設定</settingsLink>の<strong>Terminal</strong>セクションでシェル統合を無効にするか、以下のリンクを使用してVSCodeターミナル統合のトラブルシューティングを行ってください。",
 		"troubleshooting": "シェル統合のドキュメントはこちらをクリック"
 	},
 	"ask": {
 		"autoApprovedRequestLimitReached": {
 			"title": "自動承認リクエスト制限に達しました",
-			"description": "Kilo Codeは{{count}}件のAPI自動承認リクエスト制限に達しました。カウントをリセットしてタスクを続行しますか？",
+			"description": "Harvi Codeは{{count}}件のAPI自動承認リクエスト制限に達しました。カウントをリセットしてタスクを続行しますか？",
 			"button": "リセットして続行"
 		},
 		"autoApprovedCostLimitReached": {
 			"title": "自動承認コスト制限に達しました",
-			"description": "Kilo Codeは自動承認されたコスト制限の${{count}}に達しました。コストをリセットしてタスクを続行しますか？",
+			"description": "Harvi Codeは自動承認されたコスト制限の${{count}}に達しました。コストをリセットしてタスクを続行しますか？",
 			"button": "リセットして続ける"
 		}
 	},
 	"codebaseSearch": {
-		"wantsToSearch": "Kilo Codeはコードベースで <code>{{query}}</code> を検索したい:",
-		"wantsToSearchWithPath": "Kilo Codeは <code>{{path}}</code> 内のコードベースで <code>{{query}}</code> を検索したい:",
+		"wantsToSearch": "Harvi Codeはコードベースで <code>{{query}}</code> を検索したい:",
+		"wantsToSearchWithPath": "Harvi Codeは <code>{{path}}</code> 内のコードベースで <code>{{query}}</code> を検索したい:",
 		"didSearch_one": "1件の結果が見つかりました",
 		"didSearch_other": "{{count}}件の結果が見つかりました",
 		"resultTooltip": "類似度スコア: {{score}} (クリックしてファイルを開く)"

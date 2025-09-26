@@ -1,10 +1,10 @@
 # Custom Modes
 
-Kilo Code allows you to create **custom modes** to tailor Kilo's behavior to specific tasks or workflows. Custom modes can be either **global** (available across all projects) or **project-specific** (defined within a single project).
+Harvi Code allows you to create **custom modes** to tailor Kilo's behavior to specific tasks or workflows. Custom modes can be either **global** (available across all projects) or **project-specific** (defined within a single project).
 
 ## Sticky Models for Efficient Workflow
 
-Each mode—including custom ones—features **Sticky Models**. This means Kilo Code automatically remembers and selects the last model you used with a particular mode. This lets you assign different preferred models to different tasks without constant reconfiguration, as Kilo switches between models when you change modes.
+Each mode—including custom ones—features **Sticky Models**. This means Harvi Code automatically remembers and selects the last model you used with a particular mode. This lets you assign different preferred models to different tasks without constant reconfiguration, as Kilo switches between models when you change modes.
 
 ## Why Use Custom Modes?
 
@@ -15,7 +15,7 @@ Each mode—including custom ones—features **Sticky Models**. This means Kilo 
 
 <img src="/img/custom-modes/custom-modes.png" alt="Overview of custom modes interface" width="600" />
 
-_Kilo Code's interface for creating and managing custom modes._
+_Harvi Code's interface for creating and managing custom modes._
 
 ## What's Included in a Custom Mode?
 
@@ -23,8 +23,8 @@ Custom modes are defined by several key properties. Understanding these concepts
 
 | UI Field / YAML Property                       | Conceptual Description                                                                                                                                                               |
 | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Slug** (`slug`)                              | A unique internal identifier for the mode. Used by Kilo Code to reference the mode, especially for associating mode-specific instruction files.                                      |
-| **Name** (`name`)                              | The display name for the mode as it appears in the Kilo Code user interface. Should be human-readable and descriptive.                                                               |
+| **Slug** (`slug`)                              | A unique internal identifier for the mode. Used by Harvi Code to reference the mode, especially for associating mode-specific instruction files.                                     |
+| **Name** (`name`)                              | The display name for the mode as it appears in the Harvi Code user interface. Should be human-readable and descriptive.                                                              |
 | **Description** (`description`)                | A short, user-friendly summary of the mode's purpose displayed in the mode selector UI. Keep this concise and focused on what the mode does for the user.                            |
 | **Role Definition** (`roleDefinition`)         | Defines the core identity and expertise of the mode. This text is placed at the beginning of the system prompt and defines Kilo's personality and behavior when this mode is active. |
 | **Available Tools** (`groups`)                 | Defines the allowed toolsets and file access permissions for the mode. Corresponds to selecting which general categories of tools the mode can use.                                  |
@@ -58,8 +58,8 @@ Easily share, back up, and template your custom modes. This feature lets you exp
 1. Click the Import Mode button (upload icon) in the Modes view
 2. Select the mode's YAML file
 3. Choose the import level:
-   - **Project:** Available only in current workspace (saved to `.kilocodemodes` file)
-   - **Global:** Available in all projects (saved to global settings)
+    - **Project:** Available only in current workspace (saved to `.kilocodemodes` file)
+    - **Global:** Available in all projects (saved to global settings)
 
 ### Changing Slugs on Import
 
@@ -75,17 +75,17 @@ You can create and configure custom modes in several ways:
 
 ### 1. Ask Kilo! (Recommended)
 
-You can quickly create a basic custom mode by asking Kilo Code to do it for you. For example:
+You can quickly create a basic custom mode by asking Harvi Code to do it for you. For example:
 
 ```
 Create a new mode called "Documentation Writer". It should only be able to read files and write Markdown files.
 ```
 
-Kilo Code will guide you through the process, prompting for necessary information and creating the mode using the preferred YAML format.
+Harvi Code will guide you through the process, prompting for necessary information and creating the mode using the preferred YAML format.
 
 ### 2. Using the Prompts Tab
 
-1. **Open Prompts Tab:** Click the <Codicon name="notebook" /> icon in the Kilo Code top menu bar
+1. **Open Prompts Tab:** Click the <Codicon name="notebook" /> icon in the Harvi Code top menu bar
 2. **Create New Mode:** Click the <Codicon name="add" /> button to the right of the Modes heading
 3. **Fill in Fields:**
 
@@ -93,11 +93,11 @@ Kilo Code will guide you through the process, prompting for necessary informatio
 
 _The custom mode creation interface showing fields for name, slug, description, save location, role definition, available tools, custom instructions._
 
-The interface provides fields for Name, Slug, Description, Save Location, Role Definition, When to Use (optional), Available Tools, and Custom Instructions. After filling these, click the "Create Mode" button. Kilo Code will save the new mode in YAML format.
+The interface provides fields for Name, Slug, Description, Save Location, Role Definition, When to Use (optional), Available Tools, and Custom Instructions. After filling these, click the "Create Mode" button. Harvi Code will save the new mode in YAML format.
 
 ### 3. Manual Configuration (YAML & JSON)
 
-You can directly edit the configuration files to create or modify custom modes. This method offers the most control over all properties. Kilo Code now supports both YAML (preferred) and JSON formats.
+You can directly edit the configuration files to create or modify custom modes. This method offers the most control over all properties. Harvi Code now supports both YAML (preferred) and JSON formats.
 
 - **Global Modes:** Edit the `custom_modes.yaml` (preferred) or `custom_modes.json` file. Access it via Prompts Tab > <Codicon name="gear" /> (Settings Menu icon next to "Global Prompts") > "Edit Global Modes"
 - **Project Modes:** Edit the `.kilocodemodes` file (which can be YAML or JSON) in your project root. Access it via Prompts Tab > <Codicon name="gear" /> (Settings Menu icon next to "Project Prompts") > "Edit Project Modes"
@@ -112,45 +112,42 @@ YAML is now the preferred format for defining custom modes due to better readabi
 
 ```yaml
 customModes:
-  - slug: docs-writer
-    name: 📝 Documentation Writer
-    description: A specialized mode for writing and editing technical documentation.
-    roleDefinition: You are a technical writer specializing in clear documentation.
-    whenToUse: Use this mode for writing and editing documentation.
-    customInstructions: Focus on clarity and completeness in documentation.
-    groups:
-      - read
-      - - edit # First element of tuple
-        - fileRegex: \.(md|mdx)$ # Second element is the options object
-          description: Markdown files only
-      - browser
-  - slug: another-mode
-    name: Another Mode
-    # ... other properties
+    - slug: docs-writer
+      name: 📝 Documentation Writer
+      description: A specialized mode for writing and editing technical documentation.
+      roleDefinition: You are a technical writer specializing in clear documentation.
+      whenToUse: Use this mode for writing and editing documentation.
+      customInstructions: Focus on clarity and completeness in documentation.
+      groups:
+          - read
+          - - edit # First element of tuple
+            - fileRegex: \.(md|mdx)$ # Second element is the options object
+              description: Markdown files only
+          - browser
+    - slug: another-mode
+      name: Another Mode
+      # ... other properties
 ```
 
 ### JSON Alternative
 
 ```json
 {
-  "customModes": [
-    {
-      "slug": "docs-writer",
-      "name": "📝 Documentation Writer",
-      "description": "A specialized mode for writing and editing technical documentation.",
-      "roleDefinition": "You are a technical writer specializing in clear documentation.",
-      "whenToUse": "Use this mode for writing and editing documentation.",
-      "customInstructions": "Focus on clarity and completeness in documentation.",
-      "groups": [
-        "read",
-        [
-          "edit",
-          { "fileRegex": "\\.(md|mdx)$", "description": "Markdown files only" }
-        ],
-        "browser"
-      ]
-    }
-  ]
+	"customModes": [
+		{
+			"slug": "docs-writer",
+			"name": "📝 Documentation Writer",
+			"description": "A specialized mode for writing and editing technical documentation.",
+			"roleDefinition": "You are a technical writer specializing in clear documentation.",
+			"whenToUse": "Use this mode for writing and editing documentation.",
+			"customInstructions": "Focus on clarity and completeness in documentation.",
+			"groups": [
+				"read",
+				["edit", { "fileRegex": "\\.(md|mdx)$", "description": "Markdown files only" }],
+				"browser"
+			]
+		}
+	]
 }
 ```
 
@@ -168,7 +165,7 @@ customModes:
 
 ### `name`
 
-- **Purpose:** The display name shown in the Kilo Code UI
+- **Purpose:** The display name shown in the Harvi Code UI
 - **Format:** Can include spaces and proper capitalization
 
 **YAML Example:** `name: 📝 Documentation Writer`
@@ -192,9 +189,9 @@ customModes:
 
 ```yaml
 roleDefinition: >-
-  You are a test engineer with expertise in:
-  - Writing comprehensive test suites
-  - Test-driven development
+    You are a test engineer with expertise in:
+    - Writing comprehensive test suites
+    - Test-driven development
 ```
 
 **JSON Example:** `"roleDefinition": "You are a technical writer specializing in clear documentation."`
@@ -204,8 +201,8 @@ roleDefinition: >-
 - **Purpose:** Array/list defining which tool groups the mode can access and any file restrictions
 - **Available Tool Groups:** `"read"`, `"edit"`, `"browser"`, `"command"`, `"mcp"`
 - **Structure:**
-  - Simple string for unrestricted access: `"edit"`
-  - Tuple (two-element array) for restricted access: `["edit", { fileRegex: "pattern", description: "optional" }]`
+    - Simple string for unrestricted access: `"edit"`
+    - Tuple (two-element array) for restricted access: `["edit", { fileRegex: "pattern", description: "optional" }]`
 
 **File Restrictions for "edit" group:**
 
@@ -218,11 +215,11 @@ roleDefinition: >-
 
 ```yaml
 groups:
-  - read
-  - - edit # First element of tuple
-    - fileRegex: \.(js|ts)$ # Second element is the options object
-      description: JS/TS files only
-  - command
+    - read
+    - - edit # First element of tuple
+      - fileRegex: \.(js|ts)$ # Second element is the options object
+        description: JS/TS files only
+    - command
 ```
 
 **JSON Example:**
@@ -253,9 +250,9 @@ groups:
 
 ```yaml
 customInstructions: |-
-  When writing tests:
-  - Use describe/it blocks
-  - Include meaningful descriptions
+    When writing tests:
+    - Use describe/it blocks
+    - Include meaningful descriptions
 ```
 
 **JSON Example:** `"customInstructions": "Focus on explaining concepts and providing examples."`
@@ -278,7 +275,7 @@ While JSON is still fully supported, new modes created via the UI or by asking K
 
 Automatic migration from `custom_modes.json` to `custom_modes.yaml` happens when:
 
-- Kilo Code starts up
+- Harvi Code starts up
 - A `custom_modes.json` file exists
 - No `custom_modes.yaml` file exists yet
 
@@ -287,7 +284,7 @@ The migration process preserves the original JSON file for rollback purposes.
 ### Project Modes (`.kilocodemodes`)
 
 - No automatic startup migration occurs for project-specific files
-- Kilo Code can read `.kilocodemodes` files in either YAML or JSON format
+- Harvi Code can read `.kilocodemodes` files in either YAML or JSON format
 - When editing through the UI, JSON files will be converted to YAML format
 - For manual conversion, you can ask Kilo to help reformat configurations
 
@@ -333,39 +330,39 @@ Mode configurations are applied in this order:
 
 ## Overriding Default Modes
 
-You can override Kilo Code's built-in modes (like 💻 Code, 🪲 Debug, ❓ Ask, 🏗️ Architect, 🪃 Orchestrator) by creating a custom mode with the same slug.
+You can override Harvi Code's built-in modes (like 💻 Code, 🪲 Debug, ❓ Ask, 🏗️ Architect, 🪃 Orchestrator) by creating a custom mode with the same slug.
 
 ### Global Override Example
 
 ```yaml
 customModes:
-  - slug: code # Matches the default 'code' mode slug
-    name: 💻 Code (Global Override)
-    roleDefinition: You are a software engineer with global-specific constraints.
-    whenToUse: This globally overridden code mode is for JS/TS tasks.
-    customInstructions: Focus on project-specific JS/TS development.
-    groups:
-      - read
-      - - edit
-        - fileRegex: \.(js|ts)$
-          description: JS/TS files only
+    - slug: code # Matches the default 'code' mode slug
+      name: 💻 Code (Global Override)
+      roleDefinition: You are a software engineer with global-specific constraints.
+      whenToUse: This globally overridden code mode is for JS/TS tasks.
+      customInstructions: Focus on project-specific JS/TS development.
+      groups:
+          - read
+          - - edit
+            - fileRegex: \.(js|ts)$
+              description: JS/TS files only
 ```
 
 ### Project-Specific Override Example
 
 ```yaml
 customModes:
-  - slug: code # Matches the default 'code' mode slug
-    name: 💻 Code (Project-Specific)
-    roleDefinition: You are a software engineer with project-specific constraints for this project.
-    whenToUse: This project-specific code mode is for Python tasks within this project.
-    customInstructions: Adhere to PEP8 and use type hints.
-    groups:
-      - read
-      - - edit
-        - fileRegex: \.py$
-          description: Python files only
-      - command
+    - slug: code # Matches the default 'code' mode slug
+      name: 💻 Code (Project-Specific)
+      roleDefinition: You are a software engineer with project-specific constraints for this project.
+      whenToUse: This project-specific code mode is for Python tasks within this project.
+      customInstructions: Adhere to PEP8 and use type hints.
+      groups:
+          - read
+          - - edit
+            - fileRegex: \.py$
+              description: Python files only
+          - command
 ```
 
 ## Understanding Regex in Custom Modes
@@ -427,53 +424,53 @@ When a mode attempts to edit a file that doesn't match its `fileRegex` pattern, 
 
 ```yaml
 customModes:
-  - slug: docs-writer
-    name: 📝 Documentation Writer
-    description: Specialized for writing and editing technical documentation
-    roleDefinition: You are a technical writer specializing in clear documentation
-    groups:
-      - read
-      - - edit
-        - fileRegex: \.md$
-          description: Markdown files only
-    customInstructions: Focus on clear explanations and examples
+    - slug: docs-writer
+      name: 📝 Documentation Writer
+      description: Specialized for writing and editing technical documentation
+      roleDefinition: You are a technical writer specializing in clear documentation
+      groups:
+          - read
+          - - edit
+            - fileRegex: \.md$
+              description: Markdown files only
+      customInstructions: Focus on clear explanations and examples
 ```
 
 ### Test Engineer with File Restrictions (YAML)
 
 ```yaml
 customModes:
-  - slug: test-engineer
-    name: 🧪 Test Engineer
-    description: Focused on writing and maintaining test suites
-    roleDefinition: You are a test engineer focused on code quality
-    whenToUse: Use for writing tests, debugging test failures, and improving test coverage
-    groups:
-      - read
-      - - edit
-        - fileRegex: \.(test|spec)\.(js|ts)$
-          description: Test files only
-      - command
+    - slug: test-engineer
+      name: 🧪 Test Engineer
+      description: Focused on writing and maintaining test suites
+      roleDefinition: You are a test engineer focused on code quality
+      whenToUse: Use for writing tests, debugging test failures, and improving test coverage
+      groups:
+          - read
+          - - edit
+            - fileRegex: \.(test|spec)\.(js|ts)$
+              description: Test files only
+          - command
 ```
 
 ### Security Review Mode (YAML)
 
 ```yaml
 customModes:
-  - slug: security-review
-    name: 🔒 Security Reviewer
-    description: Read-only security analysis and vulnerability assessment
-    roleDefinition: You are a security specialist reviewing code for vulnerabilities
-    whenToUse: Use for security reviews and vulnerability assessments
-    customInstructions: |-
-      Focus on:
-      - Input validation issues
-      - Authentication and authorization flaws
-      - Data exposure risks
-      - Injection vulnerabilities
-    groups:
-      - read
-      - browser
+    - slug: security-review
+      name: 🔒 Security Reviewer
+      description: Read-only security analysis and vulnerability assessment
+      roleDefinition: You are a security specialist reviewing code for vulnerabilities
+      whenToUse: Use for security reviews and vulnerability assessments
+      customInstructions: |-
+          Focus on:
+          - Input validation issues
+          - Authentication and authorization flaws
+          - Data exposure risks
+          - Injection vulnerabilities
+      groups:
+          - read
+          - browser
 ```
 
 ## Troubleshooting

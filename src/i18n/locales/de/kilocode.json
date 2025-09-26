@@ -49,7 +49,7 @@
 		}
 	},
 	"commitMessage": {
-		"activated": "Kilo Code Commit-Nachrichten-Generator aktiviert",
+		"activated": "Harvi Code Commit-Nachrichten-Generator aktiviert",
 		"gitNotFound": "⚠️ Git-Repository nicht gefunden oder Git nicht verfügbar",
 		"gitInitError": "⚠️ Git-Initialisierungsfehler: {{error}}",
 		"generating": "Kilo: Generiere Commit-Nachricht...",
@@ -62,12 +62,12 @@
 	},
 	"ghost": {
 		"statusBar": {
-			"enabled": "$(sparkle) Kilo Code Autocomplete",
-			"disabled": "$(circle-slash) Kilo Code Autocomplete",
-			"warning": "$(warning) Kilo Code Autocomplete",
+			"enabled": "$(sparkle) Harvi Code Autocomplete",
+			"disabled": "$(circle-slash) Harvi Code Autocomplete",
+			"warning": "$(warning) Harvi Code Autocomplete",
 			"tooltip": {
-				"basic": "Kilo Code Autocomplete",
-				"disabled": "Kilo Code Autocomplete (deaktiviert)",
+				"basic": "Harvi Code Autocomplete",
+				"disabled": "Harvi Code Autocomplete (deaktiviert)",
 				"tokenError": "Ein gültiger Token muss gesetzt werden, um Autocomplete zu verwenden",
 				"lastCompletion": "Letzter Vorschlag:",
 				"sessionTotal": "Sitzungsgesamtkosten:",
@@ -78,37 +78,37 @@
 				"lessThanCent": "<$0.01"
 			}
 		},
-		"toggleMessage": "Kilo Code Autocomplete {{status}}",
+		"toggleMessage": "Harvi Code Autocomplete {{status}}",
 		"progress": {
-			"title": "Kilo Code",
+			"title": "Harvi Code",
 			"analyzing": "Analysiere deinen Code...",
 			"generating": "Generiere Bearbeitungsvorschläge...",
 			"processing": "Verarbeite Bearbeitungsvorschläge...",
 			"showing": "Zeige Bearbeitungsvorschläge..."
 		},
 		"input": {
-			"title": "Kilo Code: Schnellaufgabe",
+			"title": "Harvi Code: Schnellaufgabe",
 			"placeholder": "z.B. 'refaktoriere diese Funktion für mehr Effizienz'"
 		},
 		"commands": {
-			"generateSuggestions": "Kilo Code: Bearbeitungsvorschläge generieren",
+			"generateSuggestions": "Harvi Code: Bearbeitungsvorschläge generieren",
 			"displaySuggestions": "Bearbeitungsvorschläge anzeigen",
 			"cancelSuggestions": "Bearbeitungsvorschläge abbrechen",
 			"applyCurrentSuggestion": "Aktuellen Bearbeitungsvorschlag anwenden",
 			"applyAllSuggestions": "Alle Bearbeitungsvorschläge anwenden",
 			"promptCodeSuggestion": "Schnellaufgabe",
-			"category": "Kilo Code"
+			"category": "Harvi Code"
 		},
 		"codeAction": {
-			"title": "Kilo Code: Bearbeitungsvorschläge"
+			"title": "Harvi Code: Bearbeitungsvorschläge"
 		},
 		"chatParticipant": {
-			"fullName": "Kilo Code Agent",
+			"fullName": "Harvi Code Agent",
 			"name": "Agent",
 			"description": "Ich kann dir bei Schnellaufgaben und Bearbeitungsvorschlägen helfen."
 		},
 		"incompatibilityExtensionPopup": {
-			"message": "Das Kilo Code Autocomplete wird durch einen Konflikt mit GitHub Copilot blockiert. Um dies zu beheben, musst du Copilots Inline-Vorschläge deaktivieren.",
+			"message": "Das Harvi Code Autocomplete wird durch einen Konflikt mit GitHub Copilot blockiert. Um dies zu beheben, musst du Copilots Inline-Vorschläge deaktivieren.",
 			"disableCopilot": "Copilot deaktivieren",
 			"disableInlineAssist": "Autocomplete deaktivieren"
 		}

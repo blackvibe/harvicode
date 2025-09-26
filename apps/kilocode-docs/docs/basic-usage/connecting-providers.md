@@ -4,9 +4,9 @@ sidebar_label: Overview
 
 # API Providers Overview
 
-**Bottom line**: Kilo Code, like any agentic AI coding tool, needs AI model providers to function. You can use our [built-in provider](/providers/kilocode) (easiest) or connect your own API keys from **30+ providers**.
+**Bottom line**: Harvi Code, like any agentic AI coding tool, needs AI model providers to function. You can use our [built-in provider](/providers/kilocode) (easiest) or connect your own API keys from **30+ providers**.
 
-## Kilo Code Extension vs. API Provider
+## Harvi Code Extension vs. API Provider
 
 ### The Extension
 
@@ -15,7 +15,7 @@ sidebar_label: Overview
 - [Open source](https://github.com/Kilo-Org/kilocode)
 - Connects to any AI provider
 
-### Kilo Code API Provider
+### Harvi Code API Provider
 
 - **Built-in option** that comes with the extension
 - Google sign-in with free credits included
@@ -44,7 +44,7 @@ sidebar_label: Overview
 
 1. Choose from 30+ supported providers
 2. Get API key from your provider
-3. Configure in Kilo Code settings
+3. Configure in Harvi Code settings
 
 ## Why Use Multiple Providers?
 

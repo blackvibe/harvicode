@@ -245,11 +245,11 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	// kilocode_change start
 	if (!context.globalState.get("firstInstallCompleted")) {
-		outputChannel.appendLine("First installation detected, opening Kilo Code sidebar!")
+		outputChannel.appendLine("First installation detected, opening Harvi Code sidebar!")
 		try {
 			await vscode.commands.executeCommand("kilo-code.SidebarProvider.focus")
 
-			outputChannel.appendLine("Opening Kilo Code walkthrough")
+			outputChannel.appendLine("Opening Harvi Code walkthrough")
 
 			// this can crash, see:
 			// https://discord.com/channels/1349288496988160052/1395865796026040470
@@ -316,7 +316,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		}),
 	)
 
-	// kilocode_change start - Kilo Code specific registrations
+	// kilocode_change start - Harvi Code specific registrations
 	const { kiloCodeWrapped } = getKiloCodeWrapperProperties()
 	if (!kiloCodeWrapped) {
 		// Only use autocomplete in VS Code
@@ -326,12 +326,12 @@ export async function activate(context: vscode.ExtensionContext) {
 		registerMainThreadForwardingLogger(context)
 	}
 	registerCommitMessageProvider(context, outputChannel) // kilocode_change
-	// kilocode_change end - Kilo Code specific registrations
+	// kilocode_change end - Harvi Code specific registrations
 
 	registerCodeActions(context)
 	registerTerminalActions(context)
 
-	// Allows other extensions to activate once Kilo Code is ready.
+	// Allows other extensions to activate once Harvi Code is ready.
 	vscode.commands.executeCommand(`${Package.name}.activationCompleted`)
 
 	// Implements the `RooCodeAPI` interface.

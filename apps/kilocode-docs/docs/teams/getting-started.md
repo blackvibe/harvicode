@@ -61,7 +61,7 @@ Kilo for Teams brings transparent AI coding to your entire engineering organizat
 Team members receive invitation emails with these steps:
 
 1. Accept the team invitation
-2. Install Kilo Code from [VS Code Marketplace](vscode:extension/kilocode.kilo-code)
+2. Install Harvi Code from [VS Code Marketplace](vscode:extension/kilocode.kilo-code)
 3. Sign in with their invited email
 4. Start coding with AI assistance
 

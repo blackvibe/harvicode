@@ -63,7 +63,7 @@ describe("GhostModelPerformance", () => {
 		}
 	}
 
-	describe("Kilo Code", () => {
+	describe("Harvi Code", () => {
 		it("google/gemini-2.5-flash", async () => {
 			if (!KEYS.KILOCODE) {
 				return

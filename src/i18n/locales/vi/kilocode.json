@@ -49,7 +49,7 @@
 		}
 	},
 	"commitMessage": {
-		"activated": "Trình tạo thông báo commit Kilo Code đã được kích hoạt",
+		"activated": "Trình tạo thông báo commit Harvi Code đã được kích hoạt",
 		"gitNotFound": "⚠️ Không tìm thấy kho lưu trữ Git hoặc git không khả dụng",
 		"gitInitError": "⚠️ Lỗi khởi tạo Git: {{error}}",
 		"generating": "Kilo: Đang tạo thông báo commit...",
@@ -62,12 +62,12 @@
 	},
 	"ghost": {
 		"statusBar": {
-			"enabled": "$(sparkle) Kilo Code Autocomplete",
-			"disabled": "$(circle-slash) Kilo Code Autocomplete",
-			"warning": "$(warning) Kilo Code Autocomplete",
+			"enabled": "$(sparkle) Harvi Code Autocomplete",
+			"disabled": "$(circle-slash) Harvi Code Autocomplete",
+			"warning": "$(warning) Harvi Code Autocomplete",
 			"tooltip": {
-				"basic": "Kilo Code Autocomplete",
-				"disabled": "Kilo Code Autocomplete (đã tắt)",
+				"basic": "Harvi Code Autocomplete",
+				"disabled": "Harvi Code Autocomplete (đã tắt)",
 				"tokenError": "Phải đặt token hợp lệ để sử dụng Autocomplete",
 				"lastCompletion": "Gợi ý cuối cùng:",
 				"sessionTotal": "Tổng chi phí phiên:",
@@ -78,37 +78,37 @@
 				"lessThanCent": "<$0.01"
 			}
 		},
-		"toggleMessage": "Kilo Code Autocomplete {{status}}",
+		"toggleMessage": "Harvi Code Autocomplete {{status}}",
 		"progress": {
-			"title": "Kilo Code",
+			"title": "Harvi Code",
 			"analyzing": "Đang phân tích mã của bạn...",
 			"generating": "Đang tạo các chỉnh sửa được đề xuất...",
 			"processing": "Đang xử lý các chỉnh sửa được đề xuất...",
 			"showing": "Đang hiển thị các chỉnh sửa được đề xuất..."
 		},
 		"input": {
-			"title": "Kilo Code: Tác Vụ Nhanh",
+			"title": "Harvi Code: Tác Vụ Nhanh",
 			"placeholder": "ví dụ, 'tái cấu trúc hàm này để hiệu quả hơn'"
 		},
 		"commands": {
-			"generateSuggestions": "Kilo Code: Tạo Các Chỉnh Sửa Được Đề Xuất",
+			"generateSuggestions": "Harvi Code: Tạo Các Chỉnh Sửa Được Đề Xuất",
 			"displaySuggestions": "Hiển Thị Các Chỉnh Sửa Được Đề Xuất",
 			"cancelSuggestions": "Hủy Các Chỉnh Sửa Được Đề Xuất",
 			"applyCurrentSuggestion": "Áp Dụng Chỉnh Sửa Được Đề Xuất Hiện Tại",
 			"applyAllSuggestions": "Áp Dụng Tất Cả Các Chỉnh Sửa Được Đề Xuất",
 			"promptCodeSuggestion": "Tác Vụ Nhanh",
-			"category": "Kilo Code"
+			"category": "Harvi Code"
 		},
 		"codeAction": {
-			"title": "Kilo Code: Các Chỉnh Sửa Được Đề Xuất"
+			"title": "Harvi Code: Các Chỉnh Sửa Được Đề Xuất"
 		},
 		"chatParticipant": {
-			"fullName": "Kilo Code Agent",
+			"fullName": "Harvi Code Agent",
 			"name": "Agent",
 			"description": "Tôi có thể giúp bạn với các tác vụ nhanh và chỉnh sửa được đề xuất."
 		},
 		"incompatibilityExtensionPopup": {
-			"message": "Kilo Code Autocomplete đang bị chặn do xung đột với GitHub Copilot. Để khắc phục điều này, bạn phải tắt các gợi ý inline của Copilot.",
+			"message": "Harvi Code Autocomplete đang bị chặn do xung đột với GitHub Copilot. Để khắc phục điều này, bạn phải tắt các gợi ý inline của Copilot.",
 			"disableCopilot": "Tắt Copilot",
 			"disableInlineAssist": "Tắt Autocomplete"
 		}

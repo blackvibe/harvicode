@@ -7,14 +7,14 @@ const { execSync } = require("child_process")
 // Конфигурация замен
 const REPLACEMENTS = {
 	"kilo-to-harvi": {
-		from: "Kilo Code",
-		to: "Kilo Code",
-		description: "Замена Kilo Code на Kilo Code",
+		from: "Harvi Code",
+		to: "Harvi Code",
+		description: "Замена Harvi Code на Harvi Code",
 	},
 	"harvi-to-kilo": {
-		from: "Kilo Code",
-		to: "Kilo Code",
-		description: "Замена Kilo Code на Kilo Code",
+		from: "Harvi Code",
+		to: "Harvi Code",
+		description: "Замена Harvi Code на Harvi Code",
 	},
 }
 

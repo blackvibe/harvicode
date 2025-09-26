@@ -49,7 +49,7 @@
 		}
 	},
 	"commitMessage": {
-		"activated": "Генератор повідомлень коммітів Kilo Code активовано",
+		"activated": "Генератор повідомлень коммітів Harvi Code активовано",
 		"gitNotFound": "⚠️ Репозиторій Git не знайдено або git недоступний",
 		"gitInitError": "⚠️ Помилка ініціалізації Git: {{error}}",
 		"generating": "Kilo: Генерування повідомлення комміту...",
@@ -62,12 +62,12 @@
 	},
 	"ghost": {
 		"statusBar": {
-			"enabled": "$(sparkle) Kilo Code Autocomplete",
-			"disabled": "$(circle-slash) Kilo Code Autocomplete",
-			"warning": "$(warning) Kilo Code Autocomplete",
+			"enabled": "$(sparkle) Harvi Code Autocomplete",
+			"disabled": "$(circle-slash) Harvi Code Autocomplete",
+			"warning": "$(warning) Harvi Code Autocomplete",
 			"tooltip": {
-				"basic": "Kilo Code Autocomplete",
-				"disabled": "Kilo Code Autocomplete (вимкнено)",
+				"basic": "Harvi Code Autocomplete",
+				"disabled": "Harvi Code Autocomplete (вимкнено)",
 				"tokenError": "Для використання Autocomplete потрібно встановити дійсний токен",
 				"lastCompletion": "Остання пропозиція:",
 				"sessionTotal": "Загальна вартість сесії:",
@@ -78,37 +78,37 @@
 				"lessThanCent": "<$0.01"
 			}
 		},
-		"toggleMessage": "Kilo Code Autocomplete {{status}}",
+		"toggleMessage": "Harvi Code Autocomplete {{status}}",
 		"progress": {
-			"title": "Kilo Code",
+			"title": "Harvi Code",
 			"analyzing": "Аналізую твій код...",
 			"generating": "Генерую запропоновані правки...",
 			"processing": "Обробляю запропоновані правки...",
 			"showing": "Показую запропоновані правки..."
 		},
 		"input": {
-			"title": "Kilo Code: Швидке Завдання",
+			"title": "Harvi Code: Швидке Завдання",
 			"placeholder": "напр., 'рефактори цю функцію для більшої ефективності'"
 		},
 		"commands": {
-			"generateSuggestions": "Kilo Code: Генерувати Запропоновані Правки",
+			"generateSuggestions": "Harvi Code: Генерувати Запропоновані Правки",
 			"displaySuggestions": "Показати Запропоновані Правки",
 			"cancelSuggestions": "Скасувати Запропоновані Правки",
 			"applyCurrentSuggestion": "Застосувати Поточну Запропоновану Правку",
 			"applyAllSuggestions": "Застосувати Всі Запропоновані Правки",
 			"promptCodeSuggestion": "Швидке Завдання",
-			"category": "Kilo Code"
+			"category": "Harvi Code"
 		},
 		"codeAction": {
-			"title": "Kilo Code: Запропоновані Правки"
+			"title": "Harvi Code: Запропоновані Правки"
 		},
 		"chatParticipant": {
-			"fullName": "Kilo Code Agent",
+			"fullName": "Harvi Code Agent",
 			"name": "Agent",
 			"description": "Я можу допомогти тобі зі швидкими завданнями та запропонованими правками."
 		},
 		"incompatibilityExtensionPopup": {
-			"message": "Kilo Code Autocomplete блокується конфліктом з GitHub Copilot. Щоб виправити це, ти повинен вимкнути вбудовані пропозиції Copilot.",
+			"message": "Harvi Code Autocomplete блокується конфліктом з GitHub Copilot. Щоб виправити це, ти повинен вимкнути вбудовані пропозиції Copilot.",
 			"disableCopilot": "Вимкнути Copilot",
 			"disableInlineAssist": "Вимкнути Autocomplete"
 		}

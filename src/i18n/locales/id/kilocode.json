@@ -49,7 +49,7 @@
 		}
 	},
 	"commitMessage": {
-		"activated": "Generator pesan komit Kilo Code diaktifkan",
+		"activated": "Generator pesan komit Harvi Code diaktifkan",
 		"gitNotFound": "⚠️ Repositori Git tidak ditemukan atau git tidak tersedia",
 		"gitInitError": "⚠️ Kesalahan inisialisasi Git: {{error}}",
 		"generating": "Kilo: Menghasilkan pesan komit...",
@@ -62,12 +62,12 @@
 	},
 	"ghost": {
 		"statusBar": {
-			"enabled": "$(sparkle) Kilo Code Autocomplete",
-			"disabled": "$(circle-slash) Kilo Code Autocomplete",
-			"warning": "$(warning) Kilo Code Autocomplete",
+			"enabled": "$(sparkle) Harvi Code Autocomplete",
+			"disabled": "$(circle-slash) Harvi Code Autocomplete",
+			"warning": "$(warning) Harvi Code Autocomplete",
 			"tooltip": {
-				"basic": "Kilo Code Autocomplete",
-				"disabled": "Kilo Code Autocomplete (dinonaktifkan)",
+				"basic": "Harvi Code Autocomplete",
+				"disabled": "Harvi Code Autocomplete (dinonaktifkan)",
 				"tokenError": "Token yang valid harus diatur untuk menggunakan Autocomplete",
 				"lastCompletion": "Saran terakhir:",
 				"sessionTotal": "Total biaya sesi:",
@@ -78,37 +78,37 @@
 				"lessThanCent": "<$0.01"
 			}
 		},
-		"toggleMessage": "Kilo Code Autocomplete {{status}}",
+		"toggleMessage": "Harvi Code Autocomplete {{status}}",
 		"progress": {
-			"title": "Kilo Code",
+			"title": "Harvi Code",
 			"analyzing": "Menganalisis kode Anda...",
 			"generating": "Menghasilkan suntingan yang disarankan...",
 			"processing": "Memproses suntingan yang disarankan...",
 			"showing": "Menampilkan suntingan yang disarankan..."
 		},
 		"input": {
-			"title": "Kilo Code: Tugas Cepat",
+			"title": "Harvi Code: Tugas Cepat",
 			"placeholder": "mis., 'refaktor fungsi ini agar lebih efisien'"
 		},
 		"commands": {
-			"generateSuggestions": "Kilo Code: Hasilkan Suntingan yang Disarankan",
+			"generateSuggestions": "Harvi Code: Hasilkan Suntingan yang Disarankan",
 			"displaySuggestions": "Tampilkan Suntingan yang Disarankan",
 			"cancelSuggestions": "Batalkan Suntingan yang Disarankan",
 			"applyCurrentSuggestion": "Terapkan Suntingan yang Disarankan Saat Ini",
 			"applyAllSuggestions": "Terapkan Semua Suntingan yang Disarankan",
 			"promptCodeSuggestion": "Tugas Cepat",
-			"category": "Kilo Code"
+			"category": "Harvi Code"
 		},
 		"codeAction": {
-			"title": "Kilo Code: Suntingan yang Disarankan"
+			"title": "Harvi Code: Suntingan yang Disarankan"
 		},
 		"chatParticipant": {
-			"fullName": "Kilo Code Agent",
+			"fullName": "Harvi Code Agent",
 			"name": "Agent",
 			"description": "Saya dapat membantu Anda dengan tugas cepat dan suntingan yang disarankan."
 		},
 		"incompatibilityExtensionPopup": {
-			"message": "Kilo Code Autocomplete diblokir oleh konflik dengan GitHub Copilot. Untuk memperbaiki ini, Anda harus menonaktifkan saran inline Copilot.",
+			"message": "Harvi Code Autocomplete diblokir oleh konflik dengan GitHub Copilot. Untuk memperbaiki ini, Anda harus menonaktifkan saran inline Copilot.",
 			"disableCopilot": "Nonaktifkan Copilot",
 			"disableInlineAssist": "Nonaktifkan Autocomplete"
 		}

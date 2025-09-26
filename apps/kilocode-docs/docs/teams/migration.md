@@ -63,9 +63,9 @@ Switch to Kilo for Teams from other AI coding tools and experience transparent p
 **Step 3: Team Migration**
 
 1. **Invite team members** to Kilo for Teams
-2. **Install Kilo Code extension** alongside Cursor initially
+2. **Install Harvi Code extension** alongside Cursor initially
 3. **Migrate projects gradually** starting with non-critical work
-4. **Train team** on Kilo Code features and workflows
+4. **Train team** on Harvi Code features and workflows
 
 **Step 4: Full Transition**
 
@@ -108,13 +108,13 @@ Switch to Kilo for Teams from other AI coding tools and experience transparent p
 **Phase 1: Parallel Usage (Week 1-2)**
 
 1. **Keep GitHub Copilot** active during transition
-2. **Install Kilo Code** extension for team members
-3. **Start with simple tasks** in Kilo Code
+2. **Install Harvi Code** extension for team members
+3. **Start with simple tasks** in Harvi Code
 4. **Compare results** and team satisfaction
 
 **Phase 2: Gradual Transition (Week 3-4)**
 
-1. **Use Kilo Code** for new projects
+1. **Use Harvi Code** for new projects
 2. **Migrate existing projects** one at a time
 3. **Train team** on advanced features
 4. **Optimize usage patterns** based on analytics
@@ -173,7 +173,7 @@ Switch to Kilo for Teams from other AI coding tools and experience transparent p
 - [ ] Set up Kilo for Teams organization
 - [ ] Configure team settings and policies
 - [ ] Invite team members and assign roles
-- [ ] Install Kilo Code extension across team
+- [ ] Install Harvi Code extension across team
 - [ ] Start with pilot projects or non-critical work
 
 **Post-Migration Optimization**
@@ -236,7 +236,7 @@ _Actual savings vary based on usage patterns and team efficiency gains._
 
 **Week 1: Basics**
 
-- Kilo Code extension installation and setup
+- Harvi Code extension installation and setup
 - Basic chat interface and mode usage
 - Understanding transparent pricing model
 - Team dashboard overview
