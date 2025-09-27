@@ -1,9 +1,7 @@
 import React, { useState, useMemo } from "react"
 import { Check, ChevronDown, Info, X, MoreHorizontal } from "lucide-react"
 import { cn } from "../../lib/utils"
-import { useTranslation, Trans } from "react-i18next"
-import { VSCodeLink } from "@vscode/webview-ui-toolkit/react"
-import { StandardTooltip } from "../ui/standard-tooltip"
+import { useTranslation } from "react-i18next"
 import { Button } from "../ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu"
 

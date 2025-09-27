@@ -6,7 +6,6 @@ import {
 	ProfileDataResponsePayload,
 	WebviewMessage,
 } from "@roo/WebviewMessage"
-import { VSCodeButtonLink } from "@/components/common/VSCodeButtonLink"
 import { VSCodeButton, VSCodeDivider } from "@vscode/webview-ui-toolkit/react"
 import CountUp from "react-countup"
 import { useExtensionState } from "@/context/ExtensionStateContext"

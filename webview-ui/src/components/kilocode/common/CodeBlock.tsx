@@ -2,13 +2,10 @@ import { memo, useEffect, useLayoutEffect, useRef, useCallback, useState } from 
 import styled from "styled-components"
 import { useCopyToClipboard } from "@src/utils/clipboard"
 import { getHighlighter, isLanguageLoaded, normalizeLanguage, ExtendedLanguage } from "@src/utils/highlighter"
-import { bundledLanguages } from "shiki"
 import type { ShikiTransformer } from "shiki"
 import { toJsxRuntime } from "hast-util-to-jsx-runtime"
 import { Fragment, jsx, jsxs } from "react/jsx-runtime"
-import { ChevronDown, ChevronUp, WrapText, AlignJustify, Copy, Check } from "lucide-react"
 import { useAppTranslation } from "@src/i18n/TranslationContext"
-import { StandardTooltip } from "@/components/ui"
 
 export const CODE_BLOCK_BG_COLOR = "var(--vscode-editor-background, --vscode-sideBar-background, rgb(30 30 30))"
 export const WRAPPER_ALPHA = "cc" // 80% opacity
@@ -40,57 +37,6 @@ interface CodeBlockProps {
 	initialWindowShade?: boolean
 	onLanguageChange?: (language: string) => void
 }
-
-const CodeBlockButton = styled.button`
-	background: transparent;
-	border: none;
-	color: var(--vscode-foreground);
-	cursor: pointer;
-	padding: 4px;
-	margin: 0 0px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	opacity: 0.4;
-	border-radius: 3px;
-	pointer-events: all;
-	margin-left: 4px;
-	height: 24px;
-	width: 24px;
-
-	&:hover {
-		background: var(--vscode-toolbar-hoverBackground);
-		opacity: 1;
-	}
-
-	/* Style for Lucide icons to ensure consistent sizing and positioning */
-	svg {
-		display: block;
-	}
-`
-
-const CodeBlockButtonWrapper = styled.div`
-	height: auto;
-	z-index: 100;
-	background: ${CODE_BLOCK_BG_COLOR}${WRAPPER_ALPHA};
-	overflow: visible;
-	padding: 4px 6px;
-	border-radius: 3px;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	transition: opacity 0.2s;
-
-	&:hover {
-		background: var(--vscode-editor-background);
-	}
-
-	${CodeBlockButton} {
-		position: relative;
-		top: 0;
-		right: 0;
-	}
-`
 
 const CodeBlockContainer = styled.div`
 	position: relative;
@@ -259,52 +205,6 @@ export const StyledPre = styled.div<{
 	}
 `
 
-const LanguageSelect = styled.select`
-	font-size: 12px;
-	color: var(--vscode-foreground);
-	opacity: 0.4;
-	font-family: monospace;
-	appearance: none;
-	background: transparent;
-	border: none;
-	cursor: pointer;
-	padding: 4px;
-	margin: 0;
-	vertical-align: middle;
-	height: 24px;
-
-	& option {
-		background: var(--vscode-editor-background);
-		color: var(--vscode-foreground);
-		padding: 0;
-		margin: 0;
-	}
-
-	&::-webkit-scrollbar {
-		width: 6px;
-	}
-
-	&::-webkit-scrollbar-thumb {
-		background: var(--vscode-scrollbarSlider-background);
-	}
-
-	&::-webkit-scrollbar-track {
-		background: var(--vscode-editor-background);
-	}
-
-	&:hover {
-		opacity: 1;
-		background: var(--vscode-toolbar-hoverBackground);
-		border-radius: 3px;
-	}
-
-	&:focus {
-		opacity: 1;
-		outline: none;
-		border-radius: 3px;
-	}
-`
-
 const CodeBlock = memo(
 	({
 		source,
@@ -314,20 +214,16 @@ const CodeBlock = memo(
 		initialWordWrap = true,
 		initialWindowShade = true,
 		collapsedHeight,
-		onLanguageChange,
 	}: CodeBlockProps) => {
-		const [wordWrap, setWordWrap] = useState(initialWordWrap)
-		const [windowShade, setWindowShade] = useState(initialWindowShade)
+		const [wordWrap] = useState(initialWordWrap)
+		const [windowShade] = useState(initialWindowShade)
 		const [currentLanguage, setCurrentLanguage] = useState<ExtendedLanguage>(() => normalizeLanguage(language))
 		const userChangedLanguageRef = useRef(false)
 		const [highlightedCode, setHighlightedCode] = useState<React.ReactNode>(null)
-		const [showCollapseButton, setShowCollapseButton] = useState(true)
-		const [isHovered, setIsHovered] = useState(false)
 		const codeBlockRef = useRef<HTMLDivElement>(null)
 		const preRef = useRef<HTMLDivElement>(null)
-		const copyButtonWrapperRef = useRef<HTMLDivElement>(null)
-		const { showCopyFeedback, copyWithFeedback } = useCopyToClipboard()
-		const { t } = useAppTranslation()
+		const { copyWithFeedback } = useCopyToClipboard()
+		const { t: _t } = useAppTranslation()
 		const isMountedRef = useRef(true)
 		const buttonPositionTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 		const collapseTimeout1Ref = useRef<NodeJS.Timeout | null>(null)
@@ -517,16 +413,6 @@ const CodeBlock = memo(
 			}
 		}, [source, currentLanguage, collapsedHeight])
 
-		// Check if content height exceeds collapsed height whenever content changes
-		useEffect(() => {
-			const codeBlock = codeBlockRef.current
-
-			if (codeBlock) {
-				const actualHeight = codeBlock.scrollHeight
-				setShowCollapseButton(actualHeight >= WINDOW_SHADE_SETTINGS.collapsedHeight)
-			}
-		}, [highlightedCode])
-
 		// Ref to track if user was scrolled up *before* the source update
 		// potentially changes scrollHeight
 		const wasScrolledUpRef = useRef(false)
@@ -595,7 +481,6 @@ const CodeBlock = memo(
 			if (codeBlockRef.current) {
 				// Force immediate reflow and shadow recalculation
 				const element = codeBlockRef.current
-				const computedStyle = window.getComputedStyle(element)
 				// Reading offsetHeight forces a synchronous layout calculation
 				const _ = element.offsetHeight
 				// Force repaint by temporarily changing a style property
@@ -745,36 +630,7 @@ const CodeBlock = memo(
 			}
 		}, [])
 
-		// Track text selection state
-		const [isSelecting, setIsSelecting] = useState(false)
-
-		useEffect(() => {
-			if (!preRef.current) return
-
-			const handleMouseDown = (e: MouseEvent) => {
-				// Only trigger if clicking the pre element directly
-				if (e.currentTarget === preRef.current) {
-					console.log("[DEBUG] Mouse down on pre element, setting isSelecting=true")
-					setIsSelecting(true)
-				}
-			}
-
-			const handleMouseUp = () => {
-				console.log("[DEBUG] Mouse up, setting isSelecting=false")
-				setIsSelecting(false)
-			}
-
-			const preElement = preRef.current
-			preElement.addEventListener("mousedown", handleMouseDown)
-			document.addEventListener("mouseup", handleMouseUp)
-
-			return () => {
-				preElement.removeEventListener("mousedown", handleMouseDown)
-				document.removeEventListener("mouseup", handleMouseUp)
-			}
-		}, [])
-
-		const handleCopy = useCallback(
+		const _handleCopy = useCallback(
 			(e: React.MouseEvent) => {
 				e.stopPropagation()
 				const textToCopy = rawSource !== undefined ? rawSource : source || ""
@@ -787,11 +643,11 @@ const CodeBlock = memo(
 
 		// Handle hover events for menu visibility
 		const handleMouseEnter = useCallback(() => {
-			setIsHovered(true)
+			// setIsHovered(true)
 		}, [])
 
 		const handleMouseLeave = useCallback(() => {
-			setIsHovered(false)
+			// setIsHovered(false)
 		}, [])
 
 		if (source?.length === 0) {

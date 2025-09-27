@@ -1,6 +1,6 @@
 import { useCallback, useState, memo, useMemo } from "react"
 import { useEvent } from "react-use"
-import { ChevronDown, Skull, Play, X, MoreHorizontal } from "lucide-react"
+import { ChevronDown, Skull, Play } from "lucide-react"
 
 import { CommandExecutionStatus, commandExecutionStatusSchema } from "@roo-code/types"
 

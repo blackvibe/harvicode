@@ -1,5 +1,5 @@
 import React from "react"
-import { render, screen, fireEvent } from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 
 import { CommandPatternSelector } from "../CommandPatternSelector"
 import { TooltipProvider } from "../../../components/ui/tooltip"
@@ -32,7 +32,7 @@ vi.mock("../../ui/button", () => ({
 
 vi.mock("../../ui/dropdown-menu", () => ({
 	DropdownMenu: ({ children }: any) => <div data-testid="dropdown-menu">{children}</div>,
-	DropdownMenuTrigger: ({ children, asChild }: any) => (
+	DropdownMenuTrigger: ({ children }: any) => (
 		<div data-testid="dropdown-trigger" onClick={() => {}}>
 			{children}
 		</div>
