@@ -147,6 +147,7 @@ export class ClineProvider
 	private taskCreationCallback: (task: Task) => void
 	private taskEventListeners: WeakMap<Task, Array<() => void>> = new WeakMap()
 	private currentWorkspacePath: string | undefined
+	private isTaskTransitioning: boolean = false
 
 	private recentTasksCache?: string[]
 	private pendingOperations: Map<string, PendingEditOperation> = new Map()
@@ -832,6 +833,7 @@ export class ClineProvider
 	}
 
 	public async createTaskWithHistoryItem(historyItem: HistoryItem & { rootTask?: Task; parentTask?: Task }) {
+		this.isTaskTransitioning = true
 		await this.removeClineFromStack()
 
 		// If the history item has a saved mode, restore it and its associated API configuration.
@@ -906,6 +908,7 @@ export class ClineProvider
 		})
 
 		await this.addClineToStack(task)
+		this.isTaskTransitioning = false
 
 		this.log(
 			`[createTaskWithHistoryItem] ${task.parentTask ? "child" : "parent"} task ${task.taskId}.${task.instanceId} instantiated`,
@@ -1635,6 +1638,11 @@ export class ClineProvider
 	}
 
 	async postStateToWebview() {
+		// Skip state updates during task transitions to prevent Virtuoso flickering
+		if (this.isTaskTransitioning) {
+			return
+		}
+
 		const state = await this.getStateToPostToWebview()
 		this.postMessageToWebview({ type: "state", state })
 
@@ -2712,7 +2720,9 @@ export class ClineProvider
 		if (this.clineStack.length > 0) {
 			const task = this.clineStack[this.clineStack.length - 1]
 			console.log(`[clearTask] clearing task ${task.taskId}.${task.instanceId}`)
+			this.isTaskTransitioning = true
 			await this.removeClineFromStack()
+			this.isTaskTransitioning = false
 		}
 	}
 

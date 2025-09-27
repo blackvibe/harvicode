@@ -1243,7 +1243,12 @@ export class Task extends EventEmitter<TaskEvents> implements TaskLike {
 		// The todo list is already set in the constructor if initialTodos were provided
 		// No need to add any messages - the todoList property is already set
 
-		await this.providerRef.deref()?.postStateToWebview()
+		// Only post state to webview for new tasks, not when resuming from history
+		// This prevents the flicker when canceling tasks since resumeTaskFromHistory
+		// will handle the state update after loading messages
+		if (task || images) {
+			await this.providerRef.deref()?.postStateToWebview()
+		}
 
 		await this.say("text", task, images)
 		this.isInitialized = true
@@ -1272,6 +1277,7 @@ export class Task extends EventEmitter<TaskEvents> implements TaskLike {
 			}
 		}
 
+		// Load saved messages first to avoid sending empty array to webview
 		const modifiedClineMessages = await this.getSavedClineMessages()
 
 		// Check for any stored GPT-5 response IDs in the message history.
@@ -1319,13 +1325,15 @@ export class Task extends EventEmitter<TaskEvents> implements TaskLike {
 		await this.overwriteClineMessages(modifiedClineMessages)
 		this.clineMessages = await this.getSavedClineMessages()
 
+		// Load API conversation history before posting state to avoid inconsistency
+		this.apiConversationHistory = await this.getSavedApiConversationHistory()
+
 		// Now present the cline messages to the user and ask if they want to
 		// resume (NOTE: we ran into a bug before where the
 		// apiConversationHistory wouldn't be initialized when opening a old
 		// task, and it was because we were waiting for resume).
 		// This is important in case the user deletes messages without resuming
 		// the task first.
-		this.apiConversationHistory = await this.getSavedApiConversationHistory()
 
 		const lastClineMessage = this.clineMessages
 			.slice()

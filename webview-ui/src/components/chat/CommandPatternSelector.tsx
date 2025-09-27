@@ -1,9 +1,11 @@
 import React, { useState, useMemo } from "react"
-import { Check, ChevronDown, Info, X } from "lucide-react"
+import { Check, ChevronDown, Info, X, MoreHorizontal } from "lucide-react"
 import { cn } from "../../lib/utils"
 import { useTranslation, Trans } from "react-i18next"
 import { VSCodeLink } from "@vscode/webview-ui-toolkit/react"
 import { StandardTooltip } from "../ui/standard-tooltip"
+import { Button } from "../ui/button"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu"
 
 interface CommandPattern {
 	pattern: string
@@ -68,50 +70,39 @@ export const CommandPatternSelector: React.FC<CommandPatternSelectorProps> = ({
 	}
 
 	return (
-		<div className="border-t border-vscode-panel-border bg-vscode-sideBar-background/30">
-			<button
-				onClick={() => setIsExpanded(!isExpanded)}
-				className="w-full px-3 py-2 flex items-center justify-between hover:bg-vscode-list-hoverBackground transition-colors">
-				<div className="flex items-center gap-2">
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<Button variant="ghost" size="sm" className="h-4 w-4 p-0 hover:bg-[#3c3c3c]">
+					<MoreHorizontal className="h-2.5 w-2.5" />
+				</Button>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent align="end" className="w-56 bg-[#2d2d30] border border-[#3c3c3c]">
+				<DropdownMenuItem
+					onClick={() => setIsExpanded(!isExpanded)}
+					className="flex items-center gap-2 text-[#cccccc] hover:bg-[#3c3c3c] focus:bg-[#3c3c3c]">
 					<ChevronDown
 						className={cn("size-4 transition-transform", {
 							"-rotate-90": !isExpanded,
 						})}
 					/>
-					<span className="text-sm font-medium">{t("chat:commandExecution.manageCommands")}</span>
-					<StandardTooltip
-						content={
-							<div className="max-w-xs">
-								<Trans
-									i18nKey="chat:commandExecution.commandManagementDescription"
-									components={{
-										settingsLink: (
-											<VSCodeLink
-												href="#"
-												onClick={(e) => {
-													e.preventDefault()
-													handleOpenSettings()
-												}}
-												className="text-vscode-textLink-foreground hover:text-vscode-textLink-activeForeground"
-											/>
-										),
-									}}
-								/>
-							</div>
-						}>
-						<Info className="size-3.5 text-vscode-descriptionForeground" />
-					</StandardTooltip>
-				</div>
-			</button>
+					<span>{t("chat:commandExecution.manageCommands")}</span>
+				</DropdownMenuItem>
+				<DropdownMenuItem
+					onClick={handleOpenSettings}
+					className="flex items-center gap-2 text-[#cccccc] hover:bg-[#3c3c3c] focus:bg-[#3c3c3c]">
+					<Info className="size-4" />
+					<span>Настройки разрешений</span>
+				</DropdownMenuItem>
+			</DropdownMenuContent>
 
 			{isExpanded && (
-				<div className="px-3 pb-3 space-y-2">
+				<div className="absolute top-full left-0 right-0 z-50 mt-1 bg-[#1e1e1e] border border-[#3c3c3c] rounded-lg p-2 space-y-2">
 					{allPatterns.map((item) => {
 						const editState = getEditState(item.pattern)
 						const status = getPatternStatus(editState.value)
 
 						return (
-							<div key={item.pattern} className="ml-5 flex items-center gap-2">
+							<div key={item.pattern} className="flex items-center gap-2">
 								<div className="flex-1">
 									{editState.isEditing ? (
 										<input
@@ -127,20 +118,18 @@ export const CommandPatternSelector: React.FC<CommandPatternSelectorProps> = ({
 													setEditState(item.pattern, false, item.pattern)
 												}
 											}}
-											className="font-mono text-xs bg-vscode-input-background text-vscode-input-foreground border border-vscode-input-border rounded px-2 py-1.5 w-full focus:outline-0 focus:ring-1 focus:ring-vscode-focusBorder"
+											className="font-mono text-xs bg-[#2d2d30] text-[#cccccc] border border-[#3c3c3c] rounded px-2 py-1 w-full focus:outline-0 focus:ring-1 focus:ring-[#4a4a4a]"
 											placeholder={item.pattern}
 											autoFocus
 										/>
 									) : (
 										<div
 											onClick={() => setEditState(item.pattern, true)}
-											className="font-mono text-xs text-vscode-foreground cursor-pointer hover:bg-vscode-list-hoverBackground px-2 py-1.5 rounded transition-colors border border-transparent break-all"
+											className="font-mono text-xs text-[#cccccc] cursor-pointer hover:bg-[#3c3c3c] px-2 py-1 rounded transition-colors border border-transparent break-all"
 											title="Click to edit pattern">
 											<span className="break-all">{editState.value}</span>
 											{item.description && (
-												<span className="text-vscode-descriptionForeground ml-2">
-													- {item.description}
-												</span>
+												<span className="text-[#888888] ml-2">- {item.description}</span>
 											)}
 										</div>
 									)}
@@ -150,7 +139,7 @@ export const CommandPatternSelector: React.FC<CommandPatternSelectorProps> = ({
 										className={cn("p-1 rounded transition-all", {
 											"bg-green-500/20 text-green-500 hover:bg-green-500/30":
 												status === "allowed",
-											"text-vscode-descriptionForeground hover:text-green-500 hover:bg-green-500/10":
+											"text-[#888888] hover:text-green-500 hover:bg-green-500/10":
 												status !== "allowed",
 										})}
 										onClick={() => onAllowPatternChange(editState.value)}
@@ -159,12 +148,12 @@ export const CommandPatternSelector: React.FC<CommandPatternSelectorProps> = ({
 												? "chat:commandExecution.removeFromAllowed"
 												: "chat:commandExecution.addToAllowed",
 										)}>
-										<Check className="size-3.5" />
+										<Check className="size-3" />
 									</button>
 									<button
 										className={cn("p-1 rounded transition-all", {
 											"bg-red-500/20 text-red-500 hover:bg-red-500/30": status === "denied",
-											"text-vscode-descriptionForeground hover:text-red-500 hover:bg-red-500/10":
+											"text-[#888888] hover:text-red-500 hover:bg-red-500/10":
 												status !== "denied",
 										})}
 										onClick={() => onDenyPatternChange(editState.value)}
@@ -173,7 +162,7 @@ export const CommandPatternSelector: React.FC<CommandPatternSelectorProps> = ({
 												? "chat:commandExecution.removeFromDenied"
 												: "chat:commandExecution.addToDenied",
 										)}>
-										<X className="size-3.5" />
+										<X className="size-3" />
 									</button>
 								</div>
 							</div>
@@ -181,6 +170,6 @@ export const CommandPatternSelector: React.FC<CommandPatternSelectorProps> = ({
 					})}
 				</div>
 			)}
-		</div>
+		</DropdownMenu>
 	)
 }

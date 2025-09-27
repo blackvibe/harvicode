@@ -1449,12 +1449,32 @@ export const ChatRowContent = ({
 						</>
 					)
 				case "command":
+					// Определяем, ожидает ли команда разрешения
+					const isAwaitingApproval = message.type === "ask" && !isCommandExecuting
+
+					const handleApprove = () => {
+						vscode.postMessage({
+							type: "askResponse",
+							askResponse: "yesButtonClicked",
+						})
+					}
+
+					const handleReject = () => {
+						vscode.postMessage({
+							type: "askResponse",
+							askResponse: "noButtonClicked",
+						})
+					}
+
 					return (
 						<CommandExecution
 							executionId={message.ts.toString()}
 							text={message.text}
 							icon={icon}
 							title={title}
+							isAwaitingApproval={isAwaitingApproval}
+							onApprove={handleApprove}
+							onReject={handleReject}
 						/>
 					)
 				case "use_mcp_server":

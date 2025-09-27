@@ -1,6 +1,6 @@
 import { useCallback, useState, memo, useMemo } from "react"
 import { useEvent } from "react-use"
-import { ChevronDown, Skull } from "lucide-react"
+import { ChevronDown, Skull, Play, X, MoreHorizontal } from "lucide-react"
 
 import { CommandExecutionStatus, commandExecutionStatusSchema } from "@roo-code/types"
 
@@ -28,9 +28,20 @@ interface CommandExecutionProps {
 	text?: string
 	icon?: JSX.Element | null
 	title?: JSX.Element | null
+	isAwaitingApproval?: boolean
+	onApprove?: () => void
+	onReject?: () => void
 }
 
-export const CommandExecution = ({ executionId, text, icon, title }: CommandExecutionProps) => {
+export const CommandExecution = ({
+	executionId,
+	text,
+	icon,
+	title,
+	isAwaitingApproval,
+	onApprove,
+	onReject,
+}: CommandExecutionProps) => {
 	const {
 		terminalShellIntegrationDisabled = true, // kilocode_change: default
 		allowedCommands = [],
@@ -138,69 +149,90 @@ export const CommandExecution = ({ executionId, text, icon, title }: CommandExec
 	useEvent("message", onMessage)
 
 	return (
-		<>
-			<div className="flex flex-row items-center justify-between gap-2 mb-1">
-				<div className="flex flex-row items-center gap-1">
-					{icon}
-					{title}
+		<div className="w-full bg-[#1e1e1e] border border-[#3c3c3c] rounded-lg overflow-hidden">
+			{/* Compact header with command info, status and controls */}
+			<div className="flex items-center justify-between px-2 py-1.5 bg-[#2d2d30] border-b border-[#3c3c3c]">
+				<div className="flex items-center gap-1.5 min-w-0 flex-1">
+					{icon && <div className="flex-shrink-0">{icon}</div>}
+					{title && <span className="text-xs font-medium text-[#cccccc] truncate">{title}</span>}
 				</div>
-				<div className="flex flex-row items-center justify-between gap-2 px-1">
-					<div className="flex flex-row items-center gap-1">
-						{status?.status === "started" && (
-							<div className="flex flex-row items-center gap-2 font-mono text-xs">
-								<div className="rounded-full size-1.5 bg-lime-400" />
-								<div>Running</div>
-								{status.pid && <div className="whitespace-nowrap">(PID: {status.pid})</div>}
-								<Button
-									variant="ghost"
-									size="icon"
-									onClick={() =>
-										vscode.postMessage({ type: "terminalOperation", terminalOperation: "abort" })
-									}>
-									<Skull />
-								</Button>
-							</div>
-						)}
-						{status?.status === "exited" && (
-							<div className="flex flex-row items-center gap-2 font-mono text-xs">
-								<div
-									className={cn(
-										"rounded-full size-1.5",
-										status.exitCode === 0 ? "bg-lime-400" : "bg-red-400",
-									)}
-								/>
-								<div className="whitespace-nowrap">Exited ({status.exitCode})</div>
-							</div>
-						)}
-						{output.length > 0 && (
-							<Button variant="ghost" size="icon" onClick={() => setIsExpanded(!isExpanded)}>
-								<ChevronDown
-									className={cn("size-4 transition-transform duration-300", {
-										"rotate-180": isExpanded,
-									})}
-								/>
+				<div className="flex items-center gap-1 flex-shrink-0">
+					{isAwaitingApproval && onApprove && onReject && (
+						<div className="flex items-center gap-1">
+							<button
+								onClick={onApprove}
+								className="relative inline-flex items-center justify-center bg-[#2d2d30] hover:bg-[#3c3c3c] border border-[#3c3c3c] rounded-full px-2 py-0.5 h-5 text-[#cccccc] hover:text-white opacity-90 hover:opacity-100 transition-all duration-150 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#4a4a4a] active:scale-95 cursor-pointer">
+								<Play className="h-2.5 w-2.5 mr-1" />
+								<span className="text-[10px] font-medium">Запустить</span>
+							</button>
+							<button
+								onClick={onReject}
+								className="text-[10px] text-[#cccccc] hover:text-white opacity-70 hover:opacity-100 transition-all duration-150 cursor-pointer px-1">
+								Отклонить
+							</button>
+						</div>
+					)}
+					{status?.status === "started" && (
+						<div className="flex items-center gap-1 font-mono text-[10px] text-[#cccccc]">
+							<div className="rounded-full size-1 bg-lime-400 animate-pulse" />
+							<span>Running</span>
+							{status.pid && <span className="text-[#888888]">(PID: {status.pid})</span>}
+							<Button
+								variant="ghost"
+								size="sm"
+								className="h-4 w-4 p-0 hover:bg-red-500/20 hover:text-red-400"
+								onClick={() =>
+									vscode.postMessage({ type: "terminalOperation", terminalOperation: "abort" })
+								}>
+								<Skull className="h-2.5 w-2.5" />
 							</Button>
-						)}
-					</div>
+						</div>
+					)}
+					{status?.status === "exited" && (
+						<div className="flex items-center gap-1 font-mono text-[10px]">
+							<div
+								className={cn(
+									"rounded-full size-1",
+									status.exitCode === 0 ? "bg-lime-400" : "bg-red-400",
+								)}
+							/>
+							<span className={status.exitCode === 0 ? "text-lime-400" : "text-red-400"}>
+								Exited ({status.exitCode})
+							</span>
+						</div>
+					)}
+					{output.length > 0 && (
+						<Button
+							variant="ghost"
+							size="sm"
+							className="h-4 w-4 p-0 hover:bg-[#3c3c3c]"
+							onClick={() => setIsExpanded(!isExpanded)}>
+							<ChevronDown
+								className={cn("h-2.5 w-2.5 transition-transform duration-200", {
+									"rotate-180": isExpanded,
+								})}
+							/>
+						</Button>
+					)}
+					{/* Three dots menu button */}
+					{command && command.trim() && (
+						<CommandPatternSelector
+							patterns={commandPatterns}
+							allowedCommands={allowedCommands}
+							deniedCommands={deniedCommands}
+							onAllowPatternChange={handleAllowPatternChange}
+							onDenyPatternChange={handleDenyPatternChange}
+						/>
+					)}
 				</div>
 			</div>
 
-			<div className="w-full bg-vscode-editor-background border border-vscode-border rounded-xs">
-				<div className="p-2">
-					<CodeBlock source={command} language="shell" />
-					<OutputContainer isExpanded={isExpanded} output={output} />
-				</div>
-				{command && command.trim() && (
-					<CommandPatternSelector
-						patterns={commandPatterns}
-						allowedCommands={allowedCommands}
-						deniedCommands={deniedCommands}
-						onAllowPatternChange={handleAllowPatternChange}
-						onDenyPatternChange={handleDenyPatternChange}
-					/>
-				)}
+			{/* Compact command content */}
+			<div className="px-2 py-1.5">
+				<CodeBlock source={command} language="shell" />
+				<OutputContainer isExpanded={isExpanded} output={output} />
 			</div>
-		</>
+		</div>
 	)
 }
 
