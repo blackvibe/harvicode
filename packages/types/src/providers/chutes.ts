@@ -35,9 +35,9 @@ export type ChutesModelId =
 	| "zai-org/GLM-4.5-Air"
 	| "zai-org/GLM-4.5-FP8"
 	// kilocode_change start
-	| "zai-org/GLM-4.5-turbo"
 	| "zai-org/GLM-4.5V"
 	// kilocode_change end
+	| "zai-org/GLM-4.5-turbo"
 	| "moonshotai/Kimi-K2-Instruct-75k"
 	| "moonshotai/Kimi-K2-Instruct-0905"
 	// kilocode_change start
@@ -316,16 +316,16 @@ export const chutesModels = {
 		description:
 			"GLM-4.5-FP8 model with 128k token context window, optimized for agent-based applications with MoE architecture.",
 	},
-	// kilocode_change start
 	"zai-org/GLM-4.5-turbo": {
 		maxTokens: 32768,
 		contextWindow: 131072,
 		supportsImages: false,
 		supportsPromptCache: false,
-		inputPrice: 1.0,
-		outputPrice: 3.0,
-		description: "GLM-4.5-Turbo model.",
+		inputPrice: 1,
+		outputPrice: 3,
+		description: "GLM-4.5-turbo model with 128K token context window, optimized for fast inference.",
 	},
+	// kilocode_change start
 	"zai-org/GLM-4.5V": {
 		maxTokens: 32768,
 		contextWindow: 131072,
