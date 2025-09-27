@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils"
 import { vscode } from "@/utils/vscode"
 import { buildDocLink } from "@/utils/docLinks"
 
-import { SlashCommandsList } from "./SlashCommandsList"
+import { SlashCommandItemSimple } from "./SlashCommandItemSimple"
 
 interface SlashCommandsPopoverProps {
 	className?: string
@@ -77,7 +77,18 @@ export const SlashCommandsPopover: React.FC<SlashCommandsPopoverProps> = ({ clas
 					</div>
 
 					{/* Commands list */}
-					<SlashCommandsList commands={commands || []} onRefresh={handleRefresh} />
+					<div className="max-h-80 overflow-y-auto">
+						{(commands || []).map((command) => (
+							<SlashCommandItemSimple
+								key={command.name}
+								command={command}
+								onClick={() => {
+									// Handle command selection
+									console.log("Command selected:", command.name)
+								}}
+							/>
+						))}
+					</div>
 				</div>
 			</PopoverContent>
 		</Popover>

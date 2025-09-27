@@ -65,6 +65,7 @@ interface ChatRowProps {
 	onBatchFileResponse?: (response: { [key: string]: boolean }) => void
 	highlighted?: boolean // kilocode_change: Add highlighted prop
 	onChatReset?: () => void // kilocode_change
+	enableCheckpoints?: boolean // kilocode_change
 	onFollowUpUnmount?: () => void
 	isFollowUpAnswered?: boolean
 	editable?: boolean
